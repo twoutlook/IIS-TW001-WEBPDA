@@ -1,0 +1,1233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account_ErrorCodeToString_Default" xml:space="preserve">
+    <value>发生未知错误。请验证您的输入并重试。如果问题仍然存在，请与系统管理员联系。</value>
+    <comment>发生未知错误。请验证您的输入并重试。如果问题仍然存在，请与系统管理员联系。</comment>
+  </data>
+  <data name="Account_ErrorCodeToString_DuplicateEmail" xml:space="preserve">
+    <value>该电子邮件地址的用户名已存在。请输入其他电子邮件地址。</value>
+    <comment>该电子邮件地址的用户名已存在。请输入其他电子邮件地址。</comment>
+  </data>
+  <data name="Account_ErrorCodeToString_DuplicateUserName" xml:space="preserve">
+    <value>用户名已存在。请输入其他用户名。</value>
+    <comment>用户名已存在。请输入其他用户名。</comment>
+  </data>
+  <data name="Account_ErrorCodeToString_InvalidAnswer" xml:space="preserve">
+    <value>提供的密码取回答案无效。请检查该值并重试。</value>
+    <comment>提供的密码取回答案无效。请检查该值并重试。</comment>
+  </data>
+  <data name="Account_ErrorCodeToString_InvalidEmail" xml:space="preserve">
+    <value>提供的电子邮件地址无效。请检查该值并重试。</value>
+    <comment>提供的电子邮件地址无效。请检查该值并重试。</comment>
+  </data>
+  <data name="Account_ErrorCodeToString_InvalidPassword" xml:space="preserve">
+    <value>提供的密码无效。请输入有效的密码值。</value>
+    <comment>提供的密码无效。请输入有效的密码值。</comment>
+  </data>
+  <data name="Account_ErrorCodeToString_InvalidQuestion" xml:space="preserve">
+    <value>提供的密码取回问题无效。请检查该值并重试。</value>
+    <comment>提供的密码取回问题无效。请检查该值并重试。</comment>
+  </data>
+  <data name="Account_ErrorCodeToString_InvalidUserName" xml:space="preserve">
+    <value>提供的用户名无效。请检查该值并重试。</value>
+    <comment>提供的用户名无效。请检查该值并重试。</comment>
+  </data>
+  <data name="Account_ErrorCodeToString_ProviderError" xml:space="preserve">
+    <value>身份验证提供程序返回了错误。请验证您的输入并重试。如果问题仍然存在，请与系统管理员联系。</value>
+    <comment>身份验证提供程序返回了错误。请验证您的输入并重试。如果问题仍然存在，请与系统管理员联系。</comment>
+  </data>
+  <data name="Account_ErrorCodeToString_UserRejected" xml:space="preserve">
+    <value>已取消用户创建请求。请验证您的输入并重试。如果问题仍然存在，请与系统管理员联系。</value>
+    <comment>已取消用户创建请求。请验证您的输入并重试。如果问题仍然存在，请与系统管理员联系。</comment>
+  </data>
+  <data name="Account_ExternalLoginConfirmation_ErrorMsg" xml:space="preserve">
+    <value>用户名已存在。请输入其他用户名。</value>
+    <comment>用户名已存在。请输入其他用户名。</comment>
+  </data>
+  <data name="Account_Manage_ErrorFormat1" xml:space="preserve">
+    <value>无法创建本地帐户。可能已存在名为</value>
+    <comment>无法创建本地帐户。可能已存在名为</comment>
+  </data>
+  <data name="Account_Manage_ErrorFormat2" xml:space="preserve">
+    <value>的帐户。</value>
+    <comment>的帐户。</comment>
+  </data>
+  <data name="Account_Manage_ErrorMsg" xml:space="preserve">
+    <value>当前密码不正确或新密码无效。</value>
+    <comment>当前密码不正确或新密码无效。</comment>
+  </data>
+  <data name="PDA_Common_Element_ASN" xml:space="preserve">
+    <value>通知单</value>
+    <comment>通知单</comment>
+  </data>
+  <data name="PDA_Common_Element_ASNCode" xml:space="preserve">
+    <value>通知单号</value>
+    <comment>通知单号</comment>
+  </data>
+  <data name="PDA_Common_Element_AssitDetail" xml:space="preserve">
+    <value>拣货明细</value>
+    <comment>拣货明细</comment>
+  </data>
+  <data name="PDA_Common_Element_AssitList" xml:space="preserve">
+    <value>拣货列表</value>
+    <comment>拣货列表</comment>
+  </data>
+  <data name="PDA_Common_Element_BarCode" xml:space="preserve">
+    <value>箱号</value>
+    <comment>箱号</comment>
+  </data>
+  <data name="PDA_Common_Element_Button_Cancel" xml:space="preserve">
+    <value>取消</value>
+    <comment>取消</comment>
+  </data>
+  <data name="PDA_Common_Element_Button_Confirm" xml:space="preserve">
+    <value>确认</value>
+    <comment>确认</comment>
+  </data>
+  <data name="PDA_Common_Element_CinvCode" xml:space="preserve">
+    <value>物料</value>
+    <comment>物料</comment>
+  </data>
+  <data name="PDA_Common_Element_CinvName" xml:space="preserve">
+    <value>品名</value>
+    <comment>品名</comment>
+  </data>
+  <data name="PDA_Common_Element_CloseSiteStorke" xml:space="preserve">
+    <value>关闭侧滑菜单</value>
+    <comment>关闭侧滑菜单</comment>
+  </data>
+  <data name="PDA_Common_Element_Confirm" xml:space="preserve">
+    <value>确  认</value>
+    <comment>确  认</comment>
+  </data>
+  <data name="PDA_Common_Element_Confirming" xml:space="preserve">
+    <value>确认中</value>
+    <comment>确认中</comment>
+  </data>
+  <data name="PDA_Common_Element_Cpartnumber" xml:space="preserve">
+    <value>物料编码</value>
+    <comment>物料编码</comment>
+  </data>
+  <data name="PDA_Common_Element_CPosition" xml:space="preserve">
+    <value>储位</value>
+    <comment>储位</comment>
+  </data>
+  <data name="PDA_Common_Element_CPositionCode" xml:space="preserve">
+    <value>储位编码</value>
+    <comment>储位编码</comment>
+  </data>
+  <data name="PDA_Common_Element_CPositionName" xml:space="preserve">
+    <value>储位名称</value>
+    <comment>储位名称</comment>
+  </data>
+  <data name="PDA_Common_Element_CticketCode" xml:space="preserve">
+    <value>单号</value>
+    <comment>单号</comment>
+  </data>
+  <data name="PDA_Common_Element_Delete" xml:space="preserve">
+    <value>删除</value>
+    <comment>删除</comment>
+  </data>
+  <data name="PDA_Common_Element_ERPCode" xml:space="preserve">
+    <value>ERP单号</value>
+    <comment>ERP单号</comment>
+  </data>
+  <data name="PDA_Common_Element_GoBack" xml:space="preserve">
+    <value>返回</value>
+    <comment>返回</comment>
+  </data>
+  <data name="PDA_Common_Element_InBoxDetail" xml:space="preserve">
+    <value>装箱明细</value>
+    <comment>装箱明细</comment>
+  </data>
+  <data name="PDA_Common_Element_InBoxDetail_Scan" xml:space="preserve">
+    <value>装箱明细(扫描)</value>
+    <comment>装箱明细(扫描)</comment>
+  </data>
+  <data name="PDA_Common_Element_InBoxInfo" xml:space="preserve">
+    <value>装箱信息</value>
+    <comment>装箱信息</comment>
+  </data>
+  <data name="PDA_Common_Element_InType" xml:space="preserve">
+    <value>入库类型</value>
+    <comment>入库类型</comment>
+  </data>
+  <data name="PDA_Common_Element_InventoryBillDetail" xml:space="preserve">
+    <value>盘点单明细</value>
+    <comment>盘点单明细</comment>
+  </data>
+  <data name="PDA_Common_Element_InventoryBillList" xml:space="preserve">
+    <value>盘点单列表</value>
+    <comment>盘点单列表</comment>
+  </data>
+  <data name="PDA_Common_Element_InventoryDetail" xml:space="preserve">
+    <value>盘点明细</value>
+    <comment>盘点明细</comment>
+  </data>
+  <data name="PDA_Common_Element_InventoryName" xml:space="preserve">
+    <value>盘点名称</value>
+    <comment>盘点名称</comment>
+  </data>
+  <data name="PDA_Common_Element_InventoryType" xml:space="preserve">
+    <value>盘点类型</value>
+    <comment>盘点类型</comment>
+  </data>
+  <data name="PDA_Common_Element_LiaoHao" xml:space="preserve">
+    <value>料号</value>
+    <comment>料号</comment>
+  </data>
+  <data name="PDA_Common_Element_Loop" xml:space="preserve">
+    <value>循环</value>
+    <comment>循环</comment>
+  </data>
+  <data name="PDA_Common_Element_OutAsnCode" xml:space="preserve">
+    <value>出库通知单</value>
+    <comment>出库通知单</comment>
+  </data>
+  <data name="PDA_Common_Element_OutBillCode" xml:space="preserve">
+    <value>出库单号</value>
+    <comment>出库单号</comment>
+  </data>
+  <data name="PDA_Common_Element_PalletCode" xml:space="preserve">
+    <value>栈板号</value>
+    <comment>栈板号</comment>
+  </data>
+  <data name="PDA_Common_Element_Quantity" xml:space="preserve">
+    <value>数量</value>
+    <comment>数量</comment>
+  </data>
+  <data name="PDA_Common_Element_Query" xml:space="preserve">
+    <value>搜索</value>
+    <comment>搜索</comment>
+  </data>
+  <data name="PDA_Common_Element_RealInventoryDetail" xml:space="preserve">
+    <value>实盘明细</value>
+    <comment>实盘明细</comment>
+  </data>
+  <data name="PDA_Common_Element_RevokeInBox" xml:space="preserve">
+    <value>撤消装箱</value>
+    <comment>撤消装箱</comment>
+  </data>
+  <data name="PDA_Common_Element_Revokeing" xml:space="preserve">
+    <value>撤消中</value>
+    <comment>撤消中</comment>
+  </data>
+  <data name="PDA_Common_Element_Save" xml:space="preserve">
+    <value>保   存</value>
+    <comment>保   存</comment>
+  </data>
+  <data name="PDA_Common_Element_Saveing" xml:space="preserve">
+    <value>保存中</value>
+    <comment>保存中</comment>
+  </data>
+  <data name="PDA_Common_Element_Scan" xml:space="preserve">
+    <value>扫描</value>
+    <comment>扫描</comment>
+  </data>
+  <data name="PDA_Common_Element_Scaning" xml:space="preserve">
+    <value>扫描中</value>
+    <comment>扫描中</comment>
+  </data>
+  <data name="PDA_Common_Element_Search" xml:space="preserve">
+    <value>查询</value>
+    <comment>查询</comment>
+  </data>
+  <data name="PDA_Common_Element_ShangJiaDetail" xml:space="preserve">
+    <value>上架明细(扫描)</value>
+    <comment>上架明细(扫描)</comment>
+  </data>
+  <data name="PDA_Common_Element_SideStorkeExample" xml:space="preserve">
+    <value>侧滑列表示例</value>
+    <comment>侧滑列表示例</comment>
+  </data>
+  <data name="PDA_Common_Element_SurplusQuantity" xml:space="preserve">
+    <value>剩余数量</value>
+    <comment>剩余数量</comment>
+  </data>
+  <data name="PDA_Common_Element_Type" xml:space="preserve">
+    <value>类型</value>
+    <comment>类型</comment>
+  </data>
+  <data name="PDA_Common_Element_Whole" xml:space="preserve">
+    <value>全部</value>
+    <comment>全部</comment>
+  </data>
+  <data name="PDA_Common_Element_YiShangJiaQuantity" xml:space="preserve">
+    <value>已上架数量</value>
+    <comment>已上架数量</comment>
+  </data>
+  <data name="PDA_Common_Element_ZhiYinDan" xml:space="preserve">
+    <value>指引单</value>
+    <comment>指引单</comment>
+  </data>
+  <data name="PDA_Common_Tips_BeginPositionCannotEmpty" xml:space="preserve">
+    <value>开始位置不能为空！</value>
+    <comment>开始位置不能为空！</comment>
+  </data>
+  <data name="PDA_Common_Tips_BenCiQuantityNotShuZi" xml:space="preserve">
+    <value>本次数量不是数字！</value>
+    <comment>本次数量不是数字！</comment>
+  </data>
+  <data name="PDA_Common_Tips_CallFailed" xml:space="preserve">
+    <value>调用失败</value>
+    <comment>调用失败</comment>
+  </data>
+  <data name="PDA_Common_Tips_CallSuccess" xml:space="preserve">
+    <value>调用成功</value>
+    <comment>调用成功</comment>
+  </data>
+  <data name="PDA_Common_Tips_CinvcodeAndPositionNotInBill" xml:space="preserve">
+    <value>料号和储位不存在盘点单中,不能保存！</value>
+    <comment>料号和储位不存在盘点单中,不能保存！</comment>
+  </data>
+  <data name="PDA_Common_Tips_CinvcodeCannotEmpty" xml:space="preserve">
+    <value>料号不能为空！</value>
+    <comment>料号不能为空！</comment>
+  </data>
+  <data name="PDA_Common_Tips_CinvcodeNotExist" xml:space="preserve">
+    <value>料号不存在！</value>
+    <comment>料号不存在！</comment>
+  </data>
+  <data name="PDA_Common_Tips_CompleteFailed" xml:space="preserve">
+    <value>完成失败</value>
+    <comment>完成失败</comment>
+  </data>
+  <data name="PDA_Common_Tips_ConfirmSuccess" xml:space="preserve">
+    <value>确认成功！</value>
+    <comment>确认成功！</comment>
+  </data>
+  <data name="PDA_Common_Tips_DataExceptionConfirmFailed" xml:space="preserve">
+    <value>数据异常，确认失败！</value>
+    <comment>数据异常，确认失败！</comment>
+  </data>
+  <data name="PDA_Common_Tips_DataExceptionSaveFailed" xml:space="preserve">
+    <value>数据异常！保存失败！</value>
+    <comment>数据异常！保存失败！</comment>
+  </data>
+  <data name="PDA_Common_Tips_DeleteConfirm" xml:space="preserve">
+    <value>确认删除该条记录？</value>
+    <comment>确认删除该条记录？</comment>
+  </data>
+  <data name="PDA_Common_Tips_DeleteFailed" xml:space="preserve">
+    <value>删除失败:</value>
+    <comment>删除失败:</comment>
+  </data>
+  <data name="PDA_Common_Tips_DeleteSuccess" xml:space="preserve">
+    <value>删除成功!</value>
+    <comment>删除成功!</comment>
+  </data>
+  <data name="PDA_Common_Tips_EndPositionCannotEmpty" xml:space="preserve">
+    <value>结束位置不能为空！</value>
+    <comment>结束位置不能为空！</comment>
+  </data>
+  <data name="PDA_Common_Tips_ErrorBarCode" xml:space="preserve">
+    <value>错误的物料条码！</value>
+    <comment>错误的物料条码！</comment>
+  </data>
+  <data name="PDA_Common_Tips_ExceedMaxQuantity" xml:space="preserve">
+    <value>超出最大选取数量,不能保存！</value>
+    <comment>超出最大选取数量,不能保存！</comment>
+  </data>
+  <data name="PDA_Common_Tips_ExceptionCannotScan" xml:space="preserve">
+    <value>数据异常！无法扫描！</value>
+    <comment>数据异常！无法扫描！</comment>
+  </data>
+  <data name="PDA_Common_Tips_ExceptionMsg" xml:space="preserve">
+    <value>发生异常!异常信息为：</value>
+    <comment>发生异常!异常信息为：</comment>
+  </data>
+  <data name="PDA_Common_Tips_HasDeleteLogin" xml:space="preserve">
+    <value>已删除外部登录。</value>
+    <comment>已删除外部登录。</comment>
+  </data>
+  <data name="PDA_Common_Tips_HasSetYourPassword" xml:space="preserve">
+    <value>已设置你的密码。</value>
+    <comment>已设置你的密码。</comment>
+  </data>
+  <data name="PDA_Common_Tips_InspectScanFailed" xml:space="preserve">
+    <value>检查扫描失败</value>
+    <comment>检查扫描失败</comment>
+  </data>
+  <data name="PDA_Common_Tips_InvalidBarCode" xml:space="preserve">
+    <value>无效的条码！</value>
+    <comment>无效的条码！</comment>
+  </data>
+  <data name="PDA_Common_Tips_InventoryDataError" xml:space="preserve">
+    <value>盘点单数据异常,不能保存！</value>
+    <comment>盘点单数据异常,不能保存！</comment>
+  </data>
+  <data name="PDA_Common_Tips_InventoryStateCannotSave" xml:space="preserve">
+    <value>当前盘点单状态,不能保存！</value>
+    <comment>当前盘点单状态,不能保存！</comment>
+  </data>
+  <data name="PDA_Common_Tips_Loading" xml:space="preserve">
+    <value>正在加载...</value>
+    <comment>正在加载...</comment>
+  </data>
+  <data name="PDA_Common_Tips_LoopBillCannotPanDian" xml:space="preserve">
+    <value>盘点单当前状态已不能进行盘点！</value>
+    <comment>盘点单当前状态已不能进行盘点！</comment>
+  </data>
+  <data name="PDA_Common_Tips_LoopBillCannotScan" xml:space="preserve">
+    <value>循环盘点单当前状态不能进行扫描！</value>
+    <comment>循环盘点单当前状态不能进行扫描！</comment>
+  </data>
+  <data name="PDA_Common_Tips_LoopBillIsConfirmed" xml:space="preserve">
+    <value>循环盘点单已经确认，不可再进行盘点扫描！</value>
+    <comment>循环盘点单已经确认，不可再进行盘点扫描！</comment>
+  </data>
+  <data name="PDA_Common_Tips_MaxSaoMiaoQty" xml:space="preserve">
+    <value>今天已扫描数达到最大物料数</value>
+    <comment>今天已扫描数达到最大物料数</comment>
+  </data>
+  <data name="PDA_Common_Tips_NeedCinvcode" xml:space="preserve">
+    <value>请输入料号！</value>
+    <comment>请输入料号！</comment>
+  </data>
+  <data name="PDA_Common_Tips_NeedPalletCode" xml:space="preserve">
+    <value>栈板号不能为空！</value>
+    <comment>栈板号不能为空！</comment>
+  </data>
+  <data name="PDA_Common_Tips_NetExceptionTryAgain" xml:space="preserve">
+    <value>网络异常，请重试!</value>
+    <comment>网络异常，请重试!</comment>
+  </data>
+  <data name="PDA_Common_Tips_NoMoreData" xml:space="preserve">
+    <value>没有更多数据了</value>
+    <comment>没有更多数据了</comment>
+  </data>
+  <data name="PDA_Common_Tips_NoPositionUnderPalletcode" xml:space="preserve">
+    <value>该栈板下没有储位！</value>
+    <comment>该栈板下没有储位！</comment>
+  </data>
+  <data name="PDA_Common_Tips_PalletCodeLengthError" xml:space="preserve">
+    <value>栈板号长度不正确!</value>
+    <comment>栈板号长度不正确!</comment>
+  </data>
+  <data name="PDA_Common_Tips_PalletHasChecked" xml:space="preserve">
+    <value>当前栈板已经确认过！</value>
+    <comment>当前栈板已经确认过！</comment>
+  </data>
+  <data name="PDA_Common_Tips_ParameterErrorSaveFailed" xml:space="preserve">
+    <value>参数错误，保存失败！</value>
+    <comment>参数错误，保存失败！</comment>
+  </data>
+  <data name="PDA_Common_Tips_PleaseScanPosition" xml:space="preserve">
+    <value>请扫描储位！</value>
+    <comment>请扫描储位！</comment>
+  </data>
+  <data name="PDA_Common_Tips_PositionCodeCannotEmpty" xml:space="preserve">
+    <value>储位编码不能为空！</value>
+    <comment>储位编码不能为空！</comment>
+  </data>
+  <data name="PDA_Common_Tips_PositionNotExist" xml:space="preserve">
+    <value>储位不存在！</value>
+    <comment>储位不存在！</comment>
+  </data>
+  <data name="PDA_Common_Tips_QingShuRuCinvName" xml:space="preserve">
+    <value>请输入品名！</value>
+    <comment>请输入品名！</comment>
+  </data>
+  <data name="PDA_Common_Tips_QingShuRuPalletCode" xml:space="preserve">
+    <value>请输入栈板号！</value>
+    <comment>请输入栈板号！</comment>
+  </data>
+  <data name="PDA_Common_Tips_QingShuRuPositionCode" xml:space="preserve">
+    <value>请输入储位编码！</value>
+    <comment>请输入储位编码！</comment>
+  </data>
+  <data name="PDA_Common_Tips_QingShuRuPositionName" xml:space="preserve">
+    <value>请输入储位名称！</value>
+    <comment>请输入储位名称！</comment>
+  </data>
+  <data name="PDA_Common_Tips_QingShuRuQuantity" xml:space="preserve">
+    <value>请输入数量！</value>
+    <comment>请输入数量！</comment>
+  </data>
+  <data name="PDA_Common_Tips_QuantityGeShiError" xml:space="preserve">
+    <value>数量格式不正确！</value>
+    <comment>数量格式不正确！</comment>
+  </data>
+  <data name="PDA_Common_Tips_QuantityNotShuZi" xml:space="preserve">
+    <value>数量不是数字</value>
+    <comment>数量不是数字</comment>
+  </data>
+  <data name="PDA_Common_Tips_RevokeFailed" xml:space="preserve">
+    <value>撤销失败</value>
+    <comment>撤销失败</comment>
+  </data>
+  <data name="PDA_Common_Tips_RevokeSuccess" xml:space="preserve">
+    <value>撤销成功!</value>
+    <comment>撤销成功!</comment>
+  </data>
+  <data name="PDA_Common_Tips_SaveExceptionMsg" xml:space="preserve">
+    <value>保存发生异常!异常信息为：</value>
+    <comment>保存发生异常!异常信息为：</comment>
+  </data>
+  <data name="PDA_Common_Tips_SaveFailed" xml:space="preserve">
+    <value>保存失败：</value>
+    <comment>保存失败：</comment>
+  </data>
+  <data name="PDA_Common_Tips_SaveScanFailed" xml:space="preserve">
+    <value>保存扫描失败</value>
+    <comment>保存扫描失败</comment>
+  </data>
+  <data name="PDA_Common_Tips_SaveSuccess" xml:space="preserve">
+    <value>保存成功！</value>
+    <comment>保存成功！</comment>
+  </data>
+  <data name="PDA_Common_Tips_ScanPalletPlease" xml:space="preserve">
+    <value>请扫描栈板号！</value>
+    <comment>请扫描栈板号！</comment>
+  </data>
+  <data name="PDA_Common_Tips_UserNameOrPasswordError" xml:space="preserve">
+    <value>提供的用户名或密码不正确。</value>
+    <comment>提供的用户名或密码不正确。</comment>
+  </data>
+  <data name="PDA_Common_Tips_YourPasswordChanged" xml:space="preserve">
+    <value>你的密码已更改。</value>
+    <comment>你的密码已更改。</comment>
+  </data>
+  <data name="PDA_GetJson_CheckSNAllocatePK_ReturnMsg" xml:space="preserve">
+    <value>SN没有库存，不能调拨!</value>
+    <comment>SN没有库存，不能调拨!</comment>
+  </data>
+  <data name="PDA_InBill_RevokeTempInBill_ExceptionMsg" xml:space="preserve">
+    <value>撤销发生异常!异常信息为：</value>
+    <comment>撤销发生异常!异常信息为：</comment>
+  </data>
+  <data name="PDA_Common_Element_Account" xml:space="preserve">
+    <value>账号</value>
+    <comment>账号</comment>
+  </data>
+  <data name="PDA_Common_Element_AccountOrPasswordError" xml:space="preserve">
+    <value>用户名或密码不正确！</value>
+    <comment>用户名或密码不正确！</comment>
+  </data>
+  <data name="PDA_Common_Element_Allocate" xml:space="preserve">
+    <value>调拨单</value>
+    <comment>调拨单</comment>
+  </data>
+  <data name="PDA_Common_Element_AllocateDetail" xml:space="preserve">
+    <value>调拨单明细</value>
+    <comment>调拨单明细</comment>
+  </data>
+  <data name="PDA_Common_Element_AllocateDetailScan" xml:space="preserve">
+    <value>调拨单明细(扫描)</value>
+    <comment>调拨单明细(扫描)</comment>
+  </data>
+  <data name="PDA_Common_Element_AllocateList" xml:space="preserve">
+    <value>调拨单列表</value>
+    <comment>调拨单列表</comment>
+  </data>
+  <data name="PDA_Common_Element_AllocateScanDetail" xml:space="preserve">
+    <value>调拨单扫描明细</value>
+    <comment>调拨单扫描明细</comment>
+  </data>
+  <data name="PDA_Common_Element_AsnInfo" xml:space="preserve">
+    <value>通知单信息</value>
+    <comment>通知单信息</comment>
+  </data>
+  <data name="PDA_Common_Element_AsnList" xml:space="preserve">
+    <value>通知单列表</value>
+    <comment>通知单列表</comment>
+  </data>
+  <data name="PDA_Common_Element_Assit" xml:space="preserve">
+    <value>拣货</value>
+    <comment>拣货</comment>
+  </data>
+  <data name="PDA_Common_Element_AssitQuantity" xml:space="preserve">
+    <value>已拣货数量</value>
+    <comment>已拣货数量</comment>
+  </data>
+  <data name="PDA_Common_Element_BillCode" xml:space="preserve">
+    <value>单据号</value>
+    <comment>单据号</comment>
+  </data>
+  <data name="PDA_Common_Element_ChanXianJiaoLiao" xml:space="preserve">
+    <value>产线叫料</value>
+    <comment>产线叫料</comment>
+  </data>
+  <data name="PDA_Common_Element_CheXiaoZhuangXiang" xml:space="preserve">
+    <value>撤销装箱</value>
+    <comment>撤销装箱</comment>
+  </data>
+  <data name="PDA_Common_Element_ChuKuJianHuo" xml:space="preserve">
+    <value>出库拣货</value>
+    <comment>出库拣货</comment>
+  </data>
+  <data name="PDA_Common_Element_Complete" xml:space="preserve">
+    <value>完 成</value>
+    <comment>完 成</comment>
+  </data>
+  <data name="PDA_Common_Element_Completeing" xml:space="preserve">
+    <value>完成中</value>
+    <comment>完成中</comment>
+  </data>
+  <data name="PDA_Common_Element_CompleteJiaoChe" xml:space="preserve">
+    <value>完工叫车</value>
+    <comment>完工叫车</comment>
+  </data>
+  <data name="PDA_Common_Element_CreateDate" xml:space="preserve">
+    <value>制单日期</value>
+    <comment>制单日期</comment>
+  </data>
+  <data name="PDA_Common_Element_Createing" xml:space="preserve">
+    <value>创建中...</value>
+    <comment>创建中...</comment>
+  </data>
+  <data name="PDA_Common_Element_CreateTask" xml:space="preserve">
+    <value>生成任务</value>
+    <comment>生成任务</comment>
+  </data>
+  <data name="PDA_Common_Element_CreateUser" xml:space="preserve">
+    <value>制单人</value>
+    <comment>制单人</comment>
+  </data>
+  <data name="PDA_Common_Element_Credential" xml:space="preserve">
+    <value>凭据</value>
+    <comment>凭据</comment>
+  </data>
+  <data name="PDA_Common_Element_CStatus" xml:space="preserve">
+    <value>状态</value>
+    <comment>状态</comment>
+  </data>
+  <data name="PDA_Common_Element_DeleteFromYourAccount" xml:space="preserve">
+    <value>从你的帐户中删除此</value>
+    <comment>从你的帐户中删除此</comment>
+  </data>
+  <data name="PDA_Common_Element_DiaoDuDanList" xml:space="preserve">
+    <value>调度任务单列表</value>
+    <comment>调度任务单列表</comment>
+  </data>
+  <data name="PDA_Common_Element_Emergency" xml:space="preserve">
+    <value>急</value>
+    <comment>急</comment>
+  </data>
+  <data name="PDA_Common_Element_Exit" xml:space="preserve">
+    <value>退出</value>
+    <comment>退出</comment>
+  </data>
+  <data name="PDA_Common_Element_ForgetPassword" xml:space="preserve">
+    <value>忘记密码</value>
+    <comment>忘记密码</comment>
+  </data>
+  <data name="PDA_Common_Element_HasAllocateQuantity" xml:space="preserve">
+    <value>已调拨数量</value>
+    <comment>已调拨数量</comment>
+  </data>
+  <data name="PDA_Common_Element_HasInBoxQuantity" xml:space="preserve">
+    <value>已装箱数量</value>
+    <comment>已装箱数量</comment>
+  </data>
+  <data name="PDA_Common_Element_InAsn" xml:space="preserve">
+    <value>入库通知单</value>
+    <comment>入库通知单</comment>
+  </data>
+  <data name="PDA_Common_Element_InAssitDetail" xml:space="preserve">
+    <value>上架明细</value>
+    <comment>上架明细</comment>
+  </data>
+  <data name="PDA_Common_Element_InBillZhuangXiang" xml:space="preserve">
+    <value>入库装箱</value>
+    <comment>入库装箱</comment>
+  </data>
+  <data name="PDA_Common_Element_InBillZhuangXiangList" xml:space="preserve">
+    <value>入库装箱列表</value>
+    <comment>入库装箱列表</comment>
+  </data>
+  <data name="PDA_Common_Element_KeJiaoFuQuantity" xml:space="preserve">
+    <value>可交付数量</value>
+    <comment>可交付数量</comment>
+  </data>
+  <data name="PDA_Common_Element_KuaiJiePeiLiao" xml:space="preserve">
+    <value>快捷配料</value>
+    <comment>快捷配料</comment>
+  </data>
+  <data name="PDA_Common_Element_LiKuAllocate" xml:space="preserve">
+    <value>调拨单(立库)</value>
+    <comment>调拨单(立库)</comment>
+  </data>
+  <data name="PDA_Common_Element_LiKuDiaoBo" xml:space="preserve">
+    <value>立库调拨</value>
+    <comment>立库调拨</comment>
+  </data>
+  <data name="PDA_Common_Element_LiKuPanDian" xml:space="preserve">
+    <value>立库盘点</value>
+    <comment>立库盘点</comment>
+  </data>
+  <data name="PDA_Common_Element_Loading" xml:space="preserve">
+    <value>加载中...</value>
+    <comment>加载中...</comment>
+  </data>
+  <data name="PDA_Common_Element_Login" xml:space="preserve">
+    <value>登录</value>
+    <comment>登录</comment>
+  </data>
+  <data name="PDA_Common_Element_Logining" xml:space="preserve">
+    <value>登录中</value>
+    <comment>登录中</comment>
+  </data>
+  <data name="PDA_Common_Element_MachineType" xml:space="preserve">
+    <value>机种</value>
+    <comment>机种</comment>
+  </data>
+  <data name="PDA_Common_Element_MuDiZhan" xml:space="preserve">
+    <value>目的站</value>
+    <comment>目的站</comment>
+  </data>
+  <data name="PDA_Common_Element_ObjectivePosition" xml:space="preserve">
+    <value>目的储位</value>
+    <comment>目的储位</comment>
+  </data>
+  <data name="PDA_Common_Element_OldPosition" xml:space="preserve">
+    <value>原储位</value>
+    <comment>原储位</comment>
+  </data>
+  <data name="PDA_Common_Element_OutType" xml:space="preserve">
+    <value>出库类型</value>
+    <comment>出库类型</comment>
+  </data>
+  <data name="PDA_Common_Element_Password" xml:space="preserve">
+    <value>密码</value>
+    <comment>密码</comment>
+  </data>
+  <data name="PDA_Common_Element_PeiLiaoDanHao" xml:space="preserve">
+    <value>配料单号</value>
+    <comment>配料单号</comment>
+  </data>
+  <data name="PDA_Common_Element_PeiLiaoJiaoFuDetail" xml:space="preserve">
+    <value>配料交付详情</value>
+    <comment>配料交付详情</comment>
+  </data>
+  <data name="PDA_Common_Element_PeiLiaoJiaoFuList" xml:space="preserve">
+    <value>配料交付列表</value>
+    <comment>配料交付列表</comment>
+  </data>
+  <data name="PDA_Common_Element_PingBanZhuangXiang" xml:space="preserve">
+    <value>拼板装箱</value>
+    <comment>拼板装箱</comment>
+  </data>
+  <data name="PDA_Common_Element_PingKuAllocate" xml:space="preserve">
+    <value>调拨单(平库)</value>
+    <comment>调拨单(平库)</comment>
+  </data>
+  <data name="PDA_Common_Element_PingKuDiaoBo" xml:space="preserve">
+    <value>平库调拨</value>
+    <comment>平库调拨</comment>
+  </data>
+  <data name="PDA_Common_Element_PingKuJianHuo" xml:space="preserve">
+    <value>平库拣货</value>
+    <comment>平库拣货</comment>
+  </data>
+  <data name="PDA_Common_Element_PingKuPanDian" xml:space="preserve">
+    <value>平库盘点</value>
+    <comment>平库盘点</comment>
+  </data>
+  <data name="PDA_Common_Element_PingKuShangJia" xml:space="preserve">
+    <value>平库上架</value>
+    <comment>平库上架</comment>
+  </data>
+  <data name="PDA_Common_Element_QiDian" xml:space="preserve">
+    <value>起点</value>
+    <comment>起点</comment>
+  </data>
+  <data name="PDA_Common_Element_QiDianZhan" xml:space="preserve">
+    <value>起点站</value>
+    <comment>起点站</comment>
+  </data>
+  <data name="PDA_Common_Element_QingShuRuAccount" xml:space="preserve">
+    <value>请输入账号</value>
+    <comment>请输入账号</comment>
+  </data>
+  <data name="PDA_Common_Element_QingShuRuPassword" xml:space="preserve">
+    <value>请输入密码</value>
+    <comment>请输入密码</comment>
+  </data>
+  <data name="PDA_Common_Element_RegesterWaiBuLogin" xml:space="preserve">
+    <value>已注册外部登录</value>
+    <comment>已注册外部登录</comment>
+  </data>
+  <data name="PDA_Common_Element_RuKuDanHao" xml:space="preserve">
+    <value>入库单号</value>
+    <comment>入库单号</comment>
+  </data>
+  <data name="PDA_Common_Element_Rule" xml:space="preserve">
+    <value>规则</value>
+    <comment>规则</comment>
+  </data>
+  <data name="PDA_Common_Element_ScanDetail" xml:space="preserve">
+    <value>扫描明细</value>
+    <comment>扫描明细</comment>
+  </data>
+  <data name="PDA_Common_Element_SelectQiDian" xml:space="preserve">
+    <value>选择起点</value>
+    <comment>选择起点</comment>
+  </data>
+  <data name="PDA_Common_Element_SelectZhongDian" xml:space="preserve">
+    <value>选择终点</value>
+    <comment>选择终点</comment>
+  </data>
+  <data name="PDA_Common_Element_ShangJia" xml:space="preserve">
+    <value>上架</value>
+    <comment>上架</comment>
+  </data>
+  <data name="PDA_Common_Element_ShangJiaList" xml:space="preserve">
+    <value>上架列表</value>
+    <comment>上架列表</comment>
+  </data>
+  <data name="PDA_Common_Element_ShengChanJiaoLiao" xml:space="preserve">
+    <value>生产叫料</value>
+    <comment>生产叫料</comment>
+  </data>
+  <data name="PDA_Common_Element_ShoudAllocateQuantity" xml:space="preserve">
+    <value>应调拨量</value>
+    <comment>应调拨量</comment>
+  </data>
+  <data name="PDA_Common_Element_ShouDongJiaoChe" xml:space="preserve">
+    <value>手动叫车</value>
+    <comment>手动叫车</comment>
+  </data>
+  <data name="PDA_Common_Element_Site" xml:space="preserve">
+    <value>站点</value>
+    <comment>站点</comment>
+  </data>
+  <data name="PDA_Common_Element_TaskList" xml:space="preserve">
+    <value>任务单列表</value>
+    <comment>任务单列表</comment>
+  </data>
+  <data name="PDA_Common_Element_TaskStatus" xml:space="preserve">
+    <value>任务状态</value>
+    <comment>任务状态</comment>
+  </data>
+  <data name="PDA_Common_Element_ThisQuantity" xml:space="preserve">
+    <value>本次数量</value>
+    <comment>本次数量</comment>
+  </data>
+  <data name="PDA_Common_Element_TotalOutPut" xml:space="preserve">
+    <value>应出总量</value>
+    <comment>应出总量</comment>
+  </data>
+  <data name="PDA_Common_Element_TotalQuantity" xml:space="preserve">
+    <value>总数量</value>
+    <comment>总数量</comment>
+  </data>
+  <data name="PDA_Common_Element_TotalSurplus" xml:space="preserve">
+    <value>剩余总量</value>
+    <comment>剩余总量</comment>
+  </data>
+  <data name="PDA_Common_Element_YingShuQuantity" xml:space="preserve">
+    <value>应输总量</value>
+    <comment>应输总量</comment>
+  </data>
+  <data name="PDA_Common_Element_YiPeiOrWeiPei" xml:space="preserve">
+    <value>已配/未配</value>
+    <comment>已配/未配</comment>
+  </data>
+  <data name="PDA_Common_Element_ZhanCunZhan" xml:space="preserve">
+    <value>暂存站</value>
+    <comment>暂存站</comment>
+  </data>
+  <data name="PDA_Common_Element_ZhangBanBianHao" xml:space="preserve">
+    <value>栈板编号</value>
+    <comment>栈板编号</comment>
+  </data>
+  <data name="PDA_Common_Element_ZhongDian" xml:space="preserve">
+    <value>终点</value>
+    <comment>终点</comment>
+  </data>
+  <data name="PDA_Common_Element_ZhuangXiangDate" xml:space="preserve">
+    <value>装箱时间</value>
+    <comment>装箱时间</comment>
+  </data>
+  <data name="PDA_Common_Element_ZhuangXiangList" xml:space="preserve">
+    <value>装箱列表</value>
+    <comment>装箱列表</comment>
+  </data>
+  <data name="PDA_Common_Element_ZhuangXiangRen" xml:space="preserve">
+    <value>装箱人</value>
+    <comment>装箱人</comment>
+  </data>
+  <data name="PDA_Common_Element_ZhuCeAccount" xml:space="preserve">
+    <value>注册账号</value>
+    <comment>注册账号</comment>
+  </data>
+  <data name="PDA_Common_Element_ZiDongLogin" xml:space="preserve">
+    <value>自动登录</value>
+    <comment>自动登录</comment>
+  </data>
+  <data name="PDA_Common_Element_ZuoYeType" xml:space="preserve">
+    <value>作业类型</value>
+    <comment>作业类型</comment>
+  </data>
+  <data name="PDA_Common_Tips_AllocateCreateFailed" xml:space="preserve">
+    <value>调拨单生成失败：</value>
+    <comment>调拨单生成失败：</comment>
+  </data>
+  <data name="PDA_Common_Tips_AllocateCreateSuccess" xml:space="preserve">
+    <value>调拨单生成成功!</value>
+    <comment>调拨单生成成功!</comment>
+  </data>
+  <data name="PDA_Common_Tips_CinvcodeSnAtypism" xml:space="preserve">
+    <value>料号与SN中料号不一致!</value>
+    <comment>料号与SN中料号不一致!</comment>
+  </data>
+  <data name="PDA_Common_Tips_CommitFailed" xml:space="preserve">
+    <value>提交失败：</value>
+    <comment>提交失败：</comment>
+  </data>
+  <data name="PDA_Common_Tips_CommitSuccess" xml:space="preserve">
+    <value>提交成功!</value>
+    <comment>提交成功!</comment>
+  </data>
+  <data name="PDA_Common_Tips_DouBuNengWeiKong" xml:space="preserve">
+    <value>栈板号，开始位置，结束位置都不能为空！</value>
+    <comment>栈板号，开始位置，结束位置都不能为空！</comment>
+  </data>
+  <data name="PDA_Common_Tips_ExceptionMessage" xml:space="preserve">
+    <value>异常信息：</value>
+    <comment>异常信息：</comment>
+  </data>
+  <data name="PDA_Common_Tips_Friendship" xml:space="preserve">
+    <value>友情提示</value>
+    <comment>友情提示</comment>
+  </data>
+  <data name="PDA_Common_Tips_InAssitSave" xml:space="preserve">
+    <value>上架指引单保存!</value>
+    <comment>上架指引单保存!</comment>
+  </data>
+  <data name="PDA_Common_Tips_JiaoCheFailed" xml:space="preserve">
+    <value>叫车失败</value>
+    <comment>叫车失败</comment>
+  </data>
+  <data name="PDA_Common_Tips_JiaoCheSuccess" xml:space="preserve">
+    <value>叫车成功!</value>
+    <comment>叫车成功!</comment>
+  </data>
+  <data name="PDA_Common_Tips_MachineTypeLengthError" xml:space="preserve">
+    <value>机种不能大于指定长度40</value>
+    <comment>机种不能大于指定长度40</comment>
+  </data>
+  <data name="PDA_Common_Tips_NeedMuDiWeiZhi" xml:space="preserve">
+    <value>目的位置不能为空！</value>
+    <comment>目的位置不能为空！</comment>
+  </data>
+  <data name="PDA_Common_Tips_PalletCodeChanged" xml:space="preserve">
+    <value>该栈板不是入库通知单原栈板号！</value>
+    <comment>该栈板不是入库通知单原栈板号！</comment>
+  </data>
+  <data name="PDA_Common_Tips_QingShuRuBox" xml:space="preserve">
+    <value>请输入箱号！</value>
+    <comment>请输入箱号！</comment>
+  </data>
+  <data name="PDA_Common_Tips_QingShuRuMuDiPosition" xml:space="preserve">
+    <value>请输入目的储位！</value>
+    <comment>请输入目的储位！</comment>
+  </data>
+  <data name="PDA_Common_Tips_QingShuRuOldPosition" xml:space="preserve">
+    <value>请输入原始储位！</value>
+    <comment>请输入原始储位！</comment>
+  </data>
+  <data name="PDA_Common_Tips_QingShuRuSN" xml:space="preserve">
+    <value>请输入S/N！</value>
+    <comment>请输入S/N！</comment>
+  </data>
+  <data name="PDA_Common_Tips_QingShuRuThisQuantity" xml:space="preserve">
+    <value>请输入本次数量！</value>
+    <comment>请输入本次数量！</comment>
+  </data>
+  <data name="PDA_Common_Tips_ScanComplete" xml:space="preserve">
+    <value>扫描已经完成，请点击完成!</value>
+    <comment>扫描已经完成，请点击完成!</comment>
+  </data>
+  <data name="PDA_Common_Tips_SNExists" xml:space="preserve">
+    <value>该SN已存在列表中，不能重复添加!</value>
+    <comment>该SN已存在列表中，不能重复添加!</comment>
+  </data>
+  <data name="PDA_Common_Tips_SNLengthError" xml:space="preserve">
+    <value>SN长度不正确!</value>
+    <comment>SN长度不正确!</comment>
+  </data>
+  <data name="PDA_Common_Tips_ThisQuantityAtypism" xml:space="preserve">
+    <value>本次数量与SN中的数量不一致!</value>
+    <comment>本次数量与SN中的数量不一致!</comment>
+  </data>
+  <data name="PDA_Common_Tips_ThisQuantityExceedSurplusQuantity" xml:space="preserve">
+    <value>本次数量超过剩余数量!</value>
+    <comment>本次数量超过剩余数量!</comment>
+  </data>
+  <data name="PDA_Common_Title" xml:space="preserve">
+    <value>智慧物流移动终端</value>
+    <comment>智慧物流移动终端</comment>
+  </data>
+  <data name="PDA_Common_Element_Language" xml:space="preserve">
+    <value>语言</value>
+    <comment>语言</comment>
+  </data>
+  <data name="PDA_Common_Element_Lang_FanTi" xml:space="preserve">
+    <value>繁体中文</value>
+    <comment>繁体中文</comment>
+  </data>
+  <data name="PDA_Common_Element_Lang_JianTi" xml:space="preserve">
+    <value>简体中文</value>
+    <comment>简体中文</comment>
+  </data>
+  <data name="PDA_Common_Element_Lang_YingYu" xml:space="preserve">
+    <value>英语</value>
+    <comment>英语</comment>
+  </data>
+  <data name="PDA_Common_Tips_QingXuanZeLanguage" xml:space="preserve">
+    <value>请选择语言！</value>
+    <comment>请选择语言！</comment>
+  </data>
+  <data name="PDA_Common_Element_AddSerialNo" xml:space="preserve">
+    <value>扫描序列号</value>
+    <comment>添加序列号</comment>
+  </data>
+  <data name="PDA_Common_Element_SerialNo" xml:space="preserve">
+    <value>序列号</value>
+    <comment>序列号</comment>
+  </data>
+   <data name="PDA_Common_Element_SeriaDetails" xml:space="preserve">
+    <value>序列号明细</value>
+    <comment>序列号明细</comment>
+  </data>
+  <data name="PDA_Common_Element_ScanDate" xml:space="preserve">
+    <value>扫描日期</value>
+    <comment>扫描日期</comment>
+  </data>
+   <data name="PDA_Common_Msg_PleaseInputSerialNO" xml:space="preserve">
+    <value>请输入序列号</value>
+    <comment>请输入序列号</comment>
+  </data>
+  <data name="PDA_Common_Msg_ExistsSerialNO" xml:space="preserve">
+    <value>序列号已经存在</value>
+    <comment>序列号已经存在</comment>
+  </data>
+  <data name="PDA_Common_Msg_MeetMaxScans" xml:space="preserve">
+    <value>已达到扫描最大值，不可再扫描</value>
+    <comment>已达到扫描最大值，不可再扫描</comment>
+  </data>
+  <data name="PDA_Common_Element_ShouDongRuKu" xml:space="preserve">
+    <value>手动入库</value>
+    <comment>手动入库</comment>
+  </data>
+  
+  <data name="PDA_Common_Element_SelectZhanDian" xml:space="preserve">
+    <value>站点</value>
+    <comment>站点</comment>
+  </data>
+  <data name="PDA_Common_Element_SelectGaoDu" xml:space="preserve">
+    <value>高度</value>
+    <comment>高度</comment>
+  </data>
+   <data name="PDA_Common_Element_RuKu" xml:space="preserve">
+    <value>入库</value>
+    <comment>入库</comment>
+  </data>
+    <data name="PDA_Common_Tips_AllBuNengWeiKong" xml:space="preserve">
+    <value>栈板，站点，高度都不能为空！</value>
+    <comment>栈板，站点，高度都不能为空！</comment>
+  </data>
+      <data name="PDA_Common_Tips_NeedSite" xml:space="preserve">
+    <value>站点不能为空！</value>
+    <comment>站点不能为空！</comment>
+  </data>
+      <data name="PDA_Common_Tips_NeedType" xml:space="preserve">
+    <value>高度不能为空！</value>
+    <comment>高度不能为空！</comment>
+  </data>  
+    <data name="PDA_Common_Tips_SuccessRuKu" xml:space="preserve">
+    <value>入库成功！</value>
+    <comment>入库成功！</comment>
+  </data>  
+     <data name="PDA_Common_Tips_FailedRuku" xml:space="preserve">
+    <value>入库失败！</value>
+    <comment>入库失败！</comment>
+  </data>  
+   <data name="PDA_Common_Element_ShouDongFanKu" xml:space="preserve">
+    <value>手动返库</value>
+    <comment>手动返库</comment>
+  </data>
+   <data name="PDA_Common_Tips_SuccessFanKu" xml:space="preserve">
+    <value>返库成功！</value>
+    <comment>返库成功！</comment>
+  </data>  
+     <data name="PDA_Common_Tips_FailedFanku" xml:space="preserve">
+    <value>返库失败！</value>
+    <comment>返库失败！</comment>
+  </data> 
+<data name="PDA_Common_Element_FanKu" xml:space="preserve">
+    <value>返库</value>
+    <comment>返库</comment>
+  </data>
+  <data name="PDA_OutQuickPick_KuaiJieJianHuo" xml:space="preserve">
+    <value>快捷拣货</value>
+    <comment>快捷拣货</comment>
+  </data>
+  <data name="PDA_OutQuickPick_ChuKuDanXinXI" xml:space="preserve">
+    <value>出库单信息</value>
+    <comment>出库单信息</comment>
+  </data>
+    <data name="PDA_InBillPickBox_MeiXiangShuLiang" xml:space="preserve">
+    <value>每箱数量</value>
+    <comment>每箱数量</comment>
+  </data>
+      <data name="PDA_InBillPickBox_XiangShu" xml:space="preserve">
+    <value>箱数</value>
+    <comment>箱数</comment>
+  </data>
+        <data name="PDA_InBillPickBox_CuoWuLiaoHaoGeShi" xml:space="preserve">
+    <value>料号条码格式有误，请重新扫描！</value>
+    <comment>料号条码格式有误，请重新扫描！</comment>
+  </data>
+        <data name="PDA_InBillPickBox_CuowuMeiXiangShuLiang" xml:space="preserve">
+    <value>每箱数量不是有效的值，请检查！</value>
+    <comment>每箱数量不是有效的值，请检查！</comment>
+  </data>
+        <data name="PDA_InBillPickBox_CuoWuJiSuanShuLiang" xml:space="preserve">
+    <value>最终计算出的数量不能小于等于0，请检查！</value>
+    <comment>最终计算出的数量不能小于等于0，请检查！</comment>
+  </data>
+        <data name="PDA_InBillPickBox_CuoWuXiangShu" xml:space="preserve">
+    <value>箱数必须是正整数，请检查！</value>
+    <comment>箱数必须是正整数，请检查！</comment>
+  </data>
+       <data name="PDA_InBillPickBox_GuiZeXingHao" xml:space="preserve">
+    <value>规格型号</value>
+    <comment>规格型号</comment>
+  </data>
+     <data name="PDA_InBillPickBox_DateCodeChcek" xml:space="preserve">
+    <value>DateCode 不能为空，请重新扫描料号</value>
+    <comment>DateCode 不能为空，请重新扫描料号</comment>
+  </data>
+   <data name="FrmINASN_DEdit_CanNotExceedCurrent" xml:space="preserve">
+    <value>DateCode 不能大于当前日期！</value>
+    <comment>DateCode 不能大于当前日期！</comment>
+  </data> 
+    <data name="Common_DateCodeFormatEmpty" xml:space="preserve">
+    <value>请先配置DateCode的格式！</value>
+    <comment>请先配置DateCode的格式！</comment>
+  </data> 
+    <data name="Common_DateCodeFormatCheck" xml:space="preserve">
+    <value>DateCode 必须是有效的时间且满足配置的格式</value>
+    <comment>>DateCode 必须是有效的时间且满足配置的格式</comment>
+  </data> 
+</root>

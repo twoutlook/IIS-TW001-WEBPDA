@@ -1,0 +1,257 @@
+﻿@{
+    ViewBag.Title = "OutMixedScan";
+}
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>新增配料单</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!--标准mui.css-->
+	<link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
+	<!--App自定义的css-->
+	<!-- <link rel="stylesheet" type="text/css" href="../css/app.css" /> -->
+    <!--App自定义的css-->
+	<link rel="stylesheet" type="text/css" href="~/Content/MUI/css/app.css" />
+	<link href="~/Content/MUI/css/mui.picker.css" rel="stylesheet" />
+	<link href="~/Content/MUI/css/mui.poppicker.css" rel="stylesheet" />
+
+    <style>
+			.mui-btn {
+				font-size: 16px;
+				padding: 8px;
+				margin: 3px;
+			}
+			h5.mui-content-padded {
+				margin-left: 3px;
+				margin-top: 20px !important;
+			}
+			h5.mui-content-padded:first-child {
+				margin-top: 12px !important;
+			}
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+
+        .rowFlow
+        {
+          float:left;
+        }
+
+        .buttonText
+        {
+            text-align:left;
+        }
+
+        .barcodeRight
+        {
+            background-image:url("../../Content/Images/u222.png") ;
+            background-repeat:no-repeat;
+            background-position:99% center;
+            margin-bottom:1px;
+        }
+    </style>
+    <link rel="stylesheet" href="~/Content/MUI/css/iconfontNew.css">
+
+</head>
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <button type="button" class="mui-btn mui-btn-link mui-pull-left" id="btnReturn">
+		    <span class="mui-icon mui-icon-back"></span>返回
+	    </button>
+        <button type="button" class="mui-btn mui-btn-link mui-pull-right" id="btnMain">
+	        <span class="mui-icon mui-icon-home"></span>
+        </button>
+	    <h1 class="mui-title" style="color:#5A98FB;">
+            新增配料单
+	    </h1>
+        <h1 class="mui-title">新增配料单</h1>
+    </header>
+		
+        <div class="mui-content">
+			<div class="mui-content-padded"  style="margin: 5px;">
+                 
+                 <h5 class="mui-content-padded"></h5>
+                 <h5 class="mui-content-padded"></h5>
+               
+                <input type="text" class="mui-input-clear barcodeRight" id="txtErpCode" placeholder="领料单号">
+
+                <div style="vertical-align: middle;text-align: center; ">
+                  <button type="button" class="mui-btn mui-btn-primary mui-btn-block mui-icon mui-icon-plus" style="font-size:16px;" id="btnCreate" onclick="return false;"  data-loading-icon-position="right">新增并配料</button>
+                  <h5 class="mui-content-padded"></h5>
+                  <button type="button" class="mui-btn mui-btn-success mui-btn-block mui-icon mui-icon-list" style="font-size:16px;" id="btnBackList" >返回</button>
+                  
+                 </div>       
+
+                <div style="display:none;">
+                    <input type="text" id="txtBeginSite" /> 
+                    <input type="text" id="txtEndSite" />
+                </div>
+			</div>
+		</div>
+		<script src="~/Content/MUI/js/mui.min.js"></script>
+		<!--<script src="../js/mui.picker.min.js"></script>-->
+		<script src="~/Content/MUI/js/mui.picker.js"></script>
+		<script src="~/Content/MUI/js/mui.poppicker.js"></script>
+		<script src="~/Content/MUI/js/city.data.js" type="text/javascript" charset="utf-8"></script>
+		<script src="~/Content/MUI/js/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+
+		    (function($, doc) {
+		        $.init();
+		        $.ready(function () {
+
+		            ///**
+					// * 获取对象属性的值
+					// * 主要用于过滤三级联动中，可能出现的最低级的数据不存在的情况，实际开发中需要注意这一点；
+					// * param {Object} obj 对象
+					// * param {String} param 属性名
+					// */
+				    //var _getParam = function(obj, param) {
+				    //    return obj[param] || '';
+				    //};
+				 
+
+				   
+				    ////-----------------------------------------
+				    ////					//级联示例
+				    //var cityPicker3 = new $.PopPicker({
+				    //    layer: 3
+				    //});
+
+				    //var cityPicker4 = new $.PopPicker({
+				    //    layer: 3
+				    //});
+
+				    //var ddlData;
+				    //$.ajax({
+				    //    type: "get",
+				    //    url: "/GetJson/GetDropDownBO3",
+				    //    data: {  },
+                    //    success: function (data) {
+                    //        //mui.alert(data);
+                    //        if (data != null && data != undefined && data.length > 0) {
+                    //            //document.getElementById("jsonName").value = data;
+                    //            cityPicker3.setData(data);
+                    //            cityPicker4.setData(data);
+                    //        }
+
+                    //    },
+                    //    error: function (msg) {
+                    //        //alert(msg);
+                    //    }
+				    //});
+
+				    //var site1 = doc.getElementById("txtBeginSite");
+				    //var site12 = doc.getElementById("txtBeginSite2");
+				    //var site2 = doc.getElementById("txtEndSite");
+				    //var site22 = doc.getElementById("txtEndSite2");
+
+				    //var showCityPickerButton = doc.getElementById('showCityPicker3');
+				    //var cityResult3 = doc.getElementById('cityResult3');
+				    //showCityPickerButton.addEventListener('tap', function(event) {
+				    //    cityPicker3.show(function(items) {
+				    //        //cityResult3.innerText = "你选择的站点是:" + _getParam(items[0], 'text') + " " + _getParam(items[1], 'text') + " " + _getParam(items[2], 'text');
+				    //        //cityResult3.innerText = "你选择的站点是:" + _getParam(items[2], 'value');
+				    //        showCityPickerButton.innerText = _getParam(items[2], 'text')
+				    //        site1.value = _getParam(items[2], 'value');
+				    //        site12.value = _getParam(items[2], 'value');
+				    //        //返回 false 可以阻止选择框的关闭
+				    //        //return false;
+				    //    });
+				    //}, false);
+
+				    //var showCityPickerButton2 = doc.getElementById('showCityPicker4');
+				    //var cityResult3 = doc.getElementById('cityResult3');
+				    //showCityPickerButton2.addEventListener('tap', function (event) {
+				    //    cityPicker4.show(function (items) {
+				    //        //cityResult3.innerText = "你选择的站点是:" + _getParam(items[2], 'value');
+				    //        showCityPickerButton2.innerText = _getParam(items[2], 'text')
+				    //        site2.value = _getParam(items[2], 'value');
+				    //        site22.value = _getParam(items[2], 'value');
+				    //        //返回 false 可以阻止选择框的关闭
+				    //        //return false;
+				    //    });
+				    //}, false);
+
+				    var returnBtn = document.getElementById("btnReturn");
+		            //监听点击事件
+				    returnBtn.addEventListener("tap", function () {
+				        location.href = "/PDA/Main/@ViewBag.UserNo";
+				    });
+
+		            var mainBtn = document.getElementById("btnMain");
+		            //监听点击事件
+		            mainBtn.addEventListener("tap", function () {
+		                location.href = "/PDA/Main/@ViewBag.UserNo";
+		            });
+
+		            var listBtn = document.getElementById("btnBackList");
+		            //监听点击事件
+		            listBtn.addEventListener("tap", function () {
+		                $(listBtn).button('loading');//切换为loading状态
+		                location.href = "/OutMixed/OutMixedList/@ViewBag.UserNo";
+		            });
+
+		            var createBtn = document.getElementById("btnCreate");
+		            //监听点击事件
+		            createBtn.addEventListener("tap", function () {
+
+		                var erpCode = document.getElementById("txtErpCode").value;
+		               
+		                if (erpCode == "")
+		                {
+		                    mui.alert("领料单号不能为空！");
+		                    return;
+		                }
+                        
+		               // location.href = "/OutMixed/OutMixEditList?erpCode="+erpCode;
+		                $.ajax({
+		                    type: "get",
+		                    dataType: 'json',
+		                    contentType: "json",
+		                    url: "/OutMixed/CheckErpCode/",
+		                    data: { "erpCode": erpCode},
+		                    success: function (data) {
+		                       // alert(data.Status);
+		                        if (data != null && data != undefined) {
+		                            if (data.Status == "0") {
+		                                mui.alert("新增配料单成功!");
+		                                location.href = "/OutMixed/OutMixedEdit?id=" + data.ID;
+		                            }
+		                            else {
+		                                mui.alert("新增配料单失败: " + data.Info);
+		                            }
+
+		                        } else {
+		                            mui.alert("新增配料单失败!");
+		                        }
+
+		                    },
+		                    error: function (msg) {
+		                        //alert(msg);
+		                    }
+		                });
+		            });
+		            
+				    
+				});
+		    })(mui, document);
+
+		   
+
+
+		</script>
+   
+</body>
+</html>

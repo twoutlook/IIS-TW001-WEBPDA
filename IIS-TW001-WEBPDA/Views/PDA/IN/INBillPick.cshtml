@@ -1,0 +1,590 @@
+﻿@model IEnumerable<WMSPDA.Model.V_PDA_INEmtQueryList>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!--标准mui.css-->
+	<link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
+	<!--App自定义的css-->
+	<!-- <link rel="stylesheet" type="text/css" href="../css/app.css" /> -->
+
+    <!--App自定义的css-->
+	<link rel="stylesheet" type="text/css" href="~/Content/MUI/css/app.css" />
+
+    <title>@Resources.Lang.PDA_Common_Element_InBoxInfo</title>
+    	<style>
+    	    .mui-control-content
+    	    {
+    	        background-color: white;
+    	        min-height: 215px;
+    	    }
+
+    	        .mui-control-content .mui-loading
+    	        {
+    	            margin-top: 50px;
+    	        }
+    	</style>
+
+</head>
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+
+        <button type="button" class="mui-btn mui-btn-link mui-pull-left" id="btnReturn">
+		    <span class="mui-icon mui-icon-back"></span>@Resources.Lang.PDA_Common_Element_GoBack
+		</button>
+
+        <button type="button" class="mui-btn mui-btn-link mui-pull-right" id="btnMain">
+	        <span class="mui-icon mui-icon-home"></span>
+        </button>
+
+		<h1 class="mui-title" style="text-decoration:underline;color:#5A98FB;">
+            @Resources.Lang.PDA_Common_Element_InBillZhuangXiang
+		</h1>
+	</header>
+
+	<div class="mui-content">
+        <div class="mui-content-padded" style="margin: 5px;">
+            <form class="mui-input-group">
+                <div class="mui-input-row">
+				    <label>@Resources.Lang.PDA_Common_Element_ERPCode</label>
+					<input type="text" class="mui-input-clear" id="txtErpcode" placeholder="@Resources.Lang.PDA_Common_Element_ERPCode" value="@ViewBag.erpcode" disabled="disabled" style="ime-mode:disabled">
+				</div>
+                <div class="mui-input-row">
+					<label>@Resources.Lang.PDA_Common_Element_ASNCode</label>
+					<input type="text" class="mui-input-clear" id="txtCticketcode" placeholder="@Resources.Lang.PDA_Common_Element_RuKuDanHao" value="@ViewBag.cticketCode" disabled="disabled"  style="ime-mode:disabled">
+				</div>
+                <div class="mui-input-row">
+					<label>@Resources.Lang.PDA_Common_Element_PalletCode</label>
+					<input type="text" class="mui-input-clear" id="txtPalletcode"  placeholder="@Resources.Lang.PDA_Common_Element_PalletCode" autocomplete="off" style="ime-mode:disabled">
+				</div>
+                <div class="mui-input-row">
+					<label>@Resources.Lang.PDA_Common_Element_BarCode</label>
+					<input type="text" class="mui-input-clear" id="txtSN" placeholder="@Resources.Lang.PDA_Common_Element_BarCode" autocomplete="off" style="ime-mode:disabled">
+				</div>
+                <div class="mui-input-row">
+					<label>@Resources.Lang.PDA_Common_Element_LiaoHao</label>
+					<input type="text" class="mui-input-clear" id="txtCinvCode" value="" disabled="disabled" placeholder="@Resources.Lang.PDA_Common_Element_LiaoHao" autocomplete="off" style="ime-mode:disabled">
+				</div>
+                <div class="mui-input-row">
+					<label>@Resources.Lang.PDA_Common_Element_Quantity</label>
+					<input type="text" class="mui-input-clear" id="txtQty" placeholder="@Resources.Lang.PDA_Common_Element_Quantity"  autocomplete="off" onpaste="return false" style="ime-mode:disabled">
+			    </div>
+               @* <div class="mui-input-row">
+					<label>@Resources.Lang.PDA_Common_Element_TotalQuantity</label>
+					<input type="text" class="mui-input-clear" id="txtTotalQty" onkeydown="return false" onkeyup="return false" onpaste="return false" style="ime-mode:disabled">
+				</div>*@
+                <div class="mui-button-row">
+					<button type="button" class="mui-btn mui-btn-primary" id="btnSave" onclick="return false;" data-loading-text="@Resources.Lang.PDA_Common_Element_Saveing" data-loading-icon-position="right" >@Resources.Lang.PDA_Common_Element_Save</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+					@*<button type="button" class="mui-btn mui-btn-warning" id="btnSubmit" onclick="return false;" data-loading-text="@Resources.Lang.PDA_Common_Element_Completeing" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Complete</button>*@
+                    <input type="hidden" id="hdnLine" value="1" />
+                     <input type="hidden" id="hdnIsOldIASN" value="" />
+                     <input type="hidden" id="IsUseUnionPalletcode" value="" />
+				</div>
+            </form>
+        </div>
+
+		<div id="slider" class="mui-slider">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" href="#item1mobile">
+				        @Resources.Lang.PDA_Common_Element_InBoxDetail
+			        </a>
+                    <a class="mui-control-item" href="">
+			        </a>
+                    <a class="mui-control-item" href="">
+			        </a>
+				</div>
+                <div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+
+                                <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="tab1UL">
+
+                                     @foreach (WMSPDA.Model.V_PDA_INEmtQueryList bo in Model)
+                                    { 
+                                        <li class="mui-table-view-cell">
+                                            <div class="mui-slider-right mui-disabled">
+				                                <a class="mui-btn mui-btn-red">@Resources.Lang.PDA_Common_Element_Delete</a>
+                                                <input type="hidden" class="hdnids" value="@bo.ID" />
+			                                </div>
+		                                    <div class="mui-table mui-slider-handle">
+		                                        <div class="mui-table-cell mui-col-xs-10">
+		                                            <h4 class="mui-ellipsis">@Resources.Lang.PDA_Common_Element_PalletCode:@bo.PALLEDCODE</h4>
+		                                            <h6> @Resources.Lang.PDA_Common_Element_BarCode:@bo.SN_CODE &nbsp;@Resources.Lang.PDA_Common_Element_CStatus:@bo.STATUSNAME </h6>
+                                                    <h6>ERP@Resources.Lang.PDA_Common_Element_CticketCode:@bo.ERPCODE&nbsp;@Resources.Lang.PDA_Common_Element_LiaoHao:@bo.CINVCODE</h6> 
+                                                     <h6>@Resources.Lang.PDA_Common_Element_ZhuangXiangDate:@bo.EMTTIME&nbsp;@Resources.Lang.PDA_Common_Element_ZhuangXiangRen:@bo.EMTUSERNO</h6>     
+                                                    <p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_ASNCode：@bo.CTICKETCODE &nbsp; @Resources.Lang.PDA_Common_Element_Quantity:@bo.QTY </p>
+		                                        </div>
+		                                        <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                                            <span class="mui-h5">
+                                                       
+		                                            </span>
+		                                        </div>
+		                                    </div>
+                                   
+		                                </li>
+                                    }
+                                </ul>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+    </div>
+
+    <script src="~/Content/MUI/js/mui.min.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script>
+
+        var CurrendIndex1 = 1;//Tab1当前页数
+
+        //Tab3列表查询方法
+        function SearchTab1(IsAppend) {
+            //debugger;
+            //查询事件
+            var txtCticketcodeBox = document.getElementById('txtCticketcode').value;
+            var txtPalletcodeBox = document.getElementById('txtPalletcode').value;
+            if (IsAppend) {
+                CurrendIndex1 = CurrendIndex1 + 1;//下一页
+            }
+            else {
+                $("#tab1UL").empty();
+                CurrendIndex1 = 1;//查询，第一页
+            }
+
+            $.ajax({
+                type: "get",
+                url: "/PDA/INBillLPickSearch",
+                data: { id: "@ViewBag.cticketCode", CurrendIndex: CurrendIndex1, cticketcode: txtCticketcodeBox, palltecode: txtPalletcodeBox },
+                async: true,
+                success: function (data) {
+                    //mui.alert(data);
+                    scrollDisabled = true;
+                    if (data != null && data != undefined && data.length > 0) {
+                        if (!IsAppend) {
+                            $("#tab1UL").empty();
+                        }
+                        var liListhtml = '';
+                        for (var i = 0; i < data.length; i++) {
+                            var ymd = Getmmdd(data[i].EMTTIME);
+                            liListhtml = liListhtml +
+                            '<li class="mui-table-view-cell">  ' +
+                            '	<div class="mui-slider-right mui-disabled">  ' +
+                            '		<a class="mui-btn mui-btn-red">@Resources.Lang.PDA_Common_Element_Delete</a>  ' +
+                            '       <input type="hidden" class="hdnids" value="' + data[i].ID + '" /> ' +
+                            '	</div>  ' +
+                            '	<div class="mui-table mui-slider-handle">  ' +
+                            '		<div class="mui-table-cell mui-col-xs-10">  ' +
+                            '			<h4 class="mui-ellipsis">@Resources.Lang.PDA_Common_Element_PalletCode:' + data[i].PALLEDCODE + '</h4>  ' +
+                            '			<h6>@Resources.Lang.PDA_Common_Element_BarCode:' + data[i].SN_CODE + ' &nbsp;@Resources.Lang.PDA_Common_Element_CStatus:' + data[i].STATUSNAME + '</h6>  ' +
+                            '			<h6>@Resources.Lang.PDA_Common_Element_ERPCode:' + data[i].ERPCODE + ' &nbsp;@Resources.Lang.PDA_Common_Element_LiaoHao:' + data[i].CINVCODE + '</h6>  ' +
+                            '			<h6>@Resources.Lang.PDA_Common_Element_ZhuangXiangDate:' + ymd + ' &nbsp;@Resources.Lang.PDA_Common_Element_ZhuangXiangRen:' + data[i].EMTUSERNO + '</h6>  ' +
+                            '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_ASNCode:' + data[i].CTICKETCODE + ' &nbsp; @Resources.Lang.PDA_Common_Element_Quantity:' + data[i].QTY + '  </p>  ' +
+                            '		</div>  ' +
+                            '		<div class="mui-table-cell mui-col-xs-2 mui-text-right">  ' +
+                            '			<span class="mui-h5">  ' +
+                            '			</span>  ' +
+                            '		</div>  ' +
+                            '	</div>  ' +
+                            '</li>  ';
+
+                        }
+                        if (IsAppend) {
+                            $("#tab1UL").append(liListhtml);
+                        }
+                        else {
+                            $("#tab1UL").html(liListhtml);
+                        }
+
+                        //重新绑定事件
+                        //BindLiTap1();
+
+                        scrollDisabled = false;
+                        mui('#scroll1').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                    }
+                    else {
+                        //如果没有数据
+                        CurrendIndex1 = CurrendIndex1 - 1;
+                        scrollDisabled = true;
+                        if (!IsAppend) {
+                            $("#tab1UL").empty();
+                        }
+                        mui('#scroll1').pullRefresh().endPullupToRefresh(true);//参数为true代表没有更多数据了。
+                    }
+                    //注意：一定要修改Tab1的高度，否则分页后就只能显示一部分列表
+                    var subHeight = $("#scroll1").children(":first").height();
+                    $("#scroll1").parent(":first").height(subHeight);
+                },
+                error: function (msg) {
+                    //alert(msg);
+                    mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+                    mui('#scroll1').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                }
+            });
+        }
+
+        //下拉加载更多数据
+        function pullfreshQryTab1() {
+            //业务逻辑代码，比如通过ajax从服务器获取新数据；
+            //......
+            //注意：
+            //1、加载完新数据后，必须执行如下代码，true表示没有更多数据了：
+            //2、若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
+            setTimeout(SearchTab1(true), 1500);
+        }
+
+        //格式化json日期
+        function Getmmdd(str) {
+            var ymd = '';
+            //str='/Date(1525795200000)/';
+            if (str != undefined) {
+                str = str.replace("/Date(", "").replace(")/", "");
+                var date = new Date(parseFloat(str));
+                //var year = date.getFullYear();
+                var month = (date.getMonth() + 1) + '';
+                if (month.length == 1) {
+                    month = "0" + month;
+                }
+                var strDate = (date.getDate()) + '';
+                if (strDate.length == 1) {
+                    strDate = '0' + strDate;
+                }
+                ymd = month + "-" + strDate;
+                //ymd = str;
+            }
+            return ymd;
+        }
+
+        //Tab1下拉分页
+        mui('#scroll1').pullRefresh({
+            up: {
+                height: 100,//可选.默认50.触发上拉加载拖动距离
+                auto: false,//可选,默认false.自动上拉加载一次
+                contentrefresh: "@Resources.Lang.PDA_Common_Tips_Loading",//正在加载... //可选，正在加载状态时，上拉加载控件上显示的标题内容
+                contentnomore: '@Resources.Lang.PDA_Common_Tips_NoMoreData',//没有更多数据了//可选，请求完毕若没有更多数据时显示的提醒内容；
+                callback: pullfreshQryTab1 //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+            }
+        });
+
+
+        $(document).ready(function () {
+            BindLiTap1();
+
+            $("#btnReturn").bind("tap", function () {
+                location.href = "/PDA/INEmtList/@ViewBag.cticketCode/@ViewBag.erpcode";
+            });
+
+            $("#btnMain").bind("tap", function () {
+                location.href = "/PDA/Main/@ViewBag.UserNo";
+            });
+
+
+            $("#btnSave").bind("tap", function () {
+                mui(this).button('loading');
+                Save();
+                setTimeout(function () {
+                    mui(this).button('reset');
+                }.bind(this), 1000);
+            });
+
+            $("#btnSubmit").bind("tap", function () {
+                mui(this).button('loading');
+                SubmitCase();
+                setTimeout(function () {
+                    mui(this).button('reset');
+                }.bind(this), 1000);
+            });
+            //栈板号回车事件
+            $("#txtPalletcode").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    var sn = $("#txtPalletcode").val();
+                    var txtCticketcodeBox = document.getElementById('txtCticketcode').value;
+                    var txtPalletcodeBox = document.getElementById('txtPalletcode').value;
+                    var IsOldInASN;
+                    $.ajax({
+                        type: "get",
+                        url: "/GetJson/CheckIsPallet",
+                        dataType: "json",
+                        data: { IASNTickCode: txtCticketcodeBox, PalletCode: txtPalletcodeBox },
+                        // async: false,
+                        success: function (data) {
+                            //mui.alert(data);
+                            if (data != undefined && data != "") {
+                                if (data.Message.trim().indexOf('InAsn') != -1) {
+                                    $('.mui-title').html('@Resources.Lang.PDA_Common_Element_PingBanZhuangXiang')
+                                    $('#hdnIsOldIASN').val('');
+                                    $('#IsUseUnionPalletcode').val('');
+                                }
+                                else {
+                                    if (data.Message.trim() == '1') { //原库存入库通知单
+                                        IsOldInASN = true;
+                                        $('#hdnIsOldIASN').val('1');
+                                        $('#IsUseUnionPalletcode').val('');
+                                        if (!data.IsOldPallte) {
+                                            mui.alert("@Resources.Lang.PDA_Common_Tips_PalletCodeChanged");//该栈板不是入库通知单原栈板号！
+                                            $("#txtPalletcode").focus();
+                                            return;
+                                        }
+                                    }
+                                    else if (data.Message.trim().length > 0) {
+                                        IsOldInASN = false;
+                                        $('#hdnIsOldIASN').val('0');
+                                        $('#IsUseUnionPalletcode').val(data.Message);
+                                        mui.alert(data.Message);
+                                        $("#txtPalletcode").focus();
+                                        return;
+                                    }
+                                    else {
+                                        $('#hdnIsOldIASN').val('');
+                                        $('#IsUseUnionPalletcode').val('');
+                                    }
+                                    $('.mui-title').html('@Resources.Lang.PDA_Common_Element_InBillZhuangXiang')//入库装箱
+                                    if (IsOldInASN) {
+                                        $('#btnSave').text('@Resources.Lang.PDA_Common_Element_Confirm')
+                                        document.getElementById('txtSN').disabled = 'disabled';
+                                        document.getElementById('txtSN').style = 'ime-mode:disabled';
+                                        document.getElementById('txtCinvCode').disabled = 'disabled';
+                                        document.getElementById('txtCinvCode').style = 'ime-mode:disabled';
+                                        document.getElementById('txtQty').disabled = 'disabled';
+                                        document.getElementById('txtQty').style = 'ime-mode:disabled';
+                                    }
+                                }
+                            }
+                        },
+                        error: function (msg) {
+                            //alert(msg);
+                        }
+                    });
+                }
+            });
+            //箱号回车事件
+            $("#txtSN").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    var sn = $("#txtSN").val();
+                    if (sn.length == 75) {
+                        $.ajax({
+                            type: "get",
+                            url: "/PDA/GetPickInfoBySN",
+                            dataType: "json",
+                            data: { sn: sn, id: "@ViewBag.cticketCode" },
+                            async: false,
+                            success: function (data) {
+                                if (data != undefined && data != "") {
+                                    if (data.code == "0") {
+                                        $("#txtCinvCode").val(data.cinvcode);
+                                        $("#txtTotalQty").val(data.totalqty);
+                                        $("#txtQty").val(data.qty);
+                                    } else {
+                                        mui.alert(data.msg);
+                                    }
+                                }
+                            },
+                            error: function (msg) {
+                                mui.alert(msg);
+                            }
+                        });
+                    }
+                    else {
+                        mui.alert("@Resources.Lang.PDA_Common_Tips_SNLengthError");//SN长度不正确!
+                        $("#txtSN").val("");
+                    }
+                }
+            });
+            var txtCticketcodeBox = document.getElementById('txtCticketcode').value;
+            var txtPalletcodeBox = document.getElementById('txtPalletcode').value;
+            var IsOldInASN;
+            $.ajax({
+                type: "get",
+                url: "/GetJson/CheckIsPallet",
+                dataType: "json",
+                data: { IASNTickCode: txtCticketcodeBox, PalletCode: txtPalletcodeBox },
+                async: false,
+                success: function (data) {
+                    if (data != undefined && data != "") {
+                        if (data.Message.trim().indexOf('InAsn') != -1) {
+                            $('.mui-title').html('@Resources.Lang.PDA_Common_Element_PingBanZhuangXiang');
+                            $('#hdnIsOldIASN').val('');
+                            $('#IsUseUnionPalletcode').val('');
+                        }
+                        else {
+                            if (data.Message.trim() == '1') { //原库存入库通知单
+                                IsOldInASN = true;
+                                $('#hdnIsOldIASN').val('1');
+                                $('#IsUseUnionPalletcode').val('');
+                            }
+                            else if (data.Message.trim().length > 0) {
+                                IsOldInASN = false;
+                                $('#hdnIsOldIASN').val('0');
+                                $('#IsUseUnionPalletcode').val(data.Message);
+                            }
+                            else {
+                                $('#hdnIsOldIASN').val('');
+                                $('#IsUseUnionPalletcode').val('');
+                            }
+                            $('.mui-title').html('@Resources.Lang.PDA_Common_Element_InBillZhuangXiang')//入库装箱
+                            if (IsOldInASN) {
+                                $('#btnSave').text('@Resources.Lang.PDA_Common_Element_Confirm')
+                                document.getElementById('txtSN').disabled = 'disabled';
+                                document.getElementById('txtSN').style = 'ime-mode:disabled';
+                                document.getElementById('txtCinvCode').disabled = 'disabled';
+                                document.getElementById('txtCinvCode').style = 'ime-mode:disabled';
+                                document.getElementById('txtQty').disabled = 'disabled';
+                                document.getElementById('txtQty').style = 'ime-mode:disabled';
+                            }
+                        }
+                    }
+                },
+                error: function (msg) {
+                    //alert(msg);
+                }
+            });
+        });
+
+        //保存
+        function Save() {
+            var emptVal = $("#txtPalletcode").val();
+            if (emptVal == "") {
+                mui.toast("@Resources.Lang.PDA_Common_Tips_QingShuRuPalletCode");//请输入栈板号！
+                $("#txtPalletcode").focus();
+                return;
+            }
+            //不是拼板信息表的单据不可以用拼板的栈板号
+            if ($('#IsUseUnionPalletcode').val() != '') {
+                mui.toast($('#IsUseUnionPalletcode').val());
+                $("#txtPalletcode").focus();
+                return;
+            }
+
+            if ($('#hdnIsOldIASN').val() != '1') {
+                var emptVal = $("#txtSN").val();
+                if (emptVal == "") {
+                    mui.toast("@Resources.Lang.PDA_Common_Tips_QingShuRuBox");//请输入箱号！
+                    $("#txtSN").focus();
+                    return;
+                }
+
+                emptVal = $("#txtCinvCode").val();
+                if (emptVal == "") {
+                    mui.toast("@Resources.Lang.PDA_Common_Tips_NeedCinvcode");//请输入料号！
+                    $("#txtCinvCode").focus();
+                    return;
+                }
+
+                emptVal = $("#txtQty").val();
+                if (emptVal == "") {
+                    mui.toast("@Resources.Lang.PDA_Common_Tips_QingShuRuQuantity");//请输入数量！
+                    $("#txtQty").focus();
+                    return;
+                }
+                else {
+                    if (isNaN(emptVal)) {
+                        mui.toast("@Resources.Lang.PDA_Common_Tips_QuantityNotShuZi");//数量不是数字！
+                        $("#txtQty").focus();
+                        return;
+                    }
+                }
+            }
+            //验证通过，保存数据
+            var strSN = $("#txtSN").val();
+            var cinvCode = $("#txtCinvCode").val();
+            var qty = $("#txtQty").val();
+            var palledCode = $("#txtPalletcode").val();
+
+            $.ajax({
+                type: "get",
+                url: "/PDA/INPickSave",
+                dataType: "json",
+                data: { id: "@ViewBag.cticketCode", strSN: strSN, vCinvcode: cinvCode, vQty: qty, vPalledCode: palledCode },
+                async: false,
+                success: function (data) {
+                    if (data != undefined && data != "") {
+                        if (data.Status == "0") {
+                            mui.alert("@Resources.Lang.PDA_Common_Tips_SaveSuccess");//保存成功！
+                            clearText();
+                            SearchTab1(false);
+                        }
+                        else {
+                            mui.alert("@Resources.Lang.PDA_Common_Tips_SaveFailed" + data.Info);//保存失败：
+                        }
+                    }
+                    else {
+
+                    }
+                },
+                error: function (msg) {
+                    mui.alert("@Resources.Lang.PDA_Common_Tips_SaveFailed" + msg);//保存失败：
+                }
+            });
+        }
+
+        function clearText() {
+            $("#txtSN").val("");
+            $("#txtCinvCode").val("");
+            $("#txtTotalQty").val("");
+            $("#txtQty").val("");
+        }
+
+        //绑定Tab3删除事件
+        function BindLiTap1() {
+
+            var txtCticketcodeBox = document.getElementById('txtCticketcode').value;
+            $('.mui-scroll-wrapper').scroll({
+                indicators: true //是否显示滚动条
+            });
+
+            var btnArray = ['@Resources.Lang.PDA_Common_Element_Button_Confirm', '@Resources.Lang.PDA_Common_Element_Button_Cancel'];
+            $('#tab1UL').unbind();
+            $('#tab1UL').on('tap', '.mui-btn', function (event) {
+                var elem = this;
+                var li = elem.parentNode.parentNode;
+                mui.confirm('@Resources.Lang.PDA_Common_Tips_DeleteConfirm', '@Resources.Lang.PDA_Common_Tips_Friendship', btnArray, function (e) {//确认删除该条记录？
+                    if (e.index == 0) {
+                        var hdnIds = $(li).find(".hdnids").val();
+                        //ajax后台删除明细
+                        $.ajax({
+                            type: "get",
+                            url: "/PDA/DeleteTempINBill_D",
+                            data: { ids: hdnIds, cticketcode: txtCticketcodeBox },
+                            async: true,
+                            dataType: "json",
+                            success: function (data) {
+                                if (data != undefined && data != "") {
+                                    if (data.Status == 0) {
+                                        mui.alert("@Resources.Lang.PDA_Common_Tips_DeleteSuccess");//删除成功!
+                                        //li.parentNode.removeChild(li);
+                                        SearchTab1(false);
+                                    }
+                                    else {
+                                        mui.alert(data.Info);
+                                    }
+                                }
+                            },
+                            error: function (msg) {
+                                mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+                            }
+                        });
+                    } else {
+                        setTimeout(function () {
+                            $.swipeoutClose(li);
+                        }, 0);
+                    }
+                });
+            });
+        }
+	</script>
+
+</body>
+</html>

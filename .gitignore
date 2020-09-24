@@ -1,0 +1,5 @@
+
+# ignore generated html files,
+IIS-TW001-WEBPDA/*.config
+IIS-TW001-WEBPDA/Bin/IBM.Data.DB2.dll
+IIS-TW001-WEBPDA/Bin/System.Data.SQLite.dll

@@ -1,0 +1,239 @@
+﻿@model IEnumerable<WMSPDA.Business.Base.Models.D_OUTBILL>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!--标准mui.css-->
+	<link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
+	<!--App自定义的css-->
+	<!-- <link rel="stylesheet" type="text/css" href="../css/app.css" /> -->
+
+    <!--App自定义的css-->
+	<link rel="stylesheet" type="text/css" href="~/Content/MUI/css/app.css" />
+
+    <title>@Resources.Lang.PDA_OutQuickPick_KuaiJieJianHuo</title>   @*快捷拣货*@
+    	<style>
+    	    .mui-control-content
+    	    {
+    	        background-color: white;
+    	        min-height: 215px;
+    	    }
+
+    	        .mui-control-content .mui-loading
+    	        {
+    	            margin-top: 50px;
+    	        }
+    	</style>
+
+</head>
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+
+        <button type="button" class="mui-btn mui-btn-link mui-pull-left" id="btnReturn">
+		    <span class="mui-icon mui-icon-back"></span>@Resources.Lang.PDA_Common_Element_GoBack
+		</button>
+
+        <button type="button" class="mui-btn mui-btn-link mui-pull-right" id="btnMain">
+	        <span class="mui-icon mui-icon-home"></span>
+        </button>
+
+		<h1 class="mui-title" style="text-decoration:underline;color:#5A98FB;">
+            @Resources.Lang.PDA_OutQuickPick_KuaiJieJianHuo @*快捷拣货*@
+		</h1>
+	</header>
+
+	<div class="mui-content">
+        <div class="mui-content-padded" style="margin: 5px;">
+            <form class="mui-input-group">             
+                <div class="mui-input-row">
+					<label>@ViewBag.UnitConfigName</label>
+					<input type="text" class="mui-input-clear" id="txtSN"  style="ime-mode:disabled" value="@ViewBag.UnitNum" >
+				</div>              
+                <div class="mui-button-row">
+					<button type="button" class="mui-btn mui-btn-primary" id="btnSave" onclick="return false;" data-loading-text="@Resources.Lang.PDA_Common_Element_Button_Confirm" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Button_Confirm</button>
+     
+				</div>
+            </form>
+        </div>
+
+		<div id="slider" class="mui-slider">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" href="#item1mobile">
+				        @Resources.Lang.PDA_OutQuickPick_ChuKuDanXinXI
+			        </a>
+                    <a class="mui-control-item" href="">
+			        </a>
+                    <a class="mui-control-item" href="">
+			        </a>
+				</div>
+                <div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+
+                                <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="tab1UL">
+
+                                     @foreach (WMSPDA.Business.Base.Models.D_OUTBILL bo in Model)
+                                    { 
+                                        <li class="mui-table-view-cell">
+                                         @*   <div class="mui-slider-right mui-disabled">
+				                                <a class="mui-btn mui-btn-red">@Resources.Lang.PDA_Common_Element_Delete</a>
+                                                <input type="hidden" class="hdnids" value="@bo.ids" />
+			                                </div>*@
+		                                    <div class="mui-table mui-slider-handle">
+		                                        <div class="mui-table-cell mui-col-xs-10">
+		                                            <h4 class="mui-ellipsis">@Resources.Lang.PDA_Common_Element_ERPCode:@bo.cerpcode</h4>
+		                                            <h5>@Resources.Lang.PDA_Common_Element_OutBillCode:@bo.cticketcode</h5>
+		                                            <p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CStatus:@bo.cstatusname &nbsp; @Resources.Lang.PDA_Common_Element_OutType:@bo.otypename  </p>
+		                                        </div>
+		                                        <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                                            <span class="mui-h5">
+                                                       
+		                                            </span>
+		                                        </div>
+		                                    </div>
+                                   
+		                                </li>
+                                    }
+                                </ul>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+    </div>
+
+    <script src="~/Content/MUI/js/mui.min.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script>  
+        $(document).ready(function () {                
+            $("#btnReturn").bind("tap", function () {
+                location.href = "/PDA/Main/@ViewBag.UserNo";
+            });
+
+            $("#btnMain").bind("tap", function () {
+                location.href = "/PDA/Main/@ViewBag.UserNo";
+            });
+
+
+            $("#btnSave").bind("tap", function () {
+                mui(this).button('loading');
+                Save();
+                setTimeout(function () {
+                    mui(this).button('reset');
+                }.bind(this), 1000);
+            });    
+
+            //箱号回车事件
+            $("#txtSN").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    var sn = $("#txtSN").val();
+                    $.ajax({
+                        type: "get",
+                        url: "/Out/OutQuickPickBySN",
+                        dataType: "json",
+                        data: { sn: sn },
+                        async: false,
+                        success: function (data) {
+                            if (data != null && data != undefined && data.length > 0) {                               
+                                var liListhtml = '';
+                                for (var i = 0; i < data.length; i++) {                                    
+                                    liListhtml = liListhtml +
+                                    '<li class="mui-table-view-cell">  ' +
+                                    //'	<div class="mui-slider-right mui-disabled">  ' +
+                                    //'		<a class="mui-btn mui-btn-red">@Resources.Lang.PDA_Common_Element_Delete</a>  ' +
+                                    //'       <input type="hidden" class="hdnids" value="' + data[i].ids + '" /> ' +
+                                    //'	</div>  ' +
+                                    '	<div class="mui-table mui-slider-handle">  ' +
+                                    '		<div class="mui-table-cell mui-col-xs-10">  ' +		                                     
+                                    '			<h4 class="mui-ellipsis">@Resources.Lang.PDA_Common_Element_ERPCode:' + data[i].cerpcode + '</h4>  ' +
+                                    '			<h5>@Resources.Lang.PDA_Common_Element_OutBillCode:' + data[i].cticketcode + '</h5>  ' +
+                                    '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CStatus:' + data[i].cstatusname + ' &nbsp; @Resources.Lang.PDA_Common_Element_OutType:' + data[i].otypename + '  </p>  ' +
+                                    '		</div>  ' +
+                                    '		<div class="mui-table-cell mui-col-xs-2 mui-text-right">  ' +
+                                    '			<span class="mui-h5">  ' +
+                                    '			</span>  ' +
+                                    '		</div>  ' +
+                                    '	</div>  ' +
+                                    '</li>  ';
+
+                                }                               
+                              
+                             $("#tab1UL").html(liListhtml);
+                                                        
+                            }
+                        },
+                        error: function (msg) {
+                            mui.alert(msg);
+                        }
+                    });
+                }
+            });
+            //触发sncode号的回车事件
+            //var e = $.Event('keydown');
+            //e.keyCode = 13; // Character 'A'
+            //$("#txtSN").trigger(e);       
+        });
+       
+      
+        //保存
+        function Save() {
+            var emptVal = $("#txtSN").val();
+            if (emptVal == "") {
+                mui.toast("@Resources.Lang.PDA_Common_Tips_QingShuRuPalletCode");//请输入栈板号！
+                $("#txtSN").focus();
+                return;
+            }         
+
+            //验证通过，保存数据
+            var strSN = $("#txtSN").val();          
+
+            $.ajax({
+                type: "get",
+                url: "/Out/OutBillQuickPickSave",
+                dataType: "json",
+                data: { sn: strSN },
+                async: false,
+                success: function (data) {
+                    if (data != undefined && data != "") {
+                        if (data.Status == "0") {
+                            mui.alert("@Resources.Lang.PDA_Common_Tips_ConfirmSuccess");//确认成功！   
+                            $("#txtSN").val("");
+                            $("#tab1UL").html("");
+                            ////触发sncode号的回车事件
+                            //var e = $.Event('keydown');
+                            //e.keyCode = 13; // Character 'A'
+                            //$("#txtSN").trigger(e);   
+                        }
+                        else {
+                            mui.alert("@Resources.Lang.PDA_Common_Tips_DataExceptionConfirmFailed" + data.Info);//数据异常，确认失败！
+                        }
+                    }
+                    else {
+
+                    }
+                },
+                error: function (msg) {
+                    mui.alert("@Resources.Lang.PDA_Common_Tips_DataExceptionConfirmFailed" + msg);//数据异常，确认失败！
+                }
+            });
+        }
+
+       
+
+       
+	</script>
+
+</body>
+</html>

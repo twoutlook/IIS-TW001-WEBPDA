@@ -1,0 +1,278 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@Resources.Lang.PDA_Common_Element_CompleteJiaoChe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
+    <!--App自定义的css-->
+    <!-- <link rel="stylesheet" type="text/css" href="../css/app.css" /> -->
+    <!--App自定义的css-->
+    <link rel="stylesheet" type="text/css" href="~/Content/MUI/css/app.css" />
+    <link href="~/Content/MUI/css/mui.picker.css" rel="stylesheet" />
+    <link href="~/Content/MUI/css/mui.poppicker.css" rel="stylesheet" />
+
+    <style>
+        .mui-btn {
+            font-size: 16px;
+            padding: 8px;
+            margin: 3px;
+        }
+
+        h5.mui-content-padded {
+            margin-left: 3px;
+            margin-top: 20px !important;
+        }
+
+            h5.mui-content-padded:first-child {
+                margin-top: 12px !important;
+            }
+
+        .ui-alert {
+            text-align: center;
+            padding: 20px 10px;
+            font-size: 16px;
+        }
+
+        .rowFlow {
+            float: left;
+        }
+
+        .buttonText {
+            text-align: left;
+        }
+
+        .barcodeRight {
+            background-image: url("../../Content/Images/u222.png");
+            background-repeat: no-repeat;
+            background-position: 99% center;
+            margin-bottom: 1px;
+        }
+    </style>
+    <link rel="stylesheet" href="~/Content/MUI/css/iconfontNew.css">
+</head>
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <button type="button" class="mui-btn mui-btn-link mui-pull-left" id="btnReturn">
+            <span class="mui-icon mui-icon-back"></span>@Resources.Lang.PDA_Common_Element_GoBack
+        </button>
+        <button type="button" class="mui-btn mui-btn-link mui-pull-right" id="btnMain">
+            <span class="mui-icon mui-icon-home"></span>
+        </button>
+        <h1 class="mui-title" style="color: #5A98FB;">@Resources.Lang.PDA_Common_Element_CompleteJiaoChe
+        </h1>
+        <h1 class="mui-title" style="text-decoration:underline;color:#5A98FB;">@Resources.Lang.PDA_Common_Element_CompleteJiaoChe</h1>
+    </header>
+
+    <div class="mui-content">
+        <div class="mui-content-padded" style="margin: 5px;">
+
+            <h5 class="mui-content-padded"></h5>
+            <h5 class="mui-content-padded"></h5>
+
+
+            <input type="text" class="mui-input-clear barcodeRight" id="txtPalletCode" placeholder="@Resources.Lang.PDA_Common_Element_ZhangBanBianHao">
+
+            <button id='showCityPicker3' class="mui-btn mui-btn-block buttonText mui-icon mui-icon-arrowdown mui-right" type='button'>@Resources.Lang.PDA_Common_Element_SelectQiDian</button>
+
+            <h5 class="mui-content-padded"></h5>
+            <input type="text" class="mui-input-clear barcodeRight" id="txtBeginSite2" placeholder="@Resources.Lang.PDA_Common_Element_QiDian">
+
+            <button id='showCityPicker1' class="mui-btn mui-btn-block buttonText mui-icon mui-icon-arrowdown mui-right" type='button'>@Resources.Lang.PDA_Common_Element_SelectZhongDian</button>
+            <h5 class="mui-content-padded"></h5>
+            <input type="text" class="mui-input-clear barcodeRight" id="txtEndSite2" placeholder="@Resources.Lang.PDA_Common_Element_ZhongDian" value="@ViewBag.ToRGVSiteId">
+
+            <div style="vertical-align: middle; text-align: center;">
+                <button type="button" class="mui-btn mui-btn-primary mui-btn-block mui-icon mui-icon-plus" style="font-size: 16px;" id="btnCreate" onclick="return false;" data-loading-text="@Resources.Lang.PDA_Common_Element_Createing" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_CreateTask</button>
+                <h5 class="mui-content-padded"></h5>
+                <button type="button" class="mui-btn mui-btn-success mui-btn-block mui-icon mui-icon-list" style="font-size: 16px;" id="btnTaskList" data-loading-text="@Resources.Lang.PDA_Common_Element_Loading">@Resources.Lang.PDA_Common_Element_TaskList</button>
+
+            </div>
+
+            <div style="display: none;">
+                <input type="text" id="txtBeginSite" />
+                <input type="text" id="txtEndSite" />
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/MUI/js/mui.min.js"></script>
+    <!--<script src="../js/mui.picker.min.js"></script>-->
+    <script src="~/Content/MUI/js/mui.picker.js"></script>
+    <script src="~/Content/MUI/js/mui.poppicker.js"></script>
+    <script src="~/Content/MUI/js/city.data.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Content/MUI/js/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+
+        (function ($, doc) {
+            $.init();
+            $.ready(function () {
+
+                /**
+                 * 获取对象属性的值
+                 * 主要用于过滤三级联动中，可能出现的最低级的数据不存在的情况，实际开发中需要注意这一点；
+                 * param {Object} obj 对象
+                 * param {String} param 属性名
+                 */
+                var _getParam = function (obj, param) {
+                    return obj[param] || '';
+                };
+
+
+
+                //-----------------------------------------
+                //					//级联示例
+                var cityPicker3 = new $.PopPicker({
+                    layer: 3
+                });
+
+                var cityPicker1 = new $.PopPicker();
+
+                var ddlData;
+                $.ajax({
+                    type: "get",
+                    url: "/GetJson/GetDropDownBO3",
+                    data: {},
+                    success: function (data) {
+                        //mui.alert(data);
+                        if (data != null && data != undefined && data.length > 0) {
+                            //document.getElementById("jsonName").value = data;
+                            cityPicker3.setData(data);
+                            //cityPicker4.setData(data);
+                        }
+
+                    },
+                    error: function (msg) {
+                        //alert(msg);
+                    }
+                });
+
+                $.ajax({
+                    type: "get",
+                    url: "/GetJson/GetDropDownBO1",
+                    data: {},
+                    success: function (data) {
+                        //mui.alert(data);
+                        if (data != null && data != undefined && data.length > 0) {
+                            //document.getElementById("jsonName").value = data;
+                            cityPicker1.setData(data);
+                            //cityPicker4.setData(data);
+                        }
+
+                    },
+                    error: function (msg) {
+                        //alert(msg);
+                    }
+                });
+
+                var site1 = doc.getElementById("txtBeginSite");
+                var site12 = doc.getElementById("txtBeginSite2");
+
+                var showCityPickerButton = doc.getElementById('showCityPicker3');
+                var cityResult3 = doc.getElementById('cityResult3');
+                showCityPickerButton.addEventListener('tap', function (event) {
+                    cityPicker3.show(function (items) {
+                        //cityResult3.innerText = "你选择的站点是:" + _getParam(items[0], 'text') + " " + _getParam(items[1], 'text') + " " + _getParam(items[2], 'text');
+                        //cityResult3.innerText = "你选择的站点是:" + _getParam(items[2], 'value');
+                        showCityPickerButton.innerText = _getParam(items[2], 'text')
+                        site1.value = _getParam(items[2], 'value');
+                        site12.value = _getParam(items[2], 'value');
+                        //返回 false 可以阻止选择框的关闭
+                        //return false;
+                    });
+                }, false);
+
+                var site2 = doc.getElementById("txtEndSite");
+                var site22 = doc.getElementById("txtEndSite2");
+                var showCityPickerButton1 = doc.getElementById('showCityPicker1');
+                showCityPickerButton1.addEventListener('tap', function (event) {
+                    cityPicker1.show(function (items) {
+                        showCityPickerButton1.innerText = _getParam(items[0], 'text')
+                        site2.value = _getParam(items[0], 'value');
+                        site22.value = _getParam(items[0], 'value');
+                    });
+                }, false);
+
+                //setTimeout(function () {
+                //    //cityPicker1.pickers[0].setSelectedValue("6301");
+                //    cityPicker1.pickers[0].setSelectedIndex(0);
+                //}, 100);
+
+                var returnBtn = document.getElementById("btnReturn");
+                //监听点击事件
+                returnBtn.addEventListener("tap", function () {
+                    location.href = "/PDA/Main/@ViewBag.UserNo";
+                });
+
+                var mainBtn = document.getElementById("btnMain");
+                //监听点击事件
+                mainBtn.addEventListener("tap", function () {
+                    location.href = "/PDA/Main/@ViewBag.UserNo";
+                });
+
+                var listBtn = document.getElementById("btnTaskList");
+                //监听点击事件
+                listBtn.addEventListener("tap", function () {
+                    $(listBtn).button('loading');//切换为loading状态
+                    location.href = "/Task/WCSProcessList/@ViewBag.UserNo/2";
+                });
+
+                var createBtn = document.getElementById("btnCreate");
+                //监听点击事件
+                createBtn.addEventListener("tap", function () {
+
+                    var packageNO = document.getElementById("txtPalletCode").value;
+                    var beginCode = document.getElementById("txtBeginSite2").value;
+                    var endCode = document.getElementById("txtEndSite2").value;
+                    if (packageNO == "") {
+                        mui.alert("@Resources.Lang.PDA_Common_Tips_NeedPalletCode");//栈板号不能为空！
+                        return;
+                    }
+                    if (beginCode == "") {
+                        mui.alert("@Resources.Lang.PDA_Common_Tips_BeginPositionCannotEmpty");//开始位置不能为空！
+                        return;
+                    }
+                    if (endCode == "") {
+                        mui.alert("@Resources.Lang.PDA_Common_Tips_NeedMuDiWeiZhi");//目的位置不能为空！
+                        return;
+                    }
+
+                    $.ajax({
+                        type: "get",
+                        dataType: 'json',
+                        contentType: "json",
+                        url: "/Task/CreateDispatch",
+                        data: { "PackageNO": packageNO, "UserNO": "@ViewBag.UserNo", "Type": "", "SourceCode": "", "BeginSiteCode": beginCode, "EndSiteCode": endCode },
+                        success: function (data) {
+                            if (data != null && data != undefined) {
+                                if (data.ReturnValue == "0") {
+                                    mui.alert("@Resources.Lang.PDA_Common_Tips_JiaoCheSuccess");//叫车成功!
+                                }
+                                else {
+                                    mui.alert("@Resources.Lang.PDA_Common_Tips_JiaoCheFailed: " + data.ErrorMessage);//叫车失败
+                                }
+
+                            } else {
+                                mui.alert("@Resources.Lang.PDA_Common_Tips_JiaoCheFailed!");//叫车失败
+                            }
+
+                        },
+                        error: function (msg) {
+                            //alert(msg);
+                        }
+                    });
+                });
+            });
+        })(mui, document);
+		</script>
+</body>
+</html>

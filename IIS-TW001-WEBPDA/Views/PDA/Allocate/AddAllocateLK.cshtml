@@ -1,0 +1,179 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
+    <!--App自定义的css-->
+    <!-- <link rel="stylesheet" type="text/css" href="../css/app.css" /> -->
+
+    <!--App自定义的css-->
+    <link rel="stylesheet" type="text/css" href="~/Content/MUI/css/app.css" />
+
+    <title>@Resources.Lang.PDA_Common_Element_Allocate</title>
+    <style>
+        .mui-control-content
+        {
+            background-color: white;
+            min-height: 215px;
+        }
+
+            .mui-control-content .mui-loading
+            {
+                margin-top: 50px;
+            }
+    </style>
+
+</head>
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <button type="button" class="mui-btn mui-btn-link mui-pull-right" id="btnMain">
+            <span class="mui-icon mui-icon-home"></span>
+        </button>
+
+        <h1 class="mui-title" style="text-decoration: underline; color: #5A98FB;">@Resources.Lang.PDA_Common_Element_LiKuAllocate
+        </h1>
+    </header>
+    <div class="mui-content">
+        <div class="mui-content-padded" style="margin: 5px;">
+            <form class="mui-input-group">
+                <div class="mui-input-row">
+                    <label>@Resources.Lang.PDA_Common_Element_OldPosition</label>
+                    <input type="text" class="mui-input-clear" id="txtOriPostionCode" placeholder="@Resources.Lang.PDA_Common_Element_OldPosition" style="ime-mode: disabled">
+                </div>
+                <div class="mui-input-row">
+                    <label>@Resources.Lang.PDA_Common_Element_ObjectivePosition</label>
+                    <input type="text" class="mui-input-clear" id="txtToPostionCode" placeholder="@Resources.Lang.PDA_Common_Element_ObjectivePosition" style="ime-mode: disabled">
+                </div>
+                <div class="mui-button-row">
+                    <button type="button" class="mui-btn mui-btn-primary" id="btnSave" onclick="return false;" data-loading-text="@Resources.Lang.PDA_Common_Element_Saveing" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Save</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+ <script src="~/Content/MUI/js/mui.min.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+ <script>
+     $(document).ready(function () {
+
+         $("#btnMain").bind("tap", function () {
+             location.href = "/PDA/Main/@ViewBag.UserNo";
+         });
+         $("#btnSave").bind("tap", function () {
+             mui(this).button('loading');
+             Save();
+            // clearText();
+             setTimeout(function () {
+                 mui(this).button('reset');
+             }.bind(this), 1000);
+         });
+         //原始储位回车事件
+         $("#txtOriPostionCode").keydown(function (event) {
+             if (event.keyCode == 13) {              
+                 var txtOriPostionCode = $('#txtOriPostionCode').val();                
+                 $.ajax({
+                     type: "get",
+                     url: "/GetJson/CheckAlloPosition",
+                             dataType: "text",
+                             data: { OriPositionCode: txtOriPostionCode, ToPositionCode: '', WorkType: '1', Flag: '' },
+                             async: false,
+                             success: function (data) {
+                                 if (data != undefined && data != "") {
+                                     mui.alert(data);
+                                     $("#txtToPostionCode").focus();
+                                     return;
+                                 }
+                             },
+                             error: function (msg) {
+                                 mui.alert(msg);
+                                 $("#txtOriPostionCode").focus();
+
+                             }
+                 });                
+             }
+         });
+         //目的储位回车事件
+         $("#txtToPostionCode").keydown(function (event) {
+             if (event.keyCode == 13) {              
+                 var txtOriPostionCode = $('#txtOriPostionCode').val();
+                 var txtToPostionCode = $('#txtToPostionCode').val();                
+                 $.ajax({
+                     type: "get",
+                     url: "/GetJson/CheckAlloPosition",
+                     dataType: "text",
+                     data: { OriPositionCode: txtOriPostionCode, ToPositionCode: txtToPostionCode, WorkType: '1', Flag: '' },
+                     async: false,
+                     success: function (data) {
+                         if (data != undefined && data != "") {
+                             mui.alert(data);
+                             return;
+                         }
+                     },
+                     error: function (msg) {
+                         mui.alert(msg);
+                         $("#txtToPostionCode").focus();
+                     }
+                 });
+             }
+         });
+        //清空事件
+         function clearText() {
+             $("#txtOriPostionCode").val("");
+             $("#txtToPostionCode").val("");       
+         }
+         //保存事件
+         function Save() {
+             var txtOriPostionCode = $('#txtOriPostionCode').val();
+             var txtToPostionCode = $('#txtToPostionCode').val();           
+             if (txtOriPostionCode == "") {
+                 mui.toast("@Resources.Lang.PDA_Common_Tips_QingShuRuOldPosition");//请输入原始储位！
+                 $("#txtOriPostionCode").focus();
+                 return;
+             }
+
+             if (txtToPostionCode == "") {
+                 mui.toast("@Resources.Lang.PDA_Common_Tips_QingShuRuMuDiPosition");//请输入目的储位！
+               
+                 return;
+             }
+
+             $.ajax({
+                 type: "get",
+                 url: "/PDA/AllocateLKSave",
+                 dataType: "json",
+                 data: { OriPositionCode: txtOriPostionCode, ToPositionCode: txtToPostionCode, WorkType: '1', Flag: '1' },
+                 async: false,
+                 success: function (data) {
+                     if (data != undefined && data != "") {
+                         if (data.Status == "0") {
+                             mui.alert("@Resources.Lang.PDA_Common_Tips_SaveSuccess");//保存成功！
+                             clearText();
+                         }
+                         else {
+                             mui.alert("@Resources.Lang.PDA_Common_Tips_SaveFailed" + data.Info);//保存失败：
+                             return;
+                         }
+                     }
+                     else {                     
+                      
+                     }
+                 },
+                 error: function (msg) {
+                     mui.alert("@Resources.Lang.PDA_Common_Tips_SaveFailed" + msg);//保存失败：
+                 }
+             });
+         }
+        
+     });
+</script>
+
+</body>
+</html>

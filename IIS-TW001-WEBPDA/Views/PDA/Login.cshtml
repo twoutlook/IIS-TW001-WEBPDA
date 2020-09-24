@@ -1,0 +1,295 @@
+﻿@model IEnumerable<WMSPDA.Business.Base.Models.Sys_Language>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
+     <link href="~/Content/weui.css" rel="stylesheet" />
+    <style>
+        .area {
+            margin: 20px auto 0px auto;
+        }
+
+        .mui-input-group {
+            margin-top: 10px;
+        }
+
+            .mui-input-group:first-child {
+                margin-top: 20px;
+            }
+
+            .mui-input-group label {
+                width: 22%;
+            }
+
+        .mui-input-row label ~ input,
+        .mui-input-row label ~ select,
+        .mui-input-row label ~ textarea {
+            width: 78%;
+        }
+
+        .mui-checkbox input[type=checkbox],
+        .mui-radio input[type=radio] {
+            top: 6px;
+        }
+
+        .mui-content-padded {
+            margin-top: 25px;
+        }
+
+        .mui-btn {
+            padding: 10px;
+        }
+
+        .link-area {
+            display: block;
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .spliter {
+            color: #bbb;
+            padding: 0px 8px;
+        }
+
+        .oauth-area {
+            position: absolute;
+            bottom: 20px;
+            left: 0px;
+            text-align: center;
+            width: 100%;
+            padding: 0px;
+            margin: 0px;
+        }
+
+            .oauth-area .oauth-btn {
+                display: inline-block;
+                width: 50px;
+                height: 50px;
+                background-size: 30px 30px;
+                background-position: center center;
+                background-repeat: no-repeat;
+                margin: 0px 20px;
+                /*-webkit-filter: grayscale(100%); */
+                border: solid 1px #ddd;
+                border-radius: 25px;
+            }
+
+                .oauth-area .oauth-btn:active {
+                    border: solid 1px #aaa;
+                }
+
+                .oauth-area .oauth-btn.disabled {
+                    background-color: #ddd;
+                }
+    </style>
+
+</head>
+
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <h1 class="mui-title" style="text-decoration:underline;color:#5A98FB;"><b>@Resources.Lang.PDA_Common_Element_Login</b></h1>
+    </header>
+    <div class="mui-content">
+        <form id='login-form' class="mui-input-group">
+            <div class="mui-input-row">
+                <label><b>@Resources.Lang.PDA_Common_Element_Account</b></label>
+                <input id='account' type="text" name="Username" class="mui-input-clear mui-input" placeholder="@Resources.Lang.PDA_Common_Element_QingShuRuAccount">
+            </div>
+            <div class="mui-input-row mui-password">
+                <label><b>@Resources.Lang.PDA_Common_Element_Password</b></label>
+                <input id='password' type="password" name="Password" class="mui-input-password" placeholder="@Resources.Lang.PDA_Common_Element_QingShuRuPassword">
+            </div>
+            @if(Model != null && Model.Any()){
+                <div class="mui-input-row">
+                    <label><b>@Resources.Lang.PDA_Common_Element_Language</b></label>
+                    <select id="drpLanguage">
+                        @foreach (WMSPDA.Business.Base.Models.Sys_Language bo in Model)
+                        {
+                             <option value="@bo.code">@bo.text</option>
+                        }
+                    </select>
+                </div>
+            }
+        </form>
+        <form class="mui-input-group">
+            <ul class="mui-table-view mui-table-view-chevron">
+                <li class="mui-table-view-cell">
+                    <b>@Resources.Lang.PDA_Common_Element_ZiDongLogin</b>
+                    <!-- 开关打开状态，多了一个.mui-active类 -->
+                    <div id="autoLogin" class="mui-switch mui-active">
+                        <div class="mui-switch-handle"></div>
+                    </div>
+                </li>
+            </ul>
+        </form>
+        <div class="mui-content-padded">
+            <button id='login' class="mui-btn mui-btn-block mui-btn-primary" data-loading-text="@Resources.Lang.PDA_Common_Element_Logining">@Resources.Lang.PDA_Common_Element_Login</button>
+            <div class="link-area" style="display:none;">
+                <a id='reg'>@Resources.Lang.PDA_Common_Element_ZhuCeAccount</a> <span class="spliter">|</span> <a id='forgetPassword'>@Resources.Lang.PDA_Common_Element_ForgetPassword</a>
+            </div>
+        </div>
+        <div class="mui-content-padded oauth-area">
+        </div>
+    </div>
+
+<!-- loading toast -->
+    <div id="loadingToast" class="im_loading_toast" style="display: none;">
+        <div class="im_mask_transparent"></div>
+        <div class="im_toast">
+            <div class="im_loading">
+                <div class="im_loading_leaf im_loading_leaf_0"></div>
+                <div class="im_loading_leaf im_loading_leaf_1"></div>
+                <div class="im_loading_leaf im_loading_leaf_2"></div>
+                <div class="im_loading_leaf im_loading_leaf_3"></div>
+                <div class="im_loading_leaf im_loading_leaf_4"></div>
+                <div class="im_loading_leaf im_loading_leaf_5"></div>
+                <div class="im_loading_leaf im_loading_leaf_6"></div>
+                <div class="im_loading_leaf im_loading_leaf_7"></div>
+                <div class="im_loading_leaf im_loading_leaf_8"></div>
+                <div class="im_loading_leaf im_loading_leaf_9"></div>
+                <div class="im_loading_leaf im_loading_leaf_10"></div>
+                <div class="im_loading_leaf im_loading_leaf_11"></div>
+            </div>
+            <p class="im_toast_content" style="color:white;">登录中...</p>
+        </div>
+    </div>
+
+    <script src="~/Scripts/PDACookie.js"></script>
+    <script src="~/Content/MUI/js/mui.min.js"></script>
+    <script src="~/Content/MUI/js/mui.enterfocus.js"></script>
+    <script src="~/Content/MUI/js/app.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+
+    <script type="text/ecmascript">
+
+        window.onload = function () {
+
+            //分析cookie值，显示上次的登陆信息
+            var userNameValue = getCookie("userName");
+            document.getElementById('account').value = userNameValue;
+            var passwordValue = getCookie("password");
+            //document.getElementById('password').setAttribute("value", passwordValue);
+            $("#password").attr("value", passwordValue);
+            //mui.alert($("#password").val());//测试
+           
+            var defaultLang = "@ViewBag.DefaultLang";
+            if (defaultLang.length == 0) {//
+                var languageValue = getCookie("language");
+                if (languageValue != "") {
+                    document.getElementById('drpLanguage').value = languageValue;
+                }
+            }
+        };
+
+        (function ($, doc) {
+            $.init({
+                statusBarBackground: '#f7f7f7'
+            });
+        }(mui, document));
+
+        function Login() {
+            $("#loadingToast").show();
+            var accountBox = document.getElementById('account').value;
+            var passwordBox = document.getElementById('password').value;
+            
+            //mui(this).button('loading');
+
+            if (accountBox == "") {
+                mui.toast("@Resources.Lang.PDA_Common_Element_QingShuRuAccount" + "！");
+                document.getElementById('account').focus();
+                $("#loadingToast").hide();
+                return;
+            }
+            if (passwordBox == "") {
+                mui.toast("@Resources.Lang.PDA_Common_Element_QingShuRuPassword" + "！");
+                document.getElementById('password').focus();
+                $("#loadingToast").hide();
+                return;
+            }
+            var languageBox = "";
+            var defaultLang = "@ViewBag.DefaultLang";
+            if (defaultLang.length == 0) {//
+                languageBox = document.getElementById('drpLanguage').value;
+                if (languageBox == "") {
+                    mui.toast("@Resources.Lang.PDA_Common_Tips_QingXuanZeLanguage");//请选择语言！
+                    document.getElementById('drpLanguage').focus();
+                    $("#loadingToast").hide();
+                    return;
+                }
+            } else {
+                languageBox = defaultLang;
+            }
+            $.ajax({
+                type: "get",
+                url: "/GetJson/Login",
+                dataType: "text",
+                data: { UserNo: accountBox, Pwd: passwordBox, Lang: languageBox },
+                success: function (data) {
+                    //mui.alert(data);
+                    if (data != null && data != undefined && data.length > 0) {
+                        if (data == "OK") {
+                            //是否记住
+                            mui('.mui-content .mui-switch').each(function () { //循环所有toggle
+                                //toggle.classList.contains('mui-active') 可识别该toggle的开关状态
+                                var sele = (this.classList.contains('mui-active') ? 'true' : 'false');
+                                if (sele == 'true') {
+                                    setCookie("userName", accountBox, 24);
+                                    setCookie("password", passwordBox, 24);
+                                    setCookie("language", languageBox, 24);
+                                }
+                                else {
+                                    deleteCookie("userName", "");
+                                    deleteCookie("password", "");
+                                    deleteCookie("language", "");
+                                }
+                            });
+
+                            location.href = "/PDA/Main/" + accountBox;
+                        }
+                        else {
+                            deleteCookie("userName", "");
+                            deleteCookie("password", "");
+                            deleteCookie("language", "");
+                            mui.toast(data);
+                            $("#loadingToast").hide();
+                        }
+                    }
+                    else {
+                        deleteCookie("userName", "");
+                        deleteCookie("password", "");
+                        deleteCookie("language", "");
+                        mui.toast("@Resources.Lang.PDA_Common_Element_AccountOrPasswordError");//用户名或密码不正确！
+                        $("#loadingToast").hide();
+                    }
+
+                },
+                error: function (msg) {
+                    //alert(msg);
+                }
+            });
+        }
+
+        mui(document.body).on('tap', '.mui-btn', function (e) {
+            //mui(this).button('loading');
+            Login();
+            //setTimeout(function () {
+            //    mui(this).button('reset');
+            //}.bind(this), 1000);
+        });
+
+
+    </script>
+</body>
+
+</html>

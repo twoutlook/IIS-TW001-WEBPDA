@@ -1,0 +1,774 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Main</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
+    <link rel="stylesheet" href="~/Content/MUI/css/iconfontNew.css">
+    <link href="~/Content/weui.css" rel="stylesheet" />
+    <style type="text/css">
+	.g
+	{
+	    -webkit-filter: grayscale(100%);
+	    -moz-filter: grayscale(100%);
+	    -o-filter: grayscale(100%);
+	    filter: grayscale(100%);
+	    filter: gray;
+	}
+/*----------------mui.showLoading-start---------------*/
+.mui-show-loading {
+    position: fixed;
+    padding: 5px;
+    width: 120px;
+    min-height: 120px;
+    top: 45%;
+    left: 50%;
+    margin-left: -60px;
+    background: rgba(0, 0, 0, 0.6);
+    text-align: center;
+    border-radius: 5px;
+    color: #FFFFFF;
+    visibility: hidden;
+    margin: 0;
+    z-index: 2000;
+    -webkit-transition-duration: .2s;
+    transition-duration: .2s;
+    opacity: 0;
+    -webkit-transform: scale(0.9) translate(-50%, -50%);
+    transform: scale(0.9) translate(-50%, -50%);
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+.mui-show-loading.loading-visible {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transform: scale(1) translate(-50%, -50%);
+    transform: scale(1) translate(-50%, -50%);
+}
+.mui-show-loading .mui-spinner{
+    margin-top: 24px;
+    width: 36px;
+    height: 36px;
+}
+.mui-show-loading .text {
+    line-height: 1.6;
+    font-family: -apple-system-font,"Helvetica Neue",sans-serif;
+    font-size: 14px;
+    margin: 10px 0 0;
+    color: #fff;
+}
+.mui-show-loading-mask {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+.mui-show-loading-mask-hidden{
+    display: none !important;
+}
+/*----------------mui.showLoading-end---------------*/
+    </style>
+</head>
+<body>
+    <header class="mui-bar mui-bar-nav">
+
+	<h1 class="mui-title" style="text-decoration: underline; color: #5A98FB;">@ViewBag.ProjectName@Resources.Lang.PDA_Common_Title</h1>
+	@*百亨智慧物流移动终端*@
+    </header>
+    <div class="mui-content">
+	@*注意，这里的id的值，如果有值的话，就是权限平台系统管理模块设置的功能点的编号的值，不可以随便修改。*@
+	<ul class="mui-table-view mui-grid-view mui-grid-9" id="ulList">
+
+	 @*   <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="aCreateTask">
+		    <img id="img1" src="~/Content/Images/u64.png" style="margin-bottom: 12px" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_ShouDongJiaoChe</div>
+		</a>
+	    </li>*@
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="aToWareHouse">
+		    <img id="img2" src="~/Content/Images/u4270.png" style="margin-bottom: 11px" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_CompleteJiaoChe</div>
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="XXX" style="display: none">
+		<a href="#" id="aTaskList">
+		    <img id="img5" src="~/Content/Images/u74.png" style="margin-bottom: 11px" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_TaskStatus</div>
+		    @*任务状态*@
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="401001" style="display: none">
+		<a href="#" id="aInBillEmt">
+		    <img id="img5" src="~/Content/Images/u5577.png" style="margin-bottom: 4px" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_InBillZhuangXiang</div>
+		    @*入库装箱*@
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="401003" style="display: none">
+		<a href="#" id="aRevokeBox">
+		    <img id="img5" src="~/Content/Images/u2019.png" style="margin-bottom: 10px" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_CheXiaoZhuangXiang</div>
+		    @*撤销装箱*@
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="401002" style="display: none">
+		<a href="#" id="aOutBillList">
+		    <img id="img5" src="~/Content/Images/u5579.png" style="margin-bottom: 7px" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_ChuKuJianHuo</div>
+		    @*出库拣货*@
+		</a>
+	    </li>
+
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="btnInventoryLiKu">
+		    <img id="img5" src="~/Content/Images/u38.png" style="margin-bottom: 8px;margin-top: 10px;" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_LiKuPanDian</div>
+		    @*立库盘点*@
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="btnInventoryPingKu">
+		    <img id="img5" src="~/Content/Images/u5571.png" style="" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_PingKuPanDian</div>
+		    @*平库盘点*@
+		</a>
+	    </li>
+
+	   <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="InallocateList">
+		    <img id="img22" src="~/Content/Images/u5585.png" style="margin-bottom: 17px" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_Allocate</div>
+		</a>
+	    </li>
+@*平库调拨*@
+	    <!--领料单配料 begin-->
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="aOutMixedList">
+		    <img id="img5" src="~/Content/Images/u2019.png" style="margin-bottom:10px" />
+		    <div class="mui-media-body">领料单配料</div>
+		</a>
+	    </li>
+	    <!--领料单配料 end-->
+
+	    <!--产线叫料 begin-->
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="aCalledMaterialList">
+		    <img id="img5" src="~/Content/Images/u2019.png" style="margin-bottom:10px" />
+		    <div class="mui-media-body">产线叫料</div>
+		</a>
+	    </li>
+	    <!--产线叫料 end-->	  
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="aOutAsnList">
+		    <img id="img5" src="~/Content/Images/u5593.png" class="g" style="margin-bottom: 5px" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_PingKuJianHuo</div>
+		    @*平库拣货*@
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="aToUsed">
+		    <img id="img3" src="~/Content/Images/u66.png" class="g" style="margin-bottom: 4px" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_ShengChanJiaoLiao</div>
+		    @*生产叫料*@
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="aQuick">
+		    <img id="img4" src="~/Content/Images/u4272.png" class="g" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_KuaiJiePeiLiao</div>
+		    @*快捷配料*@
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="401005" style="display: none">
+		<a href="#" id="aAllocateL">
+		    <img id="img4" src="~/Content/Images/u44.png" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_LiKuDiaoBo</div>
+		    @*立库调拨*@
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="XXX" style="display: none">
+		<a href="#" id="aAllocateP">
+		    <img id="img4" src="~/Content/Images/u4272.png" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_PingKuDiaoBo</div>
+		   @* 平库调拨*@
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="401006" style="display: none">
+		<a href="#" id="aInBillManual">
+		    <img id="img4" src="~/Content/Images/u4272.png" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_ShouDongRuKu</div>
+		    @*手动入库*@
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="401007" style="display: none">
+		<a href="#" id="aOutBillBackManual">
+		    <img id="img4" src="~/Content/Images/u4272.png" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_ShouDongFanKu</div>
+		    @*手动返库*@
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="aCallCar">
+		    <img id="img4" src="~/Content/Images/u64.png" style="margin-bottom: 8px; margin-top: 4px;" />
+		    <div class="mui-media-body">手动叫车</div>
+		    @*手动叫车*@
+		</a>
+	    </li>
+ <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="aQuickPick">
+		    <img id="img4" src="~/Content/Images/u4272.png" />
+		    <div class="mui-media-body">@Resources.Lang.PDA_OutQuickPick_KuaiJieJianHuo</div>
+		    @*快捷拣货*@
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="aTemporaryIn">
+		    <img id="img5" src="~/Content/Images/u52.png" style="margin-bottom: 8px;" />
+		    <div class="mui-media-body">暂存入库</div>
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="aTemporaryOut">
+		    <img id="img5" src="~/Content/Images/u54.png" style="margin-bottom: 8px;" />
+		    <div class="mui-media-body">暂存出库</div>
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="aTemporaryAllo">
+		    <img id="img5" src="~/Content/Images/u56.png" style="margin-bottom: 3px" />
+		    <div class="mui-media-body">暂存调立库</div>
+		</a>
+	    </li>
+
+        <!--平库相关-->
+        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		    <a href="#" id="aOutAssitList">
+		        <img id="img5" src="~/Content/Images/u56.png" style="margin-bottom: 3px" />
+		        <div class="mui-media-body">拣货指引</div>
+		    </a>
+	    </li>
+        <!--出库单交付-->
+        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		    <a href="#" id="aOutBillDeliver">
+		        <img id="img5" src="~/Content/Images/u56.png" style="margin-bottom: 3px" />
+		        <div class="mui-media-body">出库单交付</div>
+		    </a>
+	    </li>
+        <!--平库相关-->
+        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		    <a href="#" id="aMergeOutAssitList">
+		        <img id="img5" src="~/Content/Images/u56.png" style="margin-bottom: 3px" />
+		        <div class="mui-media-body">合并拣货指引</div>
+		    </a>
+	    </li>
+
+        <!--合并出库单交付-->
+        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		    <a href="#" id="aMergeOutBillDeliver">
+		        <img id="img5" src="~/Content/Images/u56.png" style="margin-bottom: 3px" />
+		        <div class="mui-media-body">合并工单交付</div>
+		    </a>
+	    </li>
+       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="">
+		<a href="#" id="aInAssit">
+		    <img id="img5" src="~/Content/Images/u5591.png" style="margin-bottom: 3px" />
+		    <div class="mui-media-body">上架指引</div>
+		</a>
+	    </li>
+    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="">
+		<a href="#" id="aStockQuery">
+		    <img id="img5" src="~/Content/Images/u5591.png" style="margin-bottom: 3px" />
+		    <div class="mui-media-body">库存查询</div>
+		</a>
+  <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="">
+		<a href="#" id="aBarCode">
+		    <img id="img5" src="~/Content/Images/u5591.png" style="margin-bottom: 3px" />
+		    <div class="mui-media-body">条码全盘</div>
+		</a>
+	    </li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+        <a href="#" id="XXX">
+		<span class="mui-icon mui-icon-gear" style="margin-bottom: 10px;margin-top: 8px;" ></span>
+		<div class="mui-media-body">Setting</div>
+	    </a></li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+        <a href="#" id="XXX">
+		<span class="mui-icon mui-icon-info"></span>
+		<div class="mui-media-body">about</div>
+	    </a></li>
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		  <a href="#" id="XXX">
+		    <span class="mui-icon mui-icon-more"></span>
+		    <div class="mui-media-body">more</div>
+		</a>
+	    </li>
+
+	    <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3" id="" style="display: none">
+		<a href="#" id="aExit">
+		    <span class="mui-icon mui-icon-close"></span>
+		    <div class="mui-media-body">@Resources.Lang.PDA_Common_Element_Exit</div>
+		    @*退出*@
+		</a>
+
+	    </li>
+	</ul>
+    </div>
+
+<!-- loading toast -->
+    <div id="loadingToast" class="im_loading_toast" style="display: none;">
+        <div class="im_mask_transparent"></div>
+        <div class="im_toast">
+            <div class="im_loading">
+                <div class="im_loading_leaf im_loading_leaf_0"></div>
+                <div class="im_loading_leaf im_loading_leaf_1"></div>
+                <div class="im_loading_leaf im_loading_leaf_2"></div>
+                <div class="im_loading_leaf im_loading_leaf_3"></div>
+                <div class="im_loading_leaf im_loading_leaf_4"></div>
+                <div class="im_loading_leaf im_loading_leaf_5"></div>
+                <div class="im_loading_leaf im_loading_leaf_6"></div>
+                <div class="im_loading_leaf im_loading_leaf_7"></div>
+                <div class="im_loading_leaf im_loading_leaf_8"></div>
+                <div class="im_loading_leaf im_loading_leaf_9"></div>
+                <div class="im_loading_leaf im_loading_leaf_10"></div>
+                <div class="im_loading_leaf im_loading_leaf_11"></div>
+            </div>
+            <p class="im_toast_content" style="color:white;">loading...</p>
+        </div>
+    </div>
+
+    <script src="~/Content/MUI/js/mui.min.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Content/MUI/js/mui.picker.js"></script>
+    <script src="~/Content/MUI/js/mui.poppicker.js"></script>
+    <script>
+
+	(function ($, window) {
+	    //显示加载框
+	    $.showLoading = function (message, type) {
+		if ($.os.plus && type !== 'div') {
+		    $.plusReady(function () {
+			plus.nativeUI.showWaiting(message);
+		    });
+		} else {
+		    var html = '';
+		    html += '<i class="mui-spinner mui-spinner-white"></i>';
+		    html += '<p class="text">' + (message || "数据加载中") + '</p>';
+		    //遮罩层
+		    var mask = document.getElementsByClassName("mui-show-loading-mask");
+		    if (mask.length == 0) {
+			mask = document.createElement('div');
+			mask.classList.add("mui-show-loading-mask");
+			document.body.appendChild(mask);
+			mask.addEventListener("touchmove", function (e) { e.stopPropagation(); e.preventDefault(); });
+		    } else {
+			mask[0].classList.remove("mui-show-loading-mask-hidden");
+		    }
+		    //加载框
+		    var toast = document.getElementsByClassName("mui-show-loading");
+		    if (toast.length == 0) {
+			toast = document.createElement('div');
+			toast.classList.add("mui-show-loading");
+			toast.classList.add('loading-visible');
+			document.body.appendChild(toast);
+			toast.innerHTML = html;
+			toast.addEventListener("touchmove", function (e) { e.stopPropagation(); e.preventDefault(); });
+		    } else {
+			toast[0].innerHTML = html;
+			toast[0].classList.add("loading-visible");
+		    }
+		}
+	    };
+	    //隐藏加载框
+	    $.hideLoading = function (callback) {
+		if ($.os.plus) {
+		    $.plusReady(function () {
+			plus.nativeUI.closeWaiting();
+		    });
+		}
+		var mask = document.getElementsByClassName("mui-show-loading-mask");
+		var toast = document.getElementsByClassName("mui-show-loading");
+		if (mask.length > 0) {
+		    mask[0].classList.add("mui-show-loading-mask-hidden");
+		}
+		if (toast.length > 0) {
+		    toast[0].classList.remove("loading-visible");
+		    callback && callback();
+		}
+	    }
+	})(mui, window);
+
+	function SetStyle(data, id) {
+	    var hasaccess = false;
+	    var menuname = "";
+	    for (var i = 0; i < data.length; i++) {
+		if (id == data[i].F_Code) {
+		    hasaccess = true;
+		    menuname = data[i].F_Name;
+		    break;
+		}
+	    }
+	    return menuname;
+	}
+	function SetStylePageByAccess() {
+	    $.ajax({
+		type: "get",
+		url: "/GetJson/GetAccess",
+		dataType: "json",
+		data: { UserNo: "@ViewBag.UserNo" },
+		success: function (data) {
+		    //mui.alert(data);
+		    if (data != undefined) {
+			if (data.length > 0) {
+			    var btnList =JSON.parse(data);
+			    //是否记住
+			    var btnname = "";
+			    $('#ulList li').each(function () { //循环所有的li			       
+			        btnname = SetStyle(btnList, this.firstElementChild.id);
+			        if (btnname != "" || this.firstElementChild.id == '') { //有权限就显示li //| this.id == ''
+				    this.style = "display:'';";
+				    if (this.id != '') {
+				        $(this).find('.mui-media-body').text(btnname);
+				    }
+				}
+				else {
+				    this.style = "display:none";
+				}
+			    });
+			}
+		    }
+		    else {
+		    }
+
+		},
+		error: function (msg) {
+		    //alert(msg);
+		}
+	    });
+	}
+	mui.init({
+	    swipeBack: true //启用右滑关闭功能
+	});
+
+	mui.showLoading("正在加载..", "div");
+	$(document).ready(function () {
+	    SetStylePageByAccess();
+	    //setTimeout("mui.hideLoading()", 3000);
+	    $("#aOutAsnList").bind("tap", function () {
+		// location.href = "/Out/OutASNList/@ViewBag.UserNo";
+	    });
+	    $("#aCreateTask").bind("tap", function () {
+		location.href = "/Task/Index/";
+	    });	    
+	     //var aOutList = document.getElementById("aOutAsnList");
+	    ////监听点击事件
+	    //aOutList.addEventListener("tap", function () {
+	    //    location.href = "/Out/OutASNList/@ViewBag.UserNo";
+	    //});
+	   // aOutList.addEventListener("click", function () {
+		// location.href = "/Out/OutASNList/@ViewBag.UserNo";
+	    //});
+	    var aInBillEmt = document.getElementById("aInBillEmt");
+	    //入库装箱监听点击事件
+	    aInBillEmt.addEventListener("click", function () {
+		location.href = "/PDA/InAsnAndEMT/@ViewBag.UserNo";
+	    });
+  //InallocateList
+	    var aInAllocateList = document.getElementById("InallocateList");
+	    //监听点击事件
+	    aInAllocateList.addEventListener("click", function () {
+	        location.href = "/PDA/InAllocateList/@ViewBag.UserNo";
+	    });
+
+	    //领料单配料 begin
+	    var aOutMixedList = document.getElementById("aOutMixedList");
+	    //监听点击事件
+	    aOutMixedList.addEventListener("tap", function () {
+		location.href = "/OutMixed/OutMixedList/@ViewBag.UserNo";
+	    });
+	    aOutMixedList.addEventListener("click", function () {
+		location.href = "/OutMixed/OutMixedList/@ViewBag.UserNo";
+	    });
+	    //领料单配料 end
+
+	    //产线叫料 begin
+	    var aCalledMaterialList = document.getElementById("aCalledMaterialList");
+	    //监听点击事件
+	    aCalledMaterialList.addEventListener("tap", function () {
+		location.href = "/OutMixed/CalledMaterialList/@ViewBag.UserNo";
+	    });
+	    aCalledMaterialList.addEventListener("click", function () {
+		location.href = "/OutMixed/CalledMaterialList/@ViewBag.UserNo";
+	    });
+	    //产线叫料 end
+
+	    var aOutBillList = document.getElementById("aOutBillList");
+	    //出库拣货监听点击事件
+	    aOutBillList.addEventListener("click", function () {
+		location.href = "/Out/OutBillList/@ViewBag.UserNo";
+	    });
+
+	    var aRevokeBox = document.getElementById("aRevokeBox");
+	    //撤销装箱监听点击事件
+	    aRevokeBox.addEventListener("click", function () {
+		location.href = "/InBill/EncasementList/@ViewBag.UserNo";
+	    });
+
+	      //var aTask = document.getElementById("aCreateTask");
+	    ////监听点击事件
+	    //aTask.addEventListener("tap", function () {
+	    //    location.href = "/Task/Index/";
+	    //});
+	    //aTask.addEventListener("click", function () {
+	    //    location.href = "/Task/Index/";
+	    //});
+
+	    var aExit = document.getElementById("aExit");
+	    //退出监听点击事件
+	    aExit.addEventListener("tap", function () {
+		location.href = "/PDA/login/";
+	    });
+	    aExit.addEventListener("click", function () {
+		location.href = "/PDA/login/";
+	    });
+		//var aWareHouse = document.getElementById("aToWareHouse");
+	    ////监听点击事件
+	    //aWareHouse.addEventListener("tap", function () {
+	    //    location.href = "/Task/ToWareHouse/";
+	    //});
+	    //aWareHouse.addEventListener("click", function () {
+	    //    location.href = "/Task/ToWareHouse/";
+	    //});
+	    var aToUsed = document.getElementById("aToUsed");
+	    //生产叫料监听点击事件
+	    aToUsed.addEventListener("tap", function () {
+		//location.href = "/Task/ToUsed/";
+	    });
+	    aToUsed.addEventListener("click", function () {
+		//location.href = "/Task/ToUsed/";
+	    });
+	    var aQuick = document.getElementById("aQuick");
+	    //快捷配料监听点击事件
+	    aQuick.addEventListener("tap", function () {
+		//location.href = "/Task/QuickMixed/";
+	    });
+	    aQuick.addEventListener("click", function () {
+		//location.href = "/Task/QuickMixed/";
+	    });
+	    var aAllocateL = document.getElementById("aAllocateL");
+	    //立库调拨监听点击事件
+	    aAllocateL.addEventListener("tap", function () {
+		location.href = "/PDA/AddAllocateLK/";
+	    });
+	    aAllocateL.addEventListener("click", function () {
+		location.href = "/PDA/AddAllocateLK/";
+	    });
+	    var aAllocateP = document.getElementById("aAllocateP");
+	    //平库调拨监听点击事件
+	    aAllocateP.addEventListener("tap", function () {
+		location.href = "/PDA/AddAllocatePK/";
+	    });
+	    aAllocateP.addEventListener("click", function () {
+		location.href = "/PDA/AddAllocatePK/";
+	    });
+	    var aTaskList = document.getElementById("aTaskList");
+	    //任务状态监听点击事件
+	    aTaskList.addEventListener("tap", function () {
+		location.href = "/Task/WCSProcessList/@ViewBag.UserNo/main";
+	    });
+	    aTaskList.addEventListener("click", function () {
+		location.href = "/Task/WCSProcessList/@ViewBag.UserNo/main";
+	    });
+
+	    //循环盘点立库
+	    var btnInventoryLiKu = document.getElementById("btnInventoryLiKu");
+	    //监听点击事件
+	    btnInventoryLiKu.addEventListener("click", function () {
+		location.href = "/Inventory/LiKuList/@ViewBag.UserNo";
+	    });
+
+	    //循环盘点平库
+	    var btnInventoryPingKu = document.getElementById("btnInventoryPingKu");
+	    //监听点击事件
+	    btnInventoryPingKu.addEventListener("click", function () {
+		location.href = "/Inventory/PingKuList/@ViewBag.UserNo";
+	    });
+	    //手动入库
+	    var aInBillManual = document.getElementById("aInBillManual");
+	    //监听点击事件
+	    aInBillManual.addEventListener("tap", function () {
+		location.href = "/Manual/InBillManual/";
+	    });
+	    aInBillManual.addEventListener("click", function () {
+		location.href = "/Manual/InBillManual/";
+	    });
+	    //
+	    //手动返库
+	    var aOutBillBackManual = document.getElementById("aOutBillBackManual");
+	    //监听点击事件
+	    aOutBillBackManual.addEventListener("tap", function () {
+		location.href = "/Manual/OutBillManual/";
+	    });
+	    aOutBillBackManual.addEventListener("click", function () {
+		location.href = "/Manual/OutBillManual/";
+	    });
+
+
+	    //手动叫车
+	    var aCallCar = document.getElementById("aCallCar");
+	    //监听点击事件
+	    aCallCar.addEventListener("tap", function () {
+		location.href = "/Dispatch/NewCallCar/";
+	    });
+	    aCallCar.addEventListener("click", function () {
+		location.href = "/Dispatch/NewCallCar/";
+	    });
+
+
+	    //暂存入库
+	    var aTemporaryIn = document.getElementById("aTemporaryIn");
+	    //监听点击事件
+	    aTemporaryIn.addEventListener("tap", function () {
+		location.href = "/Temporary/TemporaryInList/@ViewBag.UserNo";
+	    });
+	    aTemporaryIn.addEventListener("click", function () {
+		location.href = "/Temporary/TemporaryInList/@ViewBag.UserNo";
+	    });
+
+	    //暂存出库
+	    var aTemporaryOut = document.getElementById("aTemporaryOut");
+	    //监听点击事件
+	    aTemporaryOut.addEventListener("tap", function () {
+		location.href = "/Temporary/TemporaryOutList/@ViewBag.UserNo";
+	    });
+	    aTemporaryOut.addEventListener("click", function () {
+		location.href = "/Temporary/TemporaryOutList/@ViewBag.UserNo";
+	    });
+
+	    var aTemporaryAllo = document.getElementById("aTemporaryAllo");
+	    //监听点击事件
+	    aTemporaryAllo.addEventListener("tap", function () {
+		location.href = "/Temporary/TemporaryAlloList/@ViewBag.UserNo";
+	    });
+	    aTemporaryAllo.addEventListener("click", function () {
+		location.href = "/Temporary/TemporaryAlloList/@ViewBag.UserNo";
+	    });
+
+	    //快捷拣货
+	    var aQuickPick = document.getElementById("aQuickPick");
+	    //监听点击事件
+	    aQuickPick.addEventListener("tap", function () {
+		location.href = "/Out/OutQuickPick/@ViewBag.UserNo";
+	    });
+	    aQuickPick.addEventListener("click", function () {
+		location.href = "/Out/OutQuickPick/@ViewBag.UserNo";
+	    });
+
+	    //平库拣货指引
+	    var aOutAssitList = document.getElementById("aOutAssitList");
+	    //监听点击事件
+	    aOutAssitList.addEventListener("tap", function () {
+	        location.href = "/OutAssit/OutAssitList/@ViewBag.UserNo";
+	    });
+	    aOutAssitList.addEventListener("click", function () {
+	        location.href = "/OutAssit/OutAssitList/@ViewBag.UserNo";
+	    });
+
+	    //出库单交付
+	    var aOutBillDeliver = document.getElementById("aOutBillDeliver");
+	    //监听点击事件
+	    aOutBillDeliver.addEventListener("tap", function () {
+	        location.href = "/OutAssit/OutBillDeliver/@ViewBag.UserNo";
+	    });
+	    aOutBillDeliver.addEventListener("click", function () {
+	        location.href = "/OutAssit/OutBillDeliver/@ViewBag.UserNo";
+	    });
+
+	    var aMergeOutAssitList = document.getElementById("aMergeOutAssitList");
+	    //监听点击事件
+	    aMergeOutAssitList.addEventListener("tap", function () {
+	        location.href = "/OutAssit/MergeOutAssitList/@ViewBag.UserNo";
+	    });
+	    aMergeOutAssitList.addEventListener("click", function () {
+	        location.href = "/OutAssit/MergeOutAssitList/@ViewBag.UserNo";
+	    });
+
+	    //合并工单交付    
+	    var aMergeOutBillDeliver = document.getElementById("aMergeOutBillDeliver");
+	    //监听点击事件
+	    aMergeOutBillDeliver.addEventListener("tap", function () {
+	        location.href = "/OutAssit/MergeOutBillDeliver/@ViewBag.UserNo";
+	    });
+	    aMergeOutBillDeliver.addEventListener("click", function () {
+	        location.href = "/OutAssit/MergeOutBillDeliver/@ViewBag.UserNo";
+	    });
+
+	    //上架指引
+	    var aInAssit = document.getElementById("aInAssit");
+	    //监听点击事件
+	    aInAssit.addEventListener("tap", function () {
+	        location.href = "/PDA/InAssitList/@ViewBag.UserNo";
+	    });
+	    aInAssit.addEventListener("click", function () {
+	        location.href = "/PDA/InAssitList/@ViewBag.UserNo";
+	    });
+	    //库存查询
+	    var aStockQuery = document.getElementById("aStockQuery");
+	    //监听点击事件
+	    aStockQuery.addEventListener("tap", function () {
+	        location.href = "/Stock/StockSearch/@ViewBag.UserNo";
+	    });
+	    aStockQuery.addEventListener("click", function () {
+	        location.href = "/Stock/StockSearch/@ViewBag.UserNo";
+	    });
+	    //条码全盘	    
+	    var aBarCode = document.getElementById("aBarCode");
+	    //监听点击事件
+	    aBarCode.addEventListener("tap", function () {
+	        location.href = "/Stock/SNReset/@ViewBag.UserNo";
+	    });
+	    aBarCode.addEventListener("click", function () {
+	        location.href = "/Stock/SNReset/@ViewBag.UserNo";
+	    });
+
+	    $("#ulList").on("click", "li", function () {
+	        $("#loadingToast").show();
+	    });
+
+	    ShowExpireMsg();
+	    mui.hideLoading();
+	});
+
+	function ShowExpireMsg() {
+	    $.ajax({
+		type: "get",
+		url: "/GetJson/ShowExpireMsg",
+		dataType: "text",
+		data: {},
+		success: function (data) {
+		    if (data != null && data != undefined && data.length > 0) {
+			mui.alert(data);
+		    }
+		},
+		error: function (msg) {
+		    //alert(msg);
+		}
+	    });
+	}
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,464 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
+    <!--App自定义的css-->
+    <!-- <link rel="stylesheet" type="text/css" href="../css/app.css" /> -->
+
+    <!--App自定义的css-->
+    <link rel="stylesheet" type="text/css" href="~/Content/MUI/css/app.css" />
+
+    <title>@Resources.Lang.PDA_Common_Element_Allocate</title>
+    <style>
+        .mui-control-content
+        {
+            background-color: white;
+            min-height: 215px;
+        }
+
+            .mui-control-content .mui-loading
+            {
+                margin-top: 50px;
+            }
+    </style>
+
+</head>
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <button type="button" class="mui-btn mui-btn-link mui-pull-right" id="btnMain">
+            <span class="mui-icon mui-icon-home"></span>
+        </button>
+
+        <h1 class="mui-title" style="text-decoration: underline; color: #5A98FB;">@Resources.Lang.PDA_Common_Element_PingKuAllocate
+        </h1>
+    </header>
+    <div class="mui-content">
+        <div class="mui-content-padded" style="margin: 5px;">
+            <form class="mui-input-group">
+                <div class="mui-input-row">
+                    <label>S/N</label>
+                    <input type="text" class="mui-input-clear" id="txtSN" placeholder="SN" style="ime-mode: disabled">
+                </div>
+                <div class="mui-input-row">
+                    <label>@Resources.Lang.PDA_Common_Element_LiaoHao</label>
+                    <input type="text" class="mui-input-clear" id="txtCinvcode" placeholder="@Resources.Lang.PDA_Common_Element_LiaoHao" style="ime-mode: disabled">
+                </div>
+                <div class="mui-input-row">
+                    <label>@Resources.Lang.PDA_Common_Element_OldPosition</label>
+                    <input type="text" class="mui-input-clear" id="txtOriPostionCode" placeholder="@Resources.Lang.PDA_Common_Element_OldPosition" style="ime-mode: disabled">
+                </div>
+                <div class="mui-input-row">
+                    <label>@Resources.Lang.PDA_Common_Element_ObjectivePosition</label>
+                    <input type="text" class="mui-input-clear" id="txtToPostionCode" placeholder="@Resources.Lang.PDA_Common_Element_ObjectivePosition" style="ime-mode: disabled">
+                </div>
+                <div class="mui-input-row">
+                    <label>@Resources.Lang.PDA_Common_Element_MachineType</label>
+                    <input type="text" class="mui-input-clear" id="txtModels" placeholder="@Resources.Lang.PDA_Common_Element_MachineType" style="ime-mode: disabled">
+                </div>
+                <div class="mui-input-row">
+                    <label>@Resources.Lang.PDA_Common_Element_ThisQuantity</label>
+                    <input type="text" class="mui-input-clear" id="txtNum" placeholder="@Resources.Lang.PDA_Common_Element_ThisQuantity" style="ime-mode: disabled">
+                </div>
+                <div class="mui-button-row">
+                    <button type="button" class="mui-btn mui-btn-primary" id="btnSave" onclick="return false;" data-loading-text="@Resources.Lang.PDA_Common_Element_Saveing" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Save</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                   <button type="button" class="mui-btn mui-btn-primary" id="btnCpmplete" onclick="return false;" data-loading-text="@Resources.Lang.PDA_Common_Element_Completeing" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Complete</button>
+                </div>
+            </form>
+        </div>
+	<div id="slider" class="mui-slider">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" href="#item1mobile">
+				        @Resources.Lang.PDA_Common_Element_ScanDetail
+			        </a>
+                    <a class="mui-control-item" href="">
+			        </a>
+                    <a class="mui-control-item" href="">
+			        </a>
+				</div>
+                <div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active" >
+						<div id="scroll1" class="mui-scroll-wrapper" style="overflow-y:auto">
+							<div class="mui-scroll">
+
+                                <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="tab1UL">
+                             
+                                </ul>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+    </div>
+ <script src="~/Content/MUI/js/mui.min.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+ <script type="text/javascript" src="~/Scripts/jquery.json-2.2.min.js"></script>
+ <script "text/javascript">     
+     $(document).ready(function () {
+        
+         BindLiTap1();
+
+         $("#btnMain").bind("tap", function () {
+             location.href = "/PDA/Main/@ViewBag.UserNo";
+         });
+         $("#btnSave").bind("tap", function () {
+             mui(this).button('loading');
+             Save();
+             // clearText();
+             setTimeout(function () {
+                 mui(this).button('reset');
+             }.bind(this), 1000);
+         });
+         $("#btnCpmplete").bind("tap", function () {
+             mui(this).button('loading');
+             SubmitCase();
+             // clearText();
+             setTimeout(function () {
+                 mui(this).button('reset');
+             }.bind(this), 1000);
+         });
+         //SN回车事件
+         $("#txtSN").keydown(function (event) {
+             if (event.keyCode == 13) {
+                 var txtSN = $('#txtSN').val();
+                 $.ajax({
+                     type: "get",
+                     url: "/GetJson/CheckSNAllocatePK",
+                     dataType: "json",
+                     data: { SN: txtSN },
+                     async: false,
+                     success: function (data) {
+                         if (data != undefined && data != "") {
+                             if (data.Status == '0') {
+                                 $('#txtCinvcode').val(data.CinvCode);
+                                 $('#txtOriPostionCode').val(data.CpositionCode);
+                                 $('#txtNum').val(data.Qty);
+                             }
+                             else {
+                                 mui.alert(data.Message);
+                                 $("#txtSN").focus();
+                                 return;
+                             }                             
+                         }
+                     },
+                     error: function (msg) {
+                         mui.alert(msg);
+                     }
+                 });
+             }
+         });
+         //料号回车事件
+         $("#txtCinvcode").keydown(function (event) {
+             if (event.keyCode == 13) {
+                 var txtCinvcode = $('#txtCinvcode').val();
+                 var txtSN = $('#txtSN').val();
+                 var txtOriPostionCode = $('#txtOriPostionCode').val();
+                 var txtToPostionCode = $('#txtToPostionCode').val();
+                 var txtNum = $('#txtNum').val();
+                 $.ajax({
+                     type: "get",
+                     url: "/GetJson/CheckAlloPositionPK",
+                     dataType: "text",
+                     data: { OriPositionCode: txtOriPostionCode, ToPositionCode: txtToPostionCode, WorkType: '0', Flag: '', SN: txtSN, CinvCode: txtCinvcode, Qty: txtNum },
+                     async: false,
+                     success: function (data) {
+                         if (data != undefined && data != "") {
+                             mui.alert(data);
+                             $("#txtCinvcode").focus();
+                             return;                         
+                         }
+                     },
+                     error: function (msg) {
+                         mui.alert(msg);
+                     }
+                 });
+             }
+         });
+
+         //原始储位回车事件
+         $("#txtOriPostionCode").keydown(function (event) {
+             if (event.keyCode == 13) {              
+                 var txtCinvcode = $('#txtCinvcode').val();
+                 var txtSN = $('#txtSN').val();
+                 var txtOriPostionCode = $('#txtOriPostionCode').val();
+                 var txtToPostionCode = $('#txtToPostionCode').val();
+                 var txtNum = $('#txtNum').val();
+                 $.ajax({
+                     type: "get",
+                     url: "/GetJson/CheckAlloPositionPK",
+                     dataType: "text",
+                     data: { OriPositionCode: txtOriPostionCode, ToPositionCode: txtToPostionCode, WorkType: '0', Flag: '', SN: txtSN, CinvCode: txtCinvcode, Qty: txtNum },
+                     async: false,
+                     success: function (data) {
+                         if (data != undefined && data != "") {
+                             mui.alert(data);
+                             $("#txtOriPostionCode").focus();
+                             return;
+                         }
+                     },
+                     error: function (msg) {
+                         mui.alert(msg);
+                     }
+                 });                
+             }
+         });
+         //目的储位回车事件
+         $("#txtToPostionCode").keydown(function (event) {
+             if (event.keyCode == 13) {              
+                 var txtCinvcode = $('#txtCinvcode').val();
+                 var txtSN = $('#txtSN').val();
+                 var txtOriPostionCode = $('#txtOriPostionCode').val();
+                 var txtToPostionCode = $('#txtToPostionCode').val();
+                 var txtNum = $('#txtNum').val();
+                 $.ajax({
+                     type: "get",
+                     url: "/GetJson/CheckAlloPositionPK",
+                     dataType: "text",
+                     data: { OriPositionCode: txtOriPostionCode, ToPositionCode: txtToPostionCode, WorkType: '0', Flag: '', SN: txtSN, CinvCode: txtCinvcode, Qty: txtNum },
+                     async: false,
+                     success: function (data) {
+                         if (data != undefined && data != "") {
+                             mui.alert(data);
+                             $("#txtToPostionCode").focus();
+                             return;
+                         }
+                     },
+                     error: function (msg) {
+                         mui.alert(msg);
+                     }
+                 });
+             }
+         });       
+         //原始储位回车事件
+         $("#txtNum").keydown(function (event) {
+             if (event.keyCode == 13) {
+                 var txtCinvcode = $('#txtCinvcode').val();
+                 var txtSN = $('#txtSN').val();
+                 var txtOriPostionCode = $('#txtOriPostionCode').val();
+                 var txtToPostionCode = $('#txtToPostionCode').val();
+                 var txtNum = $('#txtNum').val();
+                 $.ajax({
+                     type: "get",
+                     url: "/GetJson/CheckAlloPositionPK",
+                     dataType: "text",
+                     data: { OriPositionCode: txtOriPostionCode, ToPositionCode: txtToPostionCode, WorkType: '0', Flag: '', SN: txtSN, CinvCode: txtCinvcode, Qty: txtNum },
+                     async: false,
+                     success: function (data) {
+                         if (data != undefined && data != "") {
+                             mui.alert(data);
+                             $("#txtNum").focus();
+                             return;
+                         }
+                     },
+                     error: function (msg) {
+                         mui.alert(msg);
+                     }
+                 });
+             }
+         });      
+     });
+     //清空事件
+     function clearText() {
+         $("#txtSN").val("");
+         $("#txtCinvcode").val("");
+         $("#txtOriPostionCode").val("");
+         $("#txtToPostionCode").val("");
+         $("#txtModels").val("");
+         $("#txtNum").val("");
+     }
+     //保存事件
+     function Save() {
+         var txtOriPostionCode = $('#txtOriPostionCode').val();
+         var txtToPostionCode = $('#txtToPostionCode').val();
+         var txtCinvcode = $('#txtCinvcode').val();
+         var txtSN = $('#txtSN').val();
+         var txtNum = $('#txtNum').val();
+         var txtModels = $("#txtModels").val();
+         if (txtSN == "") {
+             mui.toast("@Resources.Lang.PDA_Common_Tips_QingShuRuSN");//请输入S/N！
+             $("#txtSN").focus();
+             return;
+         }
+         if (txtCinvcode == "") {
+             mui.toast("@Resources.Lang.PDA_Common_Tips_NeedCinvcode");//请输入料号！
+             $("#txtCinvcode").focus();
+             return;
+         }
+
+         if (txtOriPostionCode == "") {
+             mui.toast("@Resources.Lang.PDA_Common_Tips_QingShuRuOldPosition");//请输入原始储位！
+             $("#txtOriPostionCode").focus();
+             return;
+         }
+
+         if (txtToPostionCode == "") {
+             mui.toast("@Resources.Lang.PDA_Common_Tips_QingShuRuMuDiPosition");//请输入目的储位！
+             $("#txtToPostionCode").focus();
+             return;
+         }
+         if (txtNum == "") {
+             mui.toast("@Resources.Lang.PDA_Common_Tips_QingShuRuThisQuantity");//请输入本次数量！
+             $("#txtNum").focus();
+             return;
+         }
+         if (txtModels.length > 40) {
+             mui.toast("@Resources.Lang.PDA_Common_Tips_MachineTypeLengthError");//机种不能大于指定长度40
+             $("#txtModels").focus();
+             return;
+         }
+
+         $.ajax({
+             type: "get",
+             url: "/PDA/AllocatePKSave",
+             dataType: "text",
+             data: { OriPositionCode: txtOriPostionCode, ToPositionCode: txtToPostionCode, WorkType: '0', Flag: '1', SN: txtSN, CinvCode: txtCinvcode, Qty: txtNum },
+             async: false,
+             success: function (data) {
+                 if (data != undefined && data != "") {
+                     mui.alert(data);
+                     return;
+                 }
+                 else {
+                     var liListhtml = '';
+                     if ($("h5").text().indexOf(txtSN) != -1) {
+                         mui.alert('@Resources.Lang.PDA_Common_Tips_SNExists');//该SN已存在列表中，不能重复添加!
+                         return;
+                     }
+                     liListhtml = liListhtml +
+                                                  '<li class="mui-table-view-cell" data-sn="' + txtSN + '" data-cinvcode="' + txtCinvcode + '" data-oripo="' + txtOriPostionCode + '" data-topo="' + txtToPostionCode + '" data-models="' + txtModels + '" data-num="' + txtNum + '">' +
+                                                  '	<div class="mui-slider-right mui-disabled" >' +
+                                                  '		<a class="mui-btn mui-btn-red">@Resources.Lang.PDA_Common_Element_Delete</a> ' +
+                                                  '			</div>' +
+                                                  '		<div class="mui-table mui-slider-handle">' +
+                                                  '		 <div class="mui-table-cell mui-col-xs-10"> ' +
+                                                  '         <h4>@Resources.Lang.PDA_Common_Element_LiaoHao：' + txtCinvcode + '</h4>' +
+                                                  '			<h5>S/N：' + txtSN + '</h5>' +
+
+
+                                                  '          <p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_OldPosition：' + txtOriPostionCode + '&nbsp;&nbsp;@Resources.Lang.PDA_Common_Element_ObjectivePosition：' + txtToPostionCode + '' +
+                                                  '          <p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_ThisQuantity：' + txtNum + '&nbsp;&nbsp;@Resources.Lang.PDA_Common_Element_MachineType：' + txtModels + '' +
+                                                  '		</div> ' +
+                                                  '		 <div class="mui-table-cell mui-col-xs-2 mui-text-right"> ' +
+                                                  '            <span class="mui-h5">                               ' +
+                                                  '			</span> ' +
+                                                  '		</div> ' +
+                                                  '	</div> ' +
+                                                  '</li> ';
+                     //成功
+                     $(".mui-table-view").append(liListhtml);
+                     //重新绑定事件
+                    //BindLiTap1();
+                     clearText();
+                 }
+             },
+             error: function (msg) {
+                 mui.alert("@Resources.Lang.PDA_Common_Tips_SaveFailed" + msg);//保存失败：
+             }
+         });
+     }
+
+     //绑定Tab3删除事件
+     function BindLiTap1() {
+
+         $('.mui-scroll-wrapper').scroll({
+             indicators: true //是否显示滚动条
+         });
+
+         var btnArray = ['@Resources.Lang.PDA_Common_Element_Button_Confirm', '@Resources.Lang.PDA_Common_Element_Button_Cancel'];
+         $('#tab1UL').unbind();
+         $('#tab1UL').on('tap', '.mui-btn', function (event) {
+             var elem = this;
+             var li = elem.parentNode.parentNode;
+             mui.confirm('@Resources.Lang.PDA_Common_Tips_DeleteConfirm', '@Resources.Lang.PDA_Common_Tips_Friendship', btnArray, function (e) {//确认删除该条记录？
+                 if (e.index == 0) {
+                     li.parentNode.removeChild(li);
+                 }
+             });
+         });
+     }
+     var WMSUI = {
+         FormVal: {
+             Rules: []
+         }
+     };
+
+     //完成
+     function SubmitCase() {
+         var _self = WMSUI;
+         //定义规则对象
+         var ruleInfoVal = {
+             SN: "",
+             CinvCode: "",
+             OriPositionCode: "",
+             ToPositionCode: "",
+             Models: "",
+             Num: 0.00
+         };
+
+         //   '<li class="mui-table-view-cell" data-sn="' + txtSN + '" data-cinvcode="' + txtCinvcode + '" data-oripo="' + txtOriPostionCode + '" data-topo' + txtToPostionCode + '" data-models="' + txtModels + '" data-num="' + txtNum + '">' +
+         //获取规则明细数据             
+         _self.FormVal.Rules = [];
+         //_self.FormFed.RuleItems.find("li").each(function (i) {
+         $("li").each(function (i) {
+             ruleInfoVal.SN = $(this).data("sn");
+             ruleInfoVal.CinvCode = $(this).data("cinvcode");
+             ruleInfoVal.OriPositionCode = $(this).data("oripo");
+             ruleInfoVal.ToPositionCode = $(this).data("topo");
+             ruleInfoVal.Models = $(this).data("models");
+             ruleInfoVal.Num = parseFloat($(this).data("num"));
+
+
+             //行数据赋值
+             _self.FormVal.Rules.push({
+                 SN: ruleInfoVal.SN,
+                 CinvCode: ruleInfoVal.CinvCode,
+                 OriPositionCode: ruleInfoVal.OriPositionCode,
+                 ToPositionCode: ruleInfoVal.ToPositionCode,
+                 Models: ruleInfoVal.Models,
+                 Num: ruleInfoVal.Num,
+             });
+         });
+
+         $.ajax({
+             type: "Post",
+             url: "/PDA/AllocatePKComplete",
+             dataType: "json",
+             cache: false,
+             global: false,
+             data: $.toJSON({ parameter: _self.FormVal }),
+             async: false,
+             contentType: "application/json; charset=utf-8",
+             success: function (data) {
+                 if (data != undefined && data != "") {
+                     if (data.Status == "0") {
+                         mui.alert("@Resources.Lang.PDA_Common_Tips_AllocateCreateSuccess");//调拨单生成成功!
+                         clearText();
+                         $(".mui-table-view").find('li').remove();
+                     }
+                     else {
+                         mui.alert("@Resources.Lang.PDA_Common_Tips_AllocateCreateFailed" + data.Info);//调拨单生成失败：
+                     }
+                 }
+                 else {
+
+                 }
+             },
+             error: function (msg) {
+                 mui.alert("@Resources.Lang.PDA_Common_Tips_AllocateCreateFailed" + msg);//调拨单生成失败：
+             }
+         });
+     }
+</script>
+</body>
+</html>

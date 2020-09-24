@@ -1,0 +1,636 @@
+﻿
+@model Tuple<List<WMSPDA.Business.Base.V_PDA_QueryOutASND>, List<WMSPDA.Business.Base.V_PDA_OutAssit_All>, List<WMSPDA.Business.Base.V_PDA_QueryTEMP_OutBill_D>>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!--标准mui.css-->
+	<link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
+	<!--App自定义的css-->
+	<!-- <link rel="stylesheet" type="text/css" href="../css/app.css" /> -->
+
+    <!--App自定义的css-->
+	<link rel="stylesheet" type="text/css" href="~/Content/MUI/css/app.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MUI/css/mui.picker.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/MUI/css/mui.poppicker.css" />
+    <title>@Resources.Lang.PDA_Common_Element_AssitDetail</title>
+    	<style>
+			.mui-control-content {
+				background-color: white;
+				min-height: 215px;
+			}
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+		</style>
+
+</head>
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+
+        <button type="button" class="mui-btn mui-btn-link mui-pull-left" id="btnReturn">
+		    <span class="mui-icon mui-icon-back"></span>@Resources.Lang.PDA_Common_Element_GoBack
+		</button>
+
+        <button type="button" class="mui-btn mui-btn-link mui-pull-right" id="btnMain">
+	        <span class="mui-icon mui-icon-home"></span>
+        </button>
+
+		<h1 class="mui-title" style="text-decoration:underline;color:#5A98FB;">
+            <a href="/Out/OutBill/@ViewBag.ids/@ViewBag.asncode">拣货明细</a>
+		</h1>
+	</header>
+
+	<div class="mui-content">
+        <div class="mui-content-padded" style="margin: 5px;">
+                <div class="mui-button-row" style="margin-bottom:15px;padding-left:15px;padding-right:15px;">
+					<button id='showUserPicker' class="mui-btn mui-btn-white" type='button' style="width:75%; height:34px;">指引单号</button>
+                    <button type="button" class="mui-btn mui-btn-primary" id="btnAssit" onclick="return false;" data-loading-text="扫描中..." data-loading-icon-position="right">扫描</button>
+				</div>
+                <input type="text" id="txtType" name="txtType" style="display:none;">
+                <div id='userResult' class="ui-alert" style="display:none;"></div>
+        </div>
+
+			<div id="slider" class="mui-slider">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item" href="#item1mobile">
+				        @Resources.Lang.PDA_Common_Element_OutAsnCode
+			        </a>
+					<a class="mui-control-item" href="#item2mobile">
+				        @Resources.Lang.PDA_Common_Element_ZhiYinDan
+			        </a>
+					<a class="mui-control-item" href="#item3mobile">
+				        @Resources.Lang.PDA_Common_Element_AssitDetail
+			        </a>
+				</div>
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+
+                                <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="tab1UL">
+
+                                    @foreach (WMSPDA.Business.Base.V_PDA_QueryOutASND bo in Model.Item1)
+                                    {                                 
+                                        <li class="mui-table-view-cell"> 
+		                                    <div class="mui-table">
+		                                        <div class="mui-table-cell mui-col-xs-10">
+		                                            <h4 class="mui-ellipsis">@bo.cinvcode</h4>
+		                                            <h5>@bo.cinvname</h5>
+		                                            <p class="mui-h6 mui-ellipsis">已拣货数量:@bo.yjnum &nbsp; @Resources.Lang.PDA_Common_Element_SurplusQuantity:@bo.synum  </p>
+		                                        </div>
+		                                        <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                                            <span class="mui-h5">
+
+		                                            </span>
+		                                        </div>
+		                                    </div>              
+		                                </li>
+                                    }
+                                </ul>							
+							</div>
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="tab2UL">
+
+                                    @foreach (WMSPDA.Business.Base.V_PDA_OutAssit_All bo in Model.Item2)
+                                    { 
+                                
+                                        <li class="mui-table-view-cell" >
+                                    
+		                                    <div class="mui-table">
+		                                        <div class="mui-table-cell mui-col-xs-10">
+		                                            <h4 class="mui-ellipsis">@bo.cinvcode</h4>
+		                                            <h5>@bo.cpositioncode</h5>
+		                                            <p class="mui-h6 mui-ellipsis">已拣货数量:@bo.yjnum &nbsp; @Resources.Lang.PDA_Common_Element_SurplusQuantity:@bo.synum  </p>
+		                                        </div>
+		                                        <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                                            <span class="mui-h5">
+                                                       
+		                                            </span>
+		                                        </div>
+		                                    </div>
+                                   
+		                                </li>
+                                    }
+                                </ul>
+							</div>
+						</div>
+
+					</div>
+					<div id="item3mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll3" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								 <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="tab3UL">
+
+                                    @foreach (WMSPDA.Business.Base.V_PDA_QueryTEMP_OutBill_D bo in Model.Item3)
+                                    { 
+                                
+                                        <li class="mui-table-view-cell">
+                                            <div class="mui-slider-right mui-disabled">
+				                                <a class="mui-btn mui-btn-red">@Resources.Lang.PDA_Common_Element_Delete</a>
+                                                <input type="hidden" class="hdnids" value="@bo.ids" />
+			                                </div>
+		                                    <div class="mui-table mui-slider-handle">
+		                                        <div class="mui-table-cell mui-col-xs-10">
+		                                            <h4 class="mui-ellipsis">@bo.cinvcode</h4>
+		                                            <h5>@bo.cinvbarcode</h5>
+		                                            <p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CPosition:@bo.cpositioncode &nbsp; 已拣货数量:@bo.iquantity  </p>
+		                                        </div>
+		                                        <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                                            <span class="mui-h5">
+                                                        @bo.datecode
+		                                            </span>
+		                                        </div>
+		                                    </div>
+                                   
+		                                </li>
+                                    }
+                                </ul>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			
+
+		</div>
+
+
+    <script src="~/Content/MUI/js/mui.min.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Content/MUI/js/mui.picker.js"></script>
+    <script src="~/Content/MUI/js/mui.poppicker.js"></script>
+    <script>
+
+        var CurrendIndex1 = 1;//Tab1当前页数
+        var CurrendIndex2 = 1;//Tab2当前页数
+        var CurrendIndex3 = 1;//Tab3当前页数
+
+        //Tab1列表查询方法
+        function SearchTab1(IsAppend) {
+            //debugger;
+            //查询事件
+
+            if (IsAppend) {
+                CurrendIndex1 = CurrendIndex1 + 1;//下一页
+            }
+            else {
+                CurrendIndex1 = 1;//查询，第一页
+            }
+            //alert("SearchAsnList");
+            $.ajax({
+                type: "get",
+                url: "/OutAssit/OutASNSearchTab1",
+                data: { asncode: "@ViewBag.asncode", CurrendIndex: CurrendIndex1 },
+                async: true,
+                success: function (data) {
+                    //mui.alert(data);
+                    scrollDisabled = true;
+                    if (data != null && data != undefined && data.length > 0) {
+                        if (!IsAppend) {
+                            $("#tab1UL").empty();
+                        }
+                        var liListhtml = '';
+                        for (var i = 0; i < data.length; i++) {
+                            var ymd = Getmmdd(data[i].DCREATETIME);
+                            liListhtml = liListhtml +
+                            ' <li class="mui-table-view-cell" > ' +
+                            '	<div class="mui-table">        ' +
+                            '		<div class="mui-table-cell mui-col-xs-10">     ' +
+                            '			<h4 class="mui-ellipsis">' + data[i].cinvcode + '</h4> ' +
+                            '			<h5>' + data[i].cinvname + '</h5>                      ' +
+                            '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_YiShangJiaQuantity:' + data[i].yjnum + ' &nbsp; @Resources.Lang.PDA_Common_Element_SurplusQuantity:' + data[i].synum + '  </p> ' +
+                            '		</div>                                         ' +
+                            '		<div class="mui-table-cell mui-col-xs-2 mui-text-right">  ' +
+                            '			<span class="mui-h5">  ' +
+                            '				' + data[i].cticketcode + '    ' +
+                            '			</span>  ' +
+                            '		</div>       ' +
+                            '	</div>           ' +
+                            ' </li> ';
+
+                        }
+                        if (IsAppend) {
+                            $("#tab1UL").append(liListhtml);
+                        }
+                        else {
+                            $("#tab1UL").html(liListhtml);
+                        }
+                        //重新绑定事件
+                        BindLiTap1();
+                        scrollDisabled = false;
+                        mui('#scroll1').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                    }
+                    else {
+                        //如果没有数据
+                        CurrendIndex1 = CurrendIndex1 - 1;
+                        scrollDisabled = true;
+                        if (!IsAppend) {
+                            $("#tab1UL").empty();
+                        }
+                        mui('#scroll1').pullRefresh().endPullupToRefresh(true);//参数为true代表没有更多数据了。
+                    }
+                    //注意：一定要修改Tab1的高度，否则分页后就只能显示一部分列表
+                    var subHeight = $("#scroll1").children(":first").height();
+                    $("#scroll1").parent(":first").height(subHeight);
+                },
+                error: function (msg) {
+                    //alert(msg);
+                    mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+                    mui('#scroll1').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                }
+            });
+        }
+
+        //Tab2列表查询方法
+        function SearchTab2(IsAppend) {
+            //debugger;
+            //查询事件
+
+            if (IsAppend) {
+                CurrendIndex2 = CurrendIndex2 + 1;//下一页
+            }
+            else {
+                CurrendIndex2 = 1;//查询，第一页
+            }
+            //alert("SearchAsnList");
+            $.ajax({
+                type: "get",
+                url: "/OutAssit/OutASNSearchTab2",
+                data: { asncode: "@ViewBag.asncode", CurrendIndex: CurrendIndex2 },
+                async: true,
+                success: function (data) {
+                    //mui.alert(data);
+                    scrollDisabled = true;
+                    if (data != null && data != undefined && data.length > 0) {
+                        if (!IsAppend) {
+                            $("#tab2UL").empty();
+                        }
+                        var liListhtml = '';
+                        for (var i = 0; i < data.length; i++) {
+                            var ymd = Getmmdd(data[i].DCREATETIME);
+                            liListhtml = liListhtml +
+                            '<li class="mui-table-view-cell" >  ' +
+                            '	<div class="mui-table">  ' +
+                            '		<div class="mui-table-cell mui-col-xs-10">  ' +
+                            '			<h4 class="mui-ellipsis">' + data[i].cinvcode + '</h4>  ' +
+                            '			<h5>' + data[i].cpositioncode + '</h5>  ' +
+                            '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_YiShangJiaQuantity:' + data[i].yjnum + ' &nbsp; @Resources.Lang.PDA_Common_Element_SurplusQuantity:' + data[i].synum + '  </p>  ' +
+                            '		</div>  ' +
+                            '		<div class="mui-table-cell mui-col-xs-2 mui-text-right">  ' +
+                            '			<span class="mui-h5">     ' +
+                            '			</span>  ' +
+                            '		</div>  ' +
+                            '	</div>  ' +
+                            '</li>  ';
+
+                        }
+                        if (IsAppend) {
+                            $("#tab2UL").append(liListhtml);
+                        }
+                        else {
+                            $("#tab2UL").html(liListhtml);
+                        }
+
+                        scrollDisabled = false;
+                        mui('#scroll2').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                    }
+                    else {
+                        //如果没有数据
+                        CurrendIndex2 = CurrendIndex2 - 1;
+                        scrollDisabled = true;
+                        if (!IsAppend) {
+                            $("#tab2UL").empty();
+                        }
+                        mui('#scroll2').pullRefresh().endPullupToRefresh(true);//参数为true代表没有更多数据了。
+                    }
+                    //注意：一定要修改Tab1的高度，否则分页后就只能显示一部分列表
+                    var subHeight = $("#scroll2").children(":first").height();
+                    $("#scroll2").parent(":first").height(subHeight);
+                },
+                error: function (msg) {
+                    //alert(msg);
+                    mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+                    mui('#scroll2').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                }
+            });
+        }
+
+        //Tab3列表查询方法
+        function SearchTab3(IsAppend) {
+            //debugger;
+            //查询事件
+
+            if (IsAppend) {
+                CurrendIndex3 = CurrendIndex3 + 1;//下一页
+            }
+            else {
+                CurrendIndex3 = 1;//查询，第一页
+            }
+            //alert("SearchAsnList");
+            $.ajax({
+                type: "get",
+                url: "/OutAssit/OutASNSearchTab3",
+                data: { asncode: "@ViewBag.asncode", CurrendIndex: CurrendIndex3 },
+                async: true,
+                success: function (data) {
+                    //mui.alert(data);
+                    scrollDisabled = true;
+                    if (data != null && data != undefined && data.length > 0) {
+                        if (!IsAppend) {
+                            $("#tab3UL").empty();
+                        }
+                        var liListhtml = '';
+                        for (var i = 0; i < data.length; i++) {
+                            var ymd = Getmmdd(data[i].DCREATETIME);
+                            liListhtml = liListhtml +
+                            '<li class="mui-table-view-cell">  ' +
+                            '	<div class="mui-slider-right mui-disabled">  ' +
+                            '		<a class="mui-btn mui-btn-red">@Resources.Lang.PDA_Common_Element_Delete</a>  ' +
+                            '       <input type="hidden" class="hdnids" value="'+data[i].ids+'" /> ' +
+                            '	</div>  ' +
+                            '	<div class="mui-table mui-slider-handle">  ' +
+                            '		<div class="mui-table-cell mui-col-xs-10">  ' +
+                            '			<h4 class="mui-ellipsis">' + data[i].cinvcode + '</h4>  ' +
+                            '			<h5>' + data[i].cinvbarcode + '</h5>  ' +
+                            '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CPosition:' + data[i].cpositioncode + ' &nbsp; @Resources.Lang.PDA_Common_Element_YiShangJiaQuantity:' + data[i].iquantity + '  </p>  ' +
+                            '		</div>  ' +
+                            '		<div class="mui-table-cell mui-col-xs-2 mui-text-right">  ' +
+                            '			<span class="mui-h5">  ' +
+                            '				' + data[i].datecode + '  ' +
+                            '			</span>  ' +
+                            '		</div>  ' +
+                            '	</div>  ' +
+                            '</li>  ';
+
+                        }
+                        if (IsAppend) {
+                            $("#tab3UL").append(liListhtml);
+                        }
+                        else {
+                            $("#tab3UL").html(liListhtml);
+                        }
+
+                        //重新绑定事件
+                        //BindLiTap3();
+
+                        scrollDisabled = false;
+                        mui('#scroll3').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                    }
+                    else {
+                        //如果没有数据
+                        CurrendIndex3 = CurrendIndex3 - 1;
+                        scrollDisabled = true;
+                        if (!IsAppend) {
+                            $("#tab3UL").empty();
+                        }
+                        mui('#scroll3').pullRefresh().endPullupToRefresh(true);//参数为true代表没有更多数据了。
+                    }
+                    //注意：一定要修改Tab1的高度，否则分页后就只能显示一部分列表
+                    var subHeight = $("#scroll3").children(":first").height();
+                    $("#scroll3").parent(":first").height(subHeight);
+                },
+                error: function (msg) {
+                    //alert(msg);
+                    mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+                    mui('#scroll3').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                }
+            });
+        }
+
+        //下拉加载更多数据
+        function pullfreshQryTab1() {
+            //业务逻辑代码，比如通过ajax从服务器获取新数据；
+            //......
+            //注意：
+            //1、加载完新数据后，必须执行如下代码，true表示没有更多数据了：
+            //2、若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
+            setTimeout(SearchTab1(true), 1500);
+        }
+        function pullfreshQryTab2() {
+            //业务逻辑代码，比如通过ajax从服务器获取新数据；
+            //......
+            //注意：
+            //1、加载完新数据后，必须执行如下代码，true表示没有更多数据了：
+            //2、若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
+            //mui.alert("SearchTab2");
+            setTimeout(SearchTab2(true), 1500);
+        }
+        function pullfreshQryTab3() {
+            //业务逻辑代码，比如通过ajax从服务器获取新数据；
+            //......
+            //注意：
+            //1、加载完新数据后，必须执行如下代码，true表示没有更多数据了：
+            //2、若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
+            //mui.alert("SearchTab3");
+            setTimeout(SearchTab3(true), 1500);
+        }
+
+        //格式化json日期
+        function Getmmdd(str) {
+            var ymd = '';
+            //str='/Date(1525795200000)/';
+            if (str != undefined) {
+                str = str.replace("/Date(", "").replace(")/", "");
+                var date = new Date(parseFloat(str));
+                //var year = date.getFullYear();
+                var month = (date.getMonth() + 1) + '';
+                if (month.length == 1) {
+                    month = "0" + month;
+                }
+                var strDate = (date.getDate()) + '';
+                if (strDate.length == 1) {
+                    strDate = '0' + strDate;
+                }
+                ymd = month + "-" + strDate;
+                //ymd = str;
+            }
+            return ymd;
+        }
+
+        //Tab1下拉分页
+        mui('#scroll1').pullRefresh({
+            up: {
+                height: 100,//可选.默认50.触发上拉加载拖动距离
+                auto: false,//可选,默认false.自动上拉加载一次
+                contentrefresh: "@Resources.Lang.PDA_Common_Tips_Loading",//正在加载... //可选，正在加载状态时，上拉加载控件上显示的标题内容
+                contentnomore: '@Resources.Lang.PDA_Common_Tips_NoMoreData',//没有更多数据了//可选，请求完毕若没有更多数据时显示的提醒内容；
+                callback: pullfreshQryTab1 //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+            }
+        });
+
+        //Tab2下拉分页
+        mui('#scroll2').pullRefresh({
+            up: {
+                height: 100,//可选.默认50.触发上拉加载拖动距离
+                auto: false,//可选,默认false.自动上拉加载一次
+                contentrefresh: "@Resources.Lang.PDA_Common_Tips_Loading",//正在加载... //可选，正在加载状态时，上拉加载控件上显示的标题内容
+                contentnomore: '@Resources.Lang.PDA_Common_Tips_NoMoreData',//没有更多数据了//可选，请求完毕若没有更多数据时显示的提醒内容；
+                callback: pullfreshQryTab2 //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+            }
+        });
+
+        //Tab3下拉分页
+        mui('#scroll3').pullRefresh({
+            up: {
+                height: 100,//可选.默认50.触发上拉加载拖动距离
+                auto: false,//可选,默认false.自动上拉加载一次
+                contentrefresh: "@Resources.Lang.PDA_Common_Tips_Loading",//正在加载... //可选，正在加载状态时，上拉加载控件上显示的标题内容
+                contentnomore: '@Resources.Lang.PDA_Common_Tips_NoMoreData',//没有更多数据了//可选，请求完毕若没有更多数据时显示的提醒内容；
+                callback: pullfreshQryTab3 //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+            }
+        });
+
+        (function ($, doc) {
+            $.init();
+            $.ready(function () {
+                var _getParam = function (obj, param) {
+                    return obj[param] || '';
+                };
+
+                //普通示例
+                var userPicker = new $.PopPicker();
+
+                $.ajax({
+                    type: "get",
+                    url: "/OutAssit/GetAssitCodeList",
+                    data: { asnid: "@ViewBag.id" },
+                    success: function (data) {
+                        if (data != null && data != undefined && data.length > 0) {
+                            userPicker.setData(data);
+                            doc.getElementById("txtType").value = data[0].value;
+                            doc.getElementById("showUserPicker").innerText = data[0].text;
+                        }
+                    },
+                    error: function (msg) {
+                        //alert(msg);
+                    }
+                });
+
+                var showUserPickerButton = doc.getElementById('showUserPicker');
+                var userResult = doc.getElementById('userResult');
+                showUserPickerButton.addEventListener('tap', function (event) {
+                    userPicker.show(function (items) {
+                        doc.getElementById("txtType").value = items[0].value;
+                        doc.getElementById("showUserPicker").innerText = items[0].text;
+                    });
+                }, false);
+
+            });
+        })(mui, document);
+
+
+        $(document).ready(function () {
+            BindLiTap1();
+            BindLiTap3();
+
+            $("#btnReturn").bind("tap", function () {
+                location.href = "/OutAssit/OutAssitList/@ViewBag.UserNo";
+            });
+
+            $("#btnMain").bind("tap", function () {
+                location.href = "/PDA/Main/@ViewBag.UserNo";
+            });
+
+            $("#btnAssit").bind("tap", function () {
+                var assitid = $("#txtType").val();
+                var asnid = "@ViewBag.id";
+                $.ajax({
+                    type: "get",
+                    url: "/OutAssit/CheckOutAssit",
+                    data: { asnid: "@ViewBag.id",assitid: assitid },
+                    success: function (data) {
+                        if (data.Status == "1") {
+                            mui.alert(data.Info);
+                        } else {
+                            location.href = "/OutAssit/OutAssitEdit?Assitid=" + assitid + "&asnid=" + asnid;
+                        }
+                    },
+                    error: function (msg) {
+                        //alert(msg);
+                    }
+                });
+            });
+
+        });
+
+        //绑定Tab1选择事件
+        function BindLiTap1() {
+            $("#tab1UL").children().bind("tap", function () {
+                location.href = "/Out/OutBill/@ViewBag.ids/@ViewBag.asncode";
+            });
+        }
+
+        //绑定Tab3删除事件
+        function BindLiTap3() {
+
+            $('.mui-scroll-wrapper').scroll({
+                indicators: true //是否显示滚动条
+            });
+
+            var btnArray = ['@Resources.Lang.PDA_Common_Element_Button_Confirm', '@Resources.Lang.PDA_Common_Element_Button_Cancel'];
+
+            $('#tab3UL').on('tap', '.mui-btn', function (event) {
+                var elem = this;
+                var li = elem.parentNode.parentNode;
+                mui.confirm('@Resources.Lang.PDA_Common_Tips_DeleteConfirm', 'Hello MUI', btnArray, function (e) {//确认删除该条记录？
+                    if (e.index == 0) {
+                        
+                        //ajax后台删除明细
+                        $.ajax({
+                            type: "get",
+                            url: "/OutAssit/DeleteTempOutBill_D",
+                            data: { ids: hdnIds },
+                            async: true,
+                            success: function (data) {
+                                if (data == "") {
+                                    var CurrendIndex1 = 1;//Tab1当前页数
+                                    var CurrendIndex2 = 1;//Tab2当前页数
+                                    var CurrendIndex3 = 1;//Tab3当前页数
+                                    SearchTab1(false);
+                                    SearchTab2(false);
+                                    SearchTab3(false);
+                                }
+                                else {
+                                    mui.alert(data);
+                                }
+                            },
+                            error: function (msg) {
+                                //alert(msg);
+                                mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+
+                            }
+                        });
+
+
+                    } else {
+                        setTimeout(function () {
+                            $.swipeoutClose(li);
+                        }, 0);
+                    }
+                });
+            });
+        }
+
+
+	</script>
+
+</body>
+</html>

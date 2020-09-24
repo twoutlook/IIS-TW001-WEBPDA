@@ -1,0 +1,265 @@
+﻿@{
+    Layout = null;
+}
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@Resources.Lang.PDA_Common_Element_KuaiJiePeiLiao</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!--标准mui.css-->
+	<link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
+	<!--App自定义的css-->
+	<!-- <link rel="stylesheet" type="text/css" href="../css/app.css" /> -->
+    <!--App自定义的css-->
+	<link rel="stylesheet" type="text/css" href="~/Content/MUI/css/app.css" />
+	<link href="~/Content/MUI/css/mui.picker.css" rel="stylesheet" />
+	<link href="~/Content/MUI/css/mui.poppicker.css" rel="stylesheet" />
+
+    <style>
+			.mui-btn {
+				font-size: 16px;
+				padding: 8px;
+				margin: 3px;
+			}
+			h5.mui-content-padded {
+				margin-left: 3px;
+				margin-top: 20px !important;
+			}
+			h5.mui-content-padded:first-child {
+				margin-top: 12px !important;
+			}
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+
+        .rowFlow
+        {
+          float:left;
+        }
+
+        .buttonText
+        {
+            text-align:left;
+        }
+
+        .barcodeRight
+        {
+            background-image:url("../../Content/Images/u222.png") !important;
+            background-repeat:no-repeat !important;
+            background-position:99% center !important;
+            margin-bottom:1px !important;
+        }
+        .inputWidth
+        {
+            width:90%!important;
+
+        }
+
+    </style>
+    <link rel="stylesheet" href="~/Content/MUI/css/iconfontNew.css">
+
+</head>
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <button type="button" class="mui-btn mui-btn-link mui-pull-left" id="btnReturn">
+		    <span class="mui-icon mui-icon-back"></span>@Resources.Lang.PDA_Common_Element_GoBack
+	    </button>
+         <button type="button" class="mui-btn mui-btn-link mui-pull-right" id="btnMain">
+	        <span class="mui-icon mui-icon-home"></span>
+        </button>
+	    <h1 class="mui-title" style="color:#5A98FB;">
+            @Resources.Lang.PDA_Common_Element_KuaiJiePeiLiao
+	    </h1>
+        <h1 class="mui-title" style="text-decoration:underline;color:#5A98FB;">@Resources.Lang.PDA_Common_Element_KuaiJiePeiLiao</h1>
+    </header>
+		
+        <div class="mui-content">
+			<div class="mui-content-padded"  style="margin: 5px;">
+                 
+                <form class="mui-input-group">
+
+                 <h5 class="mui-content-padded"></h5>
+                 <h5 class="mui-content-padded"></h5>
+                
+                
+                <div class="mui-input-row">
+				  <label>@Resources.Lang.PDA_Common_Element_ZhangBanBianHao</label>
+				  <input type="text" class="mui-input-clear barcodeRight"  id="txtPalletCode" placeholder="@Resources.Lang.PDA_Common_Element_ZhangBanBianHao" value="">
+			    </div>
+                
+                <div style="vertical-align: middle;text-align: center; ">
+                  <button type="button" class="mui-btn mui-btn-primary mui-btn-block mui-icon mui-icon-plus" 
+                      style="font-size:16px;" id="btnCreate" onclick="return false;" data-loading-text="@Resources.Lang.PDA_Common_Element_Createing" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_CreateTask</button>
+                  
+                 </div>       
+
+                <h5 class="mui-content-padded"></h5>
+                
+                <div>
+                    <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="ulDetails">  </ul>
+                </div>
+
+
+
+                <div style="display:none;">
+                    <input type="text" id="txtBeginSite" /> 
+                    <input type="text" id="txtEndSite" />
+                </div>
+              </form>
+
+			</div>
+		</div>
+		<script src="~/Content/MUI/js/mui.min.js"></script>
+		<!--<script src="../js/mui.picker.min.js"></script>-->
+		<script src="~/Content/MUI/js/mui.picker.js"></script>
+		<script src="~/Content/MUI/js/mui.poppicker.js"></script>
+		<script src="~/Content/MUI/js/city.data.js" type="text/javascript" charset="utf-8"></script>
+		<script src="~/Content/MUI/js/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+
+		    (function ($, doc) {
+		        $.init();
+		        $.ready(function () {
+
+		            /**
+					 * 获取对象属性的值
+					 * 主要用于过滤三级联动中，可能出现的最低级的数据不存在的情况，实际开发中需要注意这一点；
+					 * param {Object} obj 对象
+					 * param {String} param 属性名
+					 */
+		            var _getParam = function (obj, param) {
+		                return obj[param] || '';
+		            };
+
+
+
+		            var returnBtn = document.getElementById("btnReturn");
+		            //监听点击事件
+		            returnBtn.addEventListener("tap", function () {
+		                location.href = "/PDA/Main/@ViewBag.UserNo";
+		            });
+
+		            var mainBtn = document.getElementById("btnMain");
+		            //监听点击事件
+		            mainBtn.addEventListener("tap", function () {
+		                location.href = "/PDA/Main/@ViewBag.UserNo";
+		            });
+
+		            //var listBtn = document.getElementById("btnTaskList");
+		            ////监听点击事件
+		            //listBtn.addEventListener("tap", function () {
+		            //    $(listBtn).button('loading');//切换为loading状态
+		            //    location.href = "/Task/WCSProcessList/@ViewBag.UserNo/3/@ViewBag.id/@ViewBag.erpcode";
+		            //});
+
+		            var createBtn = document.getElementById("btnCreate");
+		            //监听点击事件
+		            createBtn.addEventListener("tap", function () {
+
+		                var packageNO = document.getElementById("txtPalletCode").value;
+		               
+		                if (packageNO == "") {
+		                    mui.alert("@Resources.Lang.PDA_Common_Tips_NeedPalletCode");//栈板号不能为空！
+		                    return;
+		                }
+		                $.ajax({
+		                    type: "get",
+		                    dataType: 'json',
+		                    contentType: "json",
+		                    url: "/Task/QuickMixedCallCar",
+		                    data: { "palletCode": packageNO },
+		                    success: function (data) {
+		                        if (data != null && data != undefined) {
+		                            if (data.ReturnValue == "0") {
+		                                mui.alert("@Resources.Lang.PDA_Common_Tips_JiaoCheSuccess");//叫车成功!
+		                            }
+		                            else {
+		                                mui.alert("@Resources.Lang.PDA_Common_Tips_JiaoCheFailed: " + data.ErrorMessage);//叫车失败
+		                            }
+
+		                        } else {
+		                            mui.alert("@Resources.Lang.PDA_Common_Tips_JiaoCheFailed!");//叫车失败
+		                        }
+
+		                    },
+		                    error: function (msg) {
+		                        //alert(msg);
+		                    }
+		                });
+		            });
+
+		            var txtCode = document.getElementById("txtPalletCode");
+		            var ulInfo = document.getElementById("ulDetails");
+		            txtCode.addEventListener("keydown", function (event) {
+
+		                if (event.keyCode == 13)//keyCode=13是回车键
+		                {
+		                    var palletCode = txtCode.value;
+		                    $.ajax({
+		                        type: "get",
+		                        url: "/Task/QuickMixedSearch",
+		                        data: { "palletCode": palletCode },
+		                        async: false,
+		                        success: function (data) {
+		                            scrollDisabled = true;
+		                            //mui.alert("data=" + data);
+		                            if (data != null && data != undefined && data.length > 0) {
+		                                ulInfo.innerHTML = "";
+		                                var liListhtml = '';
+		                                //mui.alert("开始计算值");
+		                                for (var i = 0; i < data.length; i++) {
+		                                    liListhtml = liListhtml +
+                                            '<li class="mui-table-view-cell"> ' +
+                                            '	<div class="mui-table"> ' +
+                                            '		<div class="mui-table-cell mui-col-xs-10"> ' +
+                                            '			<h4 class="mui-ellipsis">@Resources.Lang.PDA_Common_Element_OutBillCode：' + data[i].CTICKETCODE + '</h4> ' +
+                                            '			<h5>@Resources.Lang.PDA_Common_Element_LiaoHao:' + data[i].CINVCODE + '</h5> ' +
+                                            '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_Quantity:' + data[i].QTY + '  </p> ' +
+                                            '		</div> ' +
+                                            '	</div> ' +
+                                            '</li> ';
+
+		                                }
+		                                ulInfo.innerHTML = liListhtml;
+		                                scrollDisabled = false;
+		                                //mui('#offCanvasContentScroll').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+		                                //mui.alert(liListhtml);
+		                            }
+		                            else {
+		                                scrollDisabled = true;
+		                                if (!IsAppend) {
+		                                    //$(".mui-table-view").empty();
+		                                }
+		                                //mui('#offCanvasContentScroll').pullRefresh().endPullupToRefresh(true);//参数为true代表没有更多数据了。
+		                            }
+		                            //mui.alert(CurrendIndex);
+		                        },
+		                        error: function (msg) {
+		                            alert(msg);
+		                            mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+		                            //mui('#offCanvasContentScroll').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+		                        }
+		                    });
+		                }
+		            });
+
+
+		        });
+		    })(mui, document);
+
+
+		   
+		</script>
+   
+</body>
+</html>

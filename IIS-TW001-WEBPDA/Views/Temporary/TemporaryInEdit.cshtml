@@ -1,0 +1,544 @@
+﻿@model Tuple<List<WMSPDA.Model.TEMP_INBILL_D>, List<WMSPDA.Model.V_PDA_TemporaryInItems>>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!--标准mui.css-->
+	<link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
+	<!--App自定义的css-->
+	<!-- <link rel="stylesheet" type="text/css" href="../css/app.css" /> -->
+
+    <!--App自定义的css-->
+	<link rel="stylesheet" type="text/css" href="~/Content/MUI/css/app.css" />
+
+    <title>立库暂存入</title>@*@Resources.Lang.PDA_Common_Element_AssitDetail*@
+    	<style>
+    	    .mui-control-content {
+    	        background-color: white;
+    	        min-height: 215px;
+    	    }
+
+    	        .mui-control-content .mui-loading {
+    	            margin-top: 50px;
+    	        }
+    	</style>
+
+</head>
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+
+        <button type="button" class="mui-btn mui-btn-link mui-pull-left" id="btnReturn">
+		    <span class="mui-icon mui-icon-back"></span>@Resources.Lang.PDA_Common_Element_GoBack
+		</button>
+
+        <button type="button" class="mui-btn mui-btn-link mui-pull-right" id="btnMain">
+	        <span class="mui-icon mui-icon-home"></span>
+        </button>
+
+		<h1 class="mui-title" style="text-decoration:underline;color:#5A98FB;">
+            立库暂存入
+		</h1>
+	</header>
+
+	<div class="mui-content">
+        <div class="mui-content-padded" style="margin: 5px;">
+            <form class="mui-input-group">
+                <div class="mui-input-row">
+				    <label>@Resources.Lang.PDA_Common_Element_ERPCode</label>
+					<input type="text" class="mui-input-clear" id="txtErpcode" placeholder="@Resources.Lang.PDA_Common_Element_ERPCode" value="@ViewBag.erpcode" disabled="disabled" style="ime-mode:disabled">
+				</div>
+                <div class="mui-input-row">
+					<label>入库通知单号</label>
+					<input type="text" class="mui-input-clear" id="txtCticketcode" placeholder="@Resources.Lang.PDA_Common_Element_OutBillCode" value="@ViewBag.billCode" disabled="disabled"  style="ime-mode:disabled">
+				</div>
+                <div class="mui-input-row">
+					<label>暂存储位</label>
+					<input type="text" class="mui-input-clear" id="txtCpositionCode" autocomplete="off" value="@ViewBag.CpositionCode" style="ime-mode:disabled">
+				</div>
+                <div class="mui-input-row">
+					<label>SN</label>
+					<input type="text" class="mui-input-clear" id="txtSN" placeholder="栈板号" autocomplete="off"  style="ime-mode:disabled">
+				</div>
+                <div class="mui-input-row">
+					<label>@Resources.Lang.PDA_Common_Element_LiaoHao</label>
+					<input type="text" class="mui-input-clear" id="txtCinvCode" autocomplete="off" placeholder="@Resources.Lang.PDA_Common_Element_LiaoHao">
+				</div>
+                <div class="mui-input-row">
+					<label>品名</label>
+					<input type="text" class="mui-input-clear" id="txtCinvName" disabled="disabled" style="ime-mode:disabled">
+				</div>
+              <div class="mui-input-row">
+	            <label>@Resources.Lang.PDA_InBillPickBox_GuiZeXingHao</label>
+	            <input type="text" class="mui-input-clear" id="txtcspec" placeholder="@Resources.Lang.PDA_InBillPickBox_GuiZeXingHao" autocomplete="off"  onpaste="return false" style="ime-mode:disabled" disabled="disabled" >
+             </div>   
+ <div class="mui-input-row">
+					<label>DateCode</label>
+					<input type="text" class="mui-input-clear" id="txtDateCode" placeholder="DateCode" autocomplete="off"  onpaste="return false" style="ime-mode:disabled" >
+			    </div>         
+                <div class="mui-input-row">
+					<label>@Resources.Lang.PDA_Common_Element_TotalQuantity</label>
+					<input type="text" class="mui-input-clear" id="txtTotalQty" onkeydown="return false" disabled="disabled" onkeyup="return false" onpaste="return false" style="ime-mode:disabled">
+				</div>
+                <div class="mui-input-row">
+					<label>剩余数量</label>
+					<input type="text" class="mui-input-clear" id="txtLessQty" onkeydown="return false" disabled="disabled" onkeyup="return false" onpaste="return false" style="ime-mode:disabled">
+			    </div>
+                <div class="mui-input-row">
+					<label>本次数量</label>
+					<input type="text" class="mui-input-clear" id="txtQty" autocomplete="off"  style="ime-mode:disabled">
+			    </div>
+                <div class="mui-button-row">
+					<button type="button" class="mui-btn mui-btn-primary" id="btnSave" onclick="return false;" data-loading-text="@Resources.Lang.PDA_Common_Element_Saveing" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Save</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" class="mui-btn mui-btn-warning" id="btnSubmit" onclick="return false;" data-loading-text="@Resources.Lang.PDA_Common_Element_Completeing" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Complete</button>
+                    <input type="hidden" id="hdnLine" value="1" />
+				</div>
+            </form>
+        </div>
+
+		<div id="slider" class="mui-slider">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item mui-active" href="#item1mobile">
+				        暂存入信息
+			        </a>
+                    <a class="mui-control-item" href="#item2mobile">
+                        通知单信息
+			        </a>
+                    <a class="mui-control-item" href="">
+			        </a>
+				</div>
+                <div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+                                <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="tab1UL">
+                                     @foreach (WMSPDA.Model.TEMP_INBILL_D bo in Model.Item1)
+                                    { 
+                                        <li class="mui-table-view-cell">
+                                            <div class="mui-slider-right mui-disabled">
+				                                <a class="mui-btn mui-btn-red">@Resources.Lang.PDA_Common_Element_Delete</a>
+                                                <input type="hidden" class="hdnids" value="@bo.ids" />
+			                                </div>
+		                                    <div class="mui-table mui-slider-handle">
+		                                        <div class="mui-table-cell mui-col-xs-10">
+		                                            <h4 class="mui-ellipsis">@bo.cinvcode</h4>
+		                                            <h5>@bo.cinvbarcode</h5>
+		                                            <p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CPosition:@bo.cpositioncode &nbsp; 暂存数量:@bo.iquantity.Value.ToString("f2")  </p>
+		                                        </div>
+		                                        <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                                            <span class="mui-h5">
+		                                            </span>
+		                                        </div>
+		                                    </div>
+		                                </li>
+                                    }
+                                </ul>
+							</div>
+						</div>
+					</div>
+					
+                    <div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+                                <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="tab2UL">
+                                     @foreach (WMSPDA.Model.V_PDA_TemporaryInItems bo in Model.Item2)
+                                    { 
+                                        <li class="mui-table-view-cell">
+		                                    <div class="mui-table mui-slider-handle">
+		                                        <div class="mui-table-cell mui-col-xs-10">
+		                                            <h4 class="mui-ellipsis">@bo.cinvcode</h4>
+		                                            <h5>@bo.cinvname</h5>
+		                                            <p class="mui-h6 mui-ellipsis">通知单总数量:@bo.iquantity.Value.ToString("f2") &nbsp; 可暂存数量:@bo.qty.Value.ToString("f2")  </p>
+		                                        </div>
+		                                        <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                                            <span class="mui-h5">
+                                                       
+		                                            </span>
+		                                        </div>
+		                                    </div>
+		                                </li>
+                                    }
+                                </ul>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+    </div>
+
+    <script src="~/Content/MUI/js/mui.min.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script>
+
+        //Tab3列表查询方法
+        function SearchTab() {
+            $.ajax({
+                type: "get",
+                url: "/Temporary/TemporaryInEditSearch",
+                data: { id: "@ViewBag.id"},
+                async: true,
+                success: function (data) {
+                    scrollDisabled = true;
+                    if (data != null && data != undefined) {
+                        $("#tab1UL").empty();
+                        $("#tab2UL").empty();
+                        
+                        var list1 = data.TemporaryList;
+                        var list2 = data.AsnItems;
+                        
+                        //暂存信息
+                        if (list1 != null && list1.length > 0) {
+                            var liListhtml = '';
+                            for (var i = 0; i < list1.length; i++) {
+                                liListhtml = liListhtml +
+                                '<li class="mui-table-view-cell">  ' +
+                                '	<div class="mui-slider-right mui-disabled">  ' +
+                                '		<a class="mui-btn mui-btn-red">@Resources.Lang.PDA_Common_Element_Delete</a>  ' +
+                                '       <input type="hidden" class="hdnids" value="' + list1[i].ids + '" /> ' +
+                                '	</div>  ' +
+                                '	<div class="mui-table mui-slider-handle">  ' +
+                                '		<div class="mui-table-cell mui-col-xs-10">  ' +
+                                '			<h4 class="mui-ellipsis">' + list1[i].cinvcode + '</h4>  ' +
+                                '			<h5>' + list1[i].cinvbarcode + '</h5>  ' +
+                                '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CPosition:' + list1[i].cpositioncode + ' &nbsp; 暂存数量:' + list1[i].iquantity.toFixed(2) + '  </p>  ' +
+                                '		</div>  ' +
+                                '		<div class="mui-table-cell mui-col-xs-2 mui-text-right">  ' +
+                                '			<span class="mui-h5">  ' +
+                                '			</span>  ' +
+                                '		</div>  ' +
+                                '	</div>  ' +
+                                '</li>  ';
+
+                            }
+                            $("#tab1UL").html(liListhtml);
+                        }
+
+                        if (list2 != null && list2.length > 0) {
+                            var liListhtml2 = '';
+                            for (var i = 0; i < list2.length; i++) {
+                                liListhtml2 = liListhtml2 +
+                                '<li class="mui-table-view-cell">  ' +
+                                '	<div class="mui-table mui-slider-handle">  ' +
+                                '		<div class="mui-table-cell mui-col-xs-10">  ' +
+                                '			<h4 class="mui-ellipsis">' + list2[i].cinvcode + '</h4>  ' +
+                                '			<h5>' + list2[i].cinvname + '</h5>  ' +
+                                '			<p class="mui-h6 mui-ellipsis">通知单总数量:' + list2[i].iquantity.toFixed(2) + ' &nbsp; 可暂存数量:' + list2[i].qty.toFixed(2) + '  </p>  ' +
+                                '		</div>  ' +
+                                '		<div class="mui-table-cell mui-col-xs-2 mui-text-right">  ' +
+                                '			<span class="mui-h5">  ' +
+                                '			</span>  ' +
+                                '		</div>  ' +
+                                '	</div>  ' +
+                                '</li>  ';
+
+                            }
+
+                            $("#tab2UL").html(liListhtml2);
+                        }
+                    }
+                    else {
+                        //如果没有数据
+                        scrollDisabled = true;
+                        $("#tab1UL").empty();
+                    }
+                    //注意：一定要修改Tab1的高度，否则分页后就只能显示一部分列表
+                    var subHeight = $("#scroll1").children(":first").height();
+                    $("#scroll1").parent(":first").height(subHeight);
+
+                    var subHeight2 = $("#scroll2").children(":first").height();
+                    $("#scroll2").parent(":first").height(subHeight2);
+                },
+                error: function (msg) {
+                    //alert(msg);
+                    mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            BindLiTap1();
+
+            $("#btnReturn").bind("tap", function () {
+                location.href = "/Temporary/TemporaryInList/@ViewBag.UserNo";
+            });
+
+            $("#btnMain").bind("tap", function () {
+                location.href = "/PDA/Main/@ViewBag.UserNo";
+            });
+
+
+            $("#btnSave").bind("tap", function () {
+                mui(this).button('loading');
+                Save();
+                setTimeout(function () {
+                    mui(this).button('reset');
+                }.bind(this), 1000);
+            });
+
+            $("#btnSubmit").bind("tap", function () {
+                mui(this).button('loading');
+                SubmitCase();
+                setTimeout(function () {
+                    mui(this).button('reset');
+                }.bind(this), 1000);
+            });
+            var subHeight = $("#scroll1").children(":first").height();
+            $("#scroll1").parent(":first").height(subHeight);
+
+            var subHeight2 = $("#scroll2").children(":first").height();
+            $("#scroll2").parent(":first").height(subHeight2);
+
+            $("#txtSN").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    var txtDateCode = $("#txtSN").val();
+                    $("#txtCinvCode").focus();                    
+                }
+            });
+            //料号回车事件
+            $("#txtCinvCode").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    var txtCinvCode = $("#txtCinvCode").val().trim();
+                    var sn = $("#txtSN").val();
+                    if (sn.length>0) {
+                        $.ajax({
+                            type: "get",
+                            url: "/Temporary/GetTemporaryByCinvCode",
+                            dataType: "json",
+                            data: { cinvcode: txtCinvCode, id: "@ViewBag.id", sn: sn },
+                            async: false,
+                            success: function (data) {
+                                if (data != undefined && data != "") {                                  
+                                    if (data.code == "0" || data.code == "2") {
+                                        if (data.code == "2") {
+                                            mui.alert(data.msg);
+                                        }
+                                        $("#txtCinvCode").val(data.cinvcode);
+                                        $("#txtCinvName").val(data.cinvname);
+                                        $("#txtcspec").val(data.cspecifications);
+                                        $("#txtDateCode").val(data.DateCode);
+                                        $("#txtTotalQty").val(data.totalqty);
+                                        $("#txtLessQty").val(data.currentSumqty);
+                                        $("#txtQty").val(data.qty);
+                                        var e = $.Event('keydown');
+                                        e.keyCode = 13; // Character 'A'
+                                        $("#txtDateCode").trigger(e);
+                                    } else {
+                                        mui.alert(data.msg);
+                                    }
+                                }
+                            },
+                            error: function (msg) {
+                                mui.alert(msg);
+                            }
+                        });
+                    }
+                    else {
+                        mui.alert("请扫描料号！");//请扫描料号！
+                        $("#txtCinvCode").val("");
+                        $("#txtCinvName").val("");
+                        $("#txtcspec").val("");
+                        $("#txtDateCode").val("");
+                        $("#txtTotalQty").val("");
+                        $("#txtLessQty").val("");
+                        $("#txtQty").val("");
+                    }
+                }
+            });
+            $("#txtDateCode").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    var txtDateCode = $("#txtDateCode").val();                   
+                    $.ajax({
+                        type: "get",
+                        url: "/CheckData/CheckDateCodeFormat",
+                        dataType: "text",
+                        data: { datecode: txtDateCode},
+                        async: false,
+                        success: function (data) {
+                            if (data != undefined && data == "") {
+                                //验证通过
+                                $("#txtQty").focus();
+                            } else {
+                                mui.alert(data);
+                                $("#txtDateCode").val("");
+                                $("#txtDateCode").focus();
+                            }
+                        },
+                        error: function (msg) {
+                            mui.alert(msg);
+                        }
+                    });
+                }
+            });
+        });
+
+        //保存
+        function Save() {
+            var emptVal = $("#txtCpositionCode").val();
+            if (emptVal == "") {
+                mui.toast("请输入暂存储位！");//请输入暂存储位！
+                $("#txtCpositionCode").focus();
+                return;
+            }
+
+            emptVal = $("#txtSN").val();
+            if (emptVal == "") {
+                mui.toast("请输入SN！");//请输入SN！
+                $("#txtSN").focus();
+                return;
+            }
+
+            emptVal = $("#txtCinvCode").val();
+            if (emptVal == "") {
+                mui.toast("@Resources.Lang.PDA_Common_Tips_NeedCinvcode");//请输入料号！
+                $("#txtCinvCode").focus();
+                return;
+            }
+
+            emptVal = $("#txtQty").val();
+            if (emptVal == "") {
+                mui.toast("请输入本次数量！");//请输入本次数量！
+                $("#txtQty").focus();
+                return;
+            }
+            else {
+                if (isNaN(emptVal)) {
+                    mui.toast("@Resources.Lang.PDA_Common_Tips_QuantityNotShuZi");//数量不是数字
+                    $("#txtQty").focus();
+                    return;
+                }
+            }
+            emptVal = $("#txtDateCode").val();
+            if (emptVal == "") {
+                mui.toast("@Resources.Lang.PDA_InBillPickBox_DateCodeChcek");//DateCode 不能为空，请重新扫描料号
+                $("#txtCinvCode").focus();
+                return;
+            }
+            //验证通过，保存数据
+            var cpositioncode = $("#txtCpositionCode").val();
+            var cinvCode = $("#txtCinvCode").val();
+            var qty = $("#txtQty").val();
+            var sn = $("#txtSN").val();
+            var datecode = $("#txtDateCode").val();          
+            $.ajax({
+                type: "get",
+                url: "/Temporary/TemporaryInSave",
+                dataType: "json",
+                data: { id: "@ViewBag.id", vCpositioncode: cpositioncode, palletcode: sn, vCinvcode: cinvCode, vQty: qty, DateCode: datecode },
+                async: false,
+                success: function (data) {
+                    if (data != undefined && data != "") {
+                        if (data.Status == "0") {
+                            mui.alert("@Resources.Lang.PDA_Common_Tips_SaveSuccess");//保存成功！
+                            clearText();
+                            SearchTab();
+                        }
+                        else {
+                            mui.alert("@Resources.Lang.PDA_Common_Tips_SaveFailed" + data.Info);//保存失败：
+                        }
+                    }
+                    else {
+
+                    }
+                },
+                error: function (msg) {
+                    mui.alert("@Resources.Lang.PDA_Common_Tips_SaveFailed" + msg);//保存失败：
+                }
+            });
+        }
+
+        //完成
+        function SubmitCase() {
+            $.ajax({
+                type: "get",
+                url: "/Temporary/TemporaryInSubmit",
+                dataType: "json",
+                data: { id: "@ViewBag.id" },
+                async: false,
+                success: function (data) {
+                    if (data != undefined && data != "") {
+                        if (data.Status == "0") {
+                            mui.alert("@Resources.Lang.PDA_Common_Tips_CommitSuccess", function () {
+                                location.href = "/Temporary/TemporaryInList/@ViewBag.UserNo";
+                            });//提交成功!
+                        }
+                        else {
+                            mui.alert("@Resources.Lang.PDA_Common_Tips_CommitFailed" + data.Info);//提交失败：
+                        }
+                    }
+                    else {
+
+                    }
+                },
+                error: function (msg) {
+                    mui.alert("@Resources.Lang.PDA_Common_Tips_CommitFailed" + msg);//提交失败：
+                }
+            });
+        }
+
+        function clearText() {
+            $("#txtSN").val("");
+            $("#txtCinvCode").val("");
+            $("#txtCinvName").val("");
+            $("#txtDateCode").val("");
+            $("#txtcspec").val("");
+            $("#txtTotalQty").val("");
+            $("#txtLessQty").val("");
+            $("#txtQty").val("");
+        }
+
+        //绑定Tab3删除事件
+        function BindLiTap1() {
+
+            $('.mui-scroll-wrapper').scroll({
+                indicators: true //是否显示滚动条
+            });
+
+            var btnArray = ['@Resources.Lang.PDA_Common_Element_Button_Confirm', '@Resources.Lang.PDA_Common_Element_Button_Cancel'];
+
+            $('#tab1UL').on('tap', '.mui-btn', function (event) {
+                var elem = this;
+                var li = elem.parentNode.parentNode;
+                mui.confirm('@Resources.Lang.PDA_Common_Tips_DeleteConfirm', '@Resources.Lang.PDA_Common_Tips_Friendship', btnArray, function (e) {//确认删除该条记录？
+                    if (e.index == 0) {
+                        var hdnIds = $(li).find(".hdnids").val();
+                        //ajax后台删除明细
+                        $.ajax({
+                            type: "get",
+                            url: "/Temporary/DeleteTemporaryIn",
+                            data: { ids: hdnIds },
+                            async: true,
+                            success: function (data) {
+                                if (data != undefined && data != "" && data.Status == "0") {
+                                    mui.alert("@Resources.Lang.PDA_Common_Tips_DeleteSuccess");//删除成功!
+                                    SearchTab();
+                                }
+                                else {
+                                    mui.alert(data.Info);
+                                }
+                            },
+                            error: function (msg) {
+                                mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+                            }
+                        });
+                    } else {
+                        //setTimeout(function () {
+                        //    $.swipeoutClose(li);
+                        //}, 0);
+                    }
+                });
+            });
+        }
+	</script>
+
+</body>
+</html>

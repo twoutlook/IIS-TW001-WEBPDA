@@ -1,0 +1,263 @@
+﻿@{
+    ViewBag.Title = "NewCallCar";
+}
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>手动叫车</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
+    <!--App自定义的css-->
+    <!-- <link rel="stylesheet" type="text/css" href="../css/app.css" /> -->
+    <!--App自定义的css-->
+    <link rel="stylesheet" type="text/css" href="~/Content/MUI/css/app.css" />
+    <link href="~/Content/MUI/css/mui.picker.css" rel="stylesheet" />
+    <link href="~/Content/MUI/css/mui.poppicker.css" rel="stylesheet" />
+
+    <style>
+        .mui-btn
+        {
+            font-size: 16px;
+            padding: 8px;
+            margin: 3px;
+        }
+
+        h5.mui-content-padded
+        {
+            margin-left: 3px;
+            margin-top: 20px !important;
+        }
+
+            h5.mui-content-padded:first-child
+            {
+                margin-top: 12px !important;
+            }
+
+        .ui-alert
+        {
+            text-align: center;
+            padding: 20px 10px;
+            font-size: 16px;
+        }
+
+        .rowFlow
+        {
+            float: left;
+        }
+
+        .buttonText
+        {
+            text-align: left;
+        }
+
+        .barcodeRight
+        {
+            background-image: url("../../Content/Images/u222.png");
+            background-repeat: no-repeat;
+            background-position: 99% center;
+            margin-bottom: 1px;
+        }
+    </style>
+    <link rel="stylesheet" href="~/Content/MUI/css/iconfontNew.css">
+</head>
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+        <button type="button" class="mui-btn mui-btn-link mui-pull-left" id="btnReturn">
+            <span class="mui-icon mui-icon-back"></span>@Resources.Lang.PDA_Common_Element_GoBack
+        </button>
+        <button type="button" class="mui-btn mui-btn-link mui-pull-right" id="btnMain">
+            <span class="mui-icon mui-icon-home"></span>
+        </button>
+        <h1 class="mui-title" style="text-decoration: underline; color: #5A98FB;">手动叫车</h1>
+    </header>
+
+    <div class="mui-content">
+        <div class="mui-content-padded" style="margin: 5px;">
+            <form class="mui-input-group">
+                <div class="mui-input-row">
+                    <label>栈板号：</label>
+                    <input type="text" class="mui-input-clear" id="txtPalletCode" placeholder="@Resources.Lang.PDA_Common_Element_OldPosition" style="ime-mode: disabled">
+                </div>
+                <div class="mui-input-row">
+                    <label>起始站点：</label>
+                    <button id='showFromSite' class="mui-btn mui-btn-block buttonText mui-icon mui-icon-arrowdown mui-right" type='button' style="float:left;width:60%;">起始站点</button>
+                </div>
+                <div class="mui-input-row">
+                    <label>目的站点：</label>
+                    <button id='showToSite' class="mui-btn mui-btn-block buttonText mui-icon mui-icon-arrowdown mui-right" type='button' style="float:left;width:60%;">目的站点</button>
+                </div>
+                <div class="mui-button-row">
+                    <button type="button" class="mui-btn-primary" id="btnSave" onclick="return false;" data-loading-text="@Resources.Lang.PDA_Common_Element_Saveing" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Save</button>
+                </div>
+            </form>
+
+            <div style="display: none;">
+                <input type="text" id="txtFromSite" />
+                <input type="text" id="txtToSite" />
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/MUI/js/mui.min.js"></script>
+    <!--<script src="../js/mui.picker.min.js"></script>-->
+    <script src="~/Content/MUI/js/mui.picker.js"></script>
+    <script src="~/Content/MUI/js/mui.poppicker.js"></script>
+    <script src="~/Content/MUI/js/city.data.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/Content/MUI/js/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+
+        (function ($, doc) {
+            $.init();
+            $.ready(function () {
+
+                /**
+                 * 获取对象属性的值
+                 * 主要用于过滤三级联动中，可能出现的最低级的数据不存在的情况，实际开发中需要注意这一点；
+                 * param {Object} obj 对象
+                 * param {String} param 属性名
+                 */
+                var _getParam = function (obj, param) {
+                    return obj[param] || '';
+                };
+
+                //-----------------------------------------
+                //					//级联示例
+                var cityPicker1 = new $.PopPicker({
+                    layer: 2
+                });
+
+                var cityPicker2= new $.PopPicker({
+                    layer: 2
+                });  
+                $.ajax({
+                    type: "get",
+                    url: "/Dispatch/GetFromStations",
+                    data: {},
+                    success: function (data) {                      
+                        if (data != null && data != undefined && data.length > 0) {                         
+                            cityPicker1.setData(data);
+                        }
+                    },
+                    error: function (msg) {                       
+                    }
+                });
+                     
+                var txtFromSite = document.getElementById("txtFromSite");
+                var showFromSite = doc.getElementById('showFromSite');
+                showFromSite.addEventListener('tap', function (event) {
+                    cityPicker1.show(function (items) {
+                        showFromSite.innerText = _getParam(items[1], 'text')
+                        txtFromSite.value = _getParam(items[1], 'value');
+                        
+                        //返回 false 可以阻止选择框的关闭                        
+                        //return false;
+                        var siteid = _getParam(items[1], 'value');
+                        LoadToStation(siteid);
+                    });
+                }, false);
+            
+
+                function LoadToStation(site) {
+                    var showToSite = doc.getElementById('showToSite');
+                    var txtToSite = document.getElementById("txtToSite");
+                    showToSite.innerText = "";
+                    $.ajax({
+                        type: "get",
+                        url: "/Dispatch/GetToStations",
+                        data: { siteid: site },
+                        success: function (data) {
+                            if (data != null && data != undefined && data.length > 0) {
+                                cityPicker2.setData(data);
+                            }
+                        },
+                        error: function (msg) {
+                            //alert(msg);
+                        }
+                    });
+                    
+                    showToSite.addEventListener('tap', function (event) {
+                        cityPicker2.show(function (items) {
+                            showToSite.innerText = _getParam(items[1], 'text')
+                            txtToSite.value = _getParam(items[1], 'value');
+                            //返回 false 可以阻止选择框的关闭
+                            //return false;
+                        });
+                    }, false);
+                }
+
+                var returnBtn = document.getElementById("btnReturn");
+                //监听点击事件
+                returnBtn.addEventListener("tap", function () {
+                    location.href = "/PDA/Main/@ViewBag.UserNo";
+                });
+
+                var mainBtn = document.getElementById("btnMain");
+                //监听点击事件
+                mainBtn.addEventListener("tap", function () {
+                    location.href = "/PDA/Main/@ViewBag.UserNo";
+                });               
+
+                var createBtn = document.getElementById("btnSave");
+                //监听点击事件
+                createBtn.addEventListener("tap", function () {
+                    var txtPalletCode = document.getElementById("txtPalletCode").value;
+                    if (txtPalletCode.length == 0) {
+                        mui.alert("请输入栈板号！");//请输入栈板号！
+                        return;
+                    }
+                    var txtFromSite = document.getElementById("txtFromSite").value;
+                    if (txtFromSite.length == 0) {
+                        mui.alert("请选择起始站点！");//请选择起始站点！
+                        return;
+                    }
+                    var txtToSite = document.getElementById("txtToSite").value;
+                    if (txtToSite.length == 0) {
+                        mui.alert("请选择目的站点！");//请选择目的站点！
+                        return;
+                    }
+
+                    $.ajax({
+                        type: "get",
+                        dataType: 'json',
+                        contentType: "json",
+                        url: "/Dispatch/CreateCallCar",
+                        data: { palletcode: txtPalletCode, fromsite: txtFromSite, tosite: txtToSite},
+                        success: function (data) {
+                            if (data != null && data != undefined) {
+                                if (data.ReturnValue == "0") {
+                                    mui.alert("叫车成功！");
+                                    document.getElementById("txtPalletCode").value = "";
+                                    document.getElementById("showFromSite").innerText = "";
+                                    document.getElementById("txtFromSite").value = "";
+                                    document.getElementById("showToSite").innerText = "";
+                                    document.getElementById("txtToSite").value = "";
+                                }
+                                else {
+                                    mui.alert("叫车失败: " + data.ErrorMessage);//叫车失败
+                                }
+
+                            } else {
+                                mui.alert("叫车失败！");//叫车失败
+                            }
+
+                        },
+                        error: function (msg) {
+                            //alert(msg);
+                        }
+                    });
+                });
+            });
+        })(mui, document);
+		</script>
+</body>
+</html>

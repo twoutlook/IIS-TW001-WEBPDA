@@ -1,0 +1,329 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!--标准mui.css-->
+	<link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
+
+    <!--App自定义的css-->
+	<link rel="stylesheet" type="text/css" href="~/Content/MUI/css/app.css" />
+
+    <title>@Resources.Lang.PDA_Common_Element_AssitDetail</title>
+    	<style>
+    	    .mui-control-content {
+    	        background-color: white;
+    	        min-height: 215px;
+    	    }
+
+    	        .mui-control-content .mui-loading {
+    	            margin-top: 50px;
+    	        }
+    	</style>
+
+</head>
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+
+        <button type="button" class="mui-btn mui-btn-link mui-pull-left" id="btnReturn">
+		    <span class="mui-icon mui-icon-back"></span>@Resources.Lang.PDA_Common_Element_GoBack
+		</button>
+
+        <button type="button" class="mui-btn mui-btn-link mui-pull-right" id="btnMain">
+	        <span class="mui-icon mui-icon-home"></span>
+        </button>
+
+		<h1 class="mui-title" style="text-decoration:underline;color:#5A98FB;">单号:@ViewBag.billCode</h1>
+	</header>
+
+	<div class="mui-content">
+        <div class="mui-content-padded" style="margin: 5px;">
+            <form class="mui-input-group">
+                <div class="mui-input-row">
+					<label>储位编码</label>
+					<input type="text" class="mui-input-clear" id="txtCpositionCode" value="@ViewBag.CpositionCode" placeholder="储位编码" autocomplete="off" style="ime-mode:disabled">
+				</div>
+                <div class="mui-input-row">
+					<label>储位名称</label>
+					<input type="text" class="mui-input-clear" id="txtCpositionName" value="@ViewBag.CpositionName"  onkeydown="return false" disabled="disabled" onkeyup="return false" onpaste="return false" style="ime-mode:disabled">
+				</div>
+                <div class="mui-input-row">
+					<label>SN</label>
+					<input type="text" class="mui-input-clear" id="txtSN" placeholder="" autocomplete="off">
+				</div>
+                <div class="mui-input-row">
+					<label>DateCode</label>
+					<input type="text" class="mui-input-clear" id="txtDateCode" onkeydown="return false" disabled="disabled" onkeyup="return false" onpaste="return false">
+				</div>
+                <div class="mui-input-row">
+					<label>料号</label>
+					<input type="text" class="mui-input-clear" id="txtCinvCode" value="@ViewBag.CinvCode" placeholder="料号" autocomplete="off">
+				</div>
+                <div class="mui-input-row">
+					<label>品名</label>
+					<input type="text" class="mui-input-clear" id="txtCinvName" value="@ViewBag.CinvName" onkeydown="return false" disabled="disabled" onkeyup="return false" onpaste="return false">
+				</div>
+                <div class="mui-input-row">
+					<label>本次数量</label>
+					<input type="text" class="mui-input-clear" id="txtQty" placeholder="本次数量" style="ime-mode:disabled" autocomplete="off">
+			    </div>
+                <div class="mui-input-row">
+					<label>应出总量</label>
+					<input type="text" class="mui-input-clear" id="txtTotalQty" value="@ViewBag.TotalQty" onkeydown="return false" disabled="disabled" onkeyup="return false" onpaste="return false" style="ime-mode:disabled">
+			    </div>
+                <div class="mui-input-row">
+					<label>剩余数量</label>
+					<input type="text" class="mui-input-clear" id="txtNeedQty" value="@ViewBag.NeedQty" onkeydown="return false" disabled="disabled" onkeyup="return false" onpaste="return false" style="ime-mode:disabled">
+			    </div>
+                <div class="mui-input-row">
+					<label>库存数量</label>
+					<input type="text" class="mui-input-clear" id="txtStockQty" onkeydown="return false" disabled="disabled" onkeyup="return false" onpaste="return false" style="ime-mode:disabled">
+			    </div>
+                <div class="mui-button-row">
+					<button type="button" class="mui-btn mui-btn-primary" id="btnSave" onclick="return false;" data-loading-text="保存中" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Save</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" class="mui-btn mui-btn-warning" id="btnSubmit" onclick="return false;" data-loading-text="确认中" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Complete</button>
+                    <input type="hidden" id="hdnLine" value="1" />
+                    <input type="hidden" id="hiddCso" value="@ViewBag.Cso" />
+				</div>
+            </form>
+        </div>
+    </div>
+
+    <script src="~/Content/MUI/js/mui.min.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+			$("#txtPalletcode").focus();
+            $("#btnReturn").bind("tap", function () {
+                location.href = "/OutAssit/OutAssitDetail?asnid=@ViewBag.asnid";
+            });
+
+            $("#btnMain").bind("tap", function () {
+                location.href = "/PDA/Main/@ViewBag.UserNo";
+            });
+
+            //栈板号回车事件
+            $("#txtSN").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    var sn = $("#txtSN").val().trim();
+                    var cso = $("#hiddCso").val();
+                    if (sn.length >0) {
+                        $.ajax({
+                            type: "get",
+                            url: "/OutAssit/CheckSnCode",
+                            dataType: "json",
+                            data: { sn: sn, asnid: "@ViewBag.AsnId", cso: cso },
+                            async: false,
+                            success: function (data) {
+                                if (data != undefined && data != "") {
+                                    if (data.Status == "0") {
+                                        $("#txtDateCode").val(data.Datecode);
+                                        $("#txtCinvCode").val(data.Cinvcode);
+                                        $("#txtCinvName").val(data.Cinvname);
+                                        $("#txtStockQty").val(data.StockQty);
+                                        var snqty = parseFloat(data.StockQty);
+                                        var needQty = 0;
+                                        if ($("#txtNeedQty").val().length > 0) {
+                                            needQty = parseFloat($("#txtNeedQty").val());
+                                        }
+                                        if (needQty > 0) {
+                                            if (snqty > needQty) {
+                                                $("#txtQty").val(needQty);
+                                            } else {
+                                                $("#txtQty").val(snqty);
+                                            }
+                                        }
+                                    } else {
+                                        mui.alert(data.Info);
+                                        $("#txtDateCode").val("");
+                                        $("#txtStockQty").val("");
+                                    }
+                                }
+                            },
+                            error: function (msg) {
+                                mui.alert(msg);
+                            }
+                        });
+                    }
+                    else {
+                        mui.alert("请扫描正确的条码!");//栈板号长度不正确!
+                        $("#txtSN").val("");
+                    }
+                }
+            });
+
+            //料号回车事件
+            $("#txtCinvCode").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    var cinvcode = $("#txtCinvCode").val();
+                    $.ajax({
+                        type: "get",
+                        url: "/Inventory/GetCinvCodeBySn",
+                        dataType: "json",
+                        data: { cinvcode: cinvcode, id: "@ViewBag.id" },
+                        async: false,
+                        success: function (data) {
+                            if (data != undefined && data != "") {
+                                if (data.Status == "0") {
+                                    $("#txtCinvName").val(data.Info);
+                                    $("#txtCinvCode").val(data.TicketCode);
+                                    $("#txtQty").focus();
+                                } else {
+                                    mui.alert(data.Info, "", "", function () {
+                                        $("#txtCinvCode").focus();
+                                    });
+                                    $("#txtCinvName").val("");
+                                    $("#txtCinvCode").val("");
+                                    
+                                }
+                            }
+                        },
+                        error: function (msg) {
+                            mui.alert(msg);
+                        }
+                    });
+                }
+            });
+
+            $("#btnSave").bind("tap", function () {
+                mui(this).button('loading');
+                Save();
+                setTimeout(function () {
+                    mui(this).button('reset');
+                }.bind(this), 1000);
+            });
+
+            $("#btnSubmit").bind("tap", function () {
+                mui(this).button('loading');
+                Commit();
+                setTimeout(function () {
+                    mui(this).button('reset');
+                }.bind(this), 1000);
+            });
+        });
+
+        function Save() {
+            var obj = $("#txtCpositionCode");
+            if (obj.val().length == 0) {
+                mui.alert("@Resources.Lang.PDA_Common_Tips_QingShuRuPositionCode");//请输入储位编码！
+                return;
+            }
+            var cposition = obj.val();
+
+
+            obj = $("#txtSN");
+            if(obj.val().length == 0){
+                mui.alert("请输入物料条码!");//请输入栈板号！
+                return;
+            }
+            var sn = obj.val();
+
+            obj = $("#txtDateCode");
+            if (obj.val().length == 0) {
+                mui.alert("DateCode不能为空!");
+                return;
+            }
+            var datecode = obj.val();
+            
+
+            obj = $("#txtCinvCode");
+            if(obj.val().length == 0){
+                mui.alert("@Resources.Lang.PDA_Common_Tips_NeedCinvcode");//请输入料号！
+                return;
+            }
+            var cinvcode = obj.val();
+
+            obj = $("#txtCinvName");
+            if(obj.val().length == 0){
+                mui.alert("@Resources.Lang.PDA_Common_Tips_QingShuRuCinvName");//请输入品名！
+                return;
+            }
+
+            obj = $("#txtQty");
+            if(obj.val().length == 0){
+                mui.alert("@Resources.Lang.PDA_Common_Tips_QingShuRuQuantity");//请输入数量！
+                return;
+            }
+            else{
+                var n = /^([1-9]\d*)(\.\d{1,2})?$/;;
+                var re = new RegExp(n);
+                if (!re.test(obj.val())) {
+                    mui.alert("@Resources.Lang.PDA_Common_Tips_QuantityGeShiError");//数量格式不正确！
+                    return;
+                }
+            }
+
+            var quantity = parseFloat(obj.val());
+
+            $.ajax({
+                type: "get",
+                url: "/OutAssit/SaveOutBillD",
+                dataType: "json",
+                data: { asnid: "@ViewBag.AsnId", assitid: "@ViewBag.AssitId", sn: sn, cpositioncode: cposition, cinvcode: cinvcode, qty: quantity, datecode: datecode },
+                async: false,
+                success: function (data) {
+                    if (data != undefined && data != "") {
+                        if (data.Status == "0") {
+                            mui.alert("@Resources.Lang.PDA_Common_Tips_SaveSuccess","","", function () {
+                                window.location.reload();//重新加载该页面。
+                            });//保存成功！                          
+                        }
+                        else {
+                            mui.alert(data.Info);
+                        }
+                    }
+                },
+                error: function (msg) {
+                    mui.alert("@Resources.Lang.PDA_Common_Tips_SaveScanFailed：" + msg);//保存扫描失败
+                }
+            });
+        }
+
+        function Commit() {
+            $.ajax({
+                type: "get",
+                url: "/OutAssit/ConfirmOutAssit",
+                dataType: "json",
+                data: { asnid: "@ViewBag.asnid"},
+                async: false,
+                success: function (data) {
+                    if (data != undefined && data != "") {
+                        if (data.Status == "0") {
+                            mui.alert("@Resources.Lang.PDA_Common_Tips_ConfirmSuccess", "", "", function () {//确认成功！
+                                location.href = "/OutAssit/OutAssitList/@ViewBag.UserNo";
+                            });
+                        }
+                        else {
+                            mui.alert(data.Info);
+                        }
+                    }
+                },
+                error: function (msg) {
+                    mui.alert("确认失败：" + msg);//保存扫描失败
+                }
+            });
+        }
+
+ 
+        function clearText() {
+		   $("#txtPalletcode").val("");
+            $("#txtCpositioncode").val("");
+            $("#txtCinvCode").val("");
+            $("#txtCinvName").val("");
+            $("#txtQty").val("");
+        }
+
+	</script>
+
+</body>
+</html>

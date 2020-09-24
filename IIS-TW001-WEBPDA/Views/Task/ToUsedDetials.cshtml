@@ -1,0 +1,471 @@
+﻿@model IEnumerable<wmspda.model.v_outmixed_jf_detials_list>
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>@Resources.Lang.PDA_Common_Element_PeiLiaoJiaoFuDetail</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
+		<!--App自定义的css-->
+		<!-- <link rel="stylesheet" type="text/css" href="../css/app.css" /> -->
+
+        <!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="~/Content/MUI/css/app.css" />
+		<link rel="stylesheet" type="text/css" href="~/Content/MUI/css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="~/Content/MUI/css/mui.poppicker.css" />
+
+		<style>
+		    html,
+		    body {
+		        background-color: #efeff4;
+		    }
+
+		    p {
+		        text-indent: 0px;
+		    }
+
+		    span.mui-icon {
+		        font-size: 14px;
+		        color: #007aff;
+		        margin-left: -15px;
+		        padding-right: 10px;
+		    }
+
+		    .mui-off-canvas-left {
+		        color: #fff;
+		    }
+
+		    .title {
+		        margin: 35px 15px 10px;
+		    }
+
+		    .title {
+		        margin: 10px 15px 35px;
+		        color: #bbb;
+		        text-indent: 1em;
+		        font-size: 14px;
+		        line-height: 24px;
+		    }
+
+		    input {
+		        color: #000;
+		    }
+		</style>
+
+	</head>
+
+	<body>
+
+        <div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable">
+
+			<!--侧滑菜单部分-->
+			<aside id="offCanvasSide" class="mui-off-canvas-left">
+				<div id="offCanvasSideScroll" class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<div class="title">@Resources.Lang.PDA_Common_Element_Search</div>
+						<div class="content">
+							
+							<p style="margin: 10px 15px;display:none;">
+								<button id="offCanvasHide" type="button" class="mui-btn mui-btn-danger mui-btn-block" style="padding: 5px 20px;">@Resources.Lang.PDA_Common_Element_CloseSiteStorke</button>
+							</p>
+
+                            <div class="title" style="margin-bottom: 25px;display:none;">@Resources.Lang.PDA_Common_Element_SideStorkeExample</div>@*侧滑列表示例*@
+
+                            <div class="mui-input-row" style="padding-left:15px;padding-right:15px;">
+						        <input type="text" class="mui-input-clear" placeholder="ERPCODE" name="txTERPCODE" id="txtERPCODE" value="@ViewBag.ERPCODE" disabled="disabled" >
+					        </div>
+                           
+                            <div class="mui-input-row" style="padding-left:15px;padding-right:15px;">
+						        <input type="text" class="mui-input-clear" placeholder="@Resources.Lang.PDA_Common_Element_PeiLiaoDanHao" name="txtMixedCode" id="txtMixedCode" >
+					        </div>
+                           
+                            <div class="mui-button-row" style="padding-left:15px;padding-right:15px;">
+                                <button id="offCanvasHide_qry" type="button" class="mui-btn mui-btn-primary mui-icon mui-icon-search mui-right" style="width:100%;"> @Resources.Lang.PDA_Common_Element_Query </button>
+                            </div>
+
+                            <input type="text" id="txtType" name="txtType" style="display:none;">
+                            <div id='userResult' class="ui-alert" style="display:none;"></div>
+
+
+						</div>
+
+                        
+						
+					</div>
+				</div>
+			</aside>
+			
+            <!--主界面部分-->
+			<div class="mui-inner-wrap">
+				<header class="mui-bar mui-bar-nav">
+					<a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+
+                   
+                    <button type="button" class="mui-btn mui-btn-link mui-pull-right" id="btnReturn">
+		                <span class="mui-icon mui-icon-back"></span>@Resources.Lang.PDA_Common_Element_GoBack
+	                </button>
+					<h1 class="mui-title" style="text-decoration:underline;color:#5A98FB;">@Resources.Lang.PDA_Common_Element_PeiLiaoJiaoFuDetail</h1>
+				</header>
+				<div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+					<div class="mui-scroll">
+
+                        <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+                            
+                            @foreach (WMSPDA.Model.V_OUTMIXED_JF_Detials_List bo in Model)
+                            { 
+                                
+                                <li class="mui-table-view-cell">
+                                    
+		                            <div class="mui-table">
+		                                <div class="mui-table-cell mui-col-xs-10">
+		                                    <h4 class="mui-ellipsis">ERPCODE:@bo.ERPCODE</h4>
+		                                    <h5>类型:@bo.OTYPENAME</h5>
+		                                    <p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_PeiLiaoDanHao:@bo.MIXEDCODE  @Resources.Lang.PDA_Common_Element_Quantity:@bo.SUMQTY   </p>
+                                            <p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_ZhangBanBianHao:@bo.CINVBARCODE  </p>
+		                                </div>
+		                                <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                                    <span class="mui-h5">
+                                                @Html.Hidden("hdnERPCODE", @bo.ERPCODE)
+                                                @Html.Hidden("hdnMIXEDCODE", @bo.ID)
+		                                    </span>
+		                                </div>
+		                            </div>
+                                   
+		                        </li>
+                            }
+
+		                </ul>
+
+
+                        <div class="mui-content-padded" style="display:none;">
+							<p>
+								<span class="mui-icon mui-icon-bars"></span> 
+								<span class="android-only"></span>
+							</p>
+							<p style="padding: 5px 20px;margin-bottom: 5px;">
+								<button id="offCanvasShow" type="button" class="mui-btn mui-btn-primary mui-btn-block" style="padding: 10px;">
+									
+								</button>
+							</p>
+							<p></p>
+
+						</div>
+						<form class="mui-input-group" style="margin-bottom: 15px;display:none;">
+							<div class="mui-input-row mui-radio">
+								<label></label>
+								<input name="style" type="radio" checked="" value="main-move">
+							</div>
+							<div class="mui-input-row mui-radio">
+								<label></label>
+								<input name="style" type="radio" value="menu-move">
+							</div>
+							<div class="mui-input-row mui-radio mui-hidden" id="move-togger">
+								<label></label>
+								<input name="style" type="radio" value="all-move">
+							</div>
+							<div class="mui-input-row mui-radio">
+								<label></label>
+								<input name="style" type="radio" value="main-move-scalable">
+							</div>
+						</form>
+
+
+
+					</div>
+				</div>
+				<!-- off-canvas backdrop -->
+				<div class="mui-off-canvas-backdrop"></div>
+                
+			</div>
+
+		</div>
+
+		<script src="~/Content/MUI/js/mui.min.js"></script>
+        <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+        <script src="~/Content/MUI/js/mui.picker.js"></script>
+        <script src="~/Content/MUI/js/mui.poppicker.js"></script>
+        <script>
+
+            var scrollDisabled = true;
+            var CurrendIndex = 1;//当前页数
+
+            //列表查询方法
+            function SearchAsnList(IsAppend) {
+                //debugger;
+                //查询事件
+
+                if (IsAppend) {
+                    CurrendIndex = CurrendIndex + 1;//下一页
+                }
+                else {
+                    CurrendIndex = 1;//查询，第一页
+                }
+
+                var erpcode = document.getElementById("txtERPCODE").value;
+                var mixedCode = document.getElementById("txtMixedCode").value;
+                //alert("SearchAsnList");
+                $.ajax({
+                    type: "get",
+                    url: "/Task/ToUsedDetialsSearch",
+                    data: { erpcode: erpcode, plCode: mixedCode, CurrendIndex: CurrendIndex },
+                    async: true,
+                    success: function (data) {
+                        //mui.alert(data);
+                        scrollDisabled = true;
+                        if (data != null && data != undefined && data.length > 0) {
+                            if (!IsAppend) {
+                                $(".mui-table-view").empty();
+                            }
+                            //alert(data.length);
+                            var liListhtml = '';
+                            for (var i = 0; i < data.length; i++) {
+                                var ymd = Getmmdd(data[i].DCREATETIME);
+                                liListhtml = liListhtml +
+                                '<li class="mui-table-view-cell"> ' +
+                                '	<div class="mui-table"> ' +
+                                '		<div class="mui-table-cell mui-col-xs-10"> ' +
+                                '			<h4 class="mui-ellipsis">ERPCODE:' + data[i].ERPCODE + '</h4> ' +
+                                '			<h5>类型:' + data[i].OTYPENAME + '</h5> ' +
+                                '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_PeiLiaoDanHao:' + data[i].MIXEDCODE + '  @Resources.Lang.PDA_Common_Element_Quantity:' + data[i].SUMQTY + '  </p> ' +
+                                '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_ZhangBanBianHao:' + data[i].CINVBARCODE + ' </p> ' +
+                                '		</div> ' +
+                                '		<div class="mui-table-cell mui-col-xs-2 mui-text-right"> ' +
+                                '            <span class="mui-h5">                               ' +
+                                '				<input  name="hdnERPCODE" type="hidden" value="' + data[i].ERPCODE + '" /> ' +
+                                '				<input  name="hdnMIXEDCODE" type="hidden" value="' + data[i].ID + '" /> ' +
+                                '			</span> ' +
+                                '		</div> ' +
+                                '	</div> ' +
+                                '</li> ';
+
+                            }
+                            if (IsAppend) {
+                                $(".mui-table-view").append(liListhtml);
+                            }
+                            else {
+                                $(".mui-table-view").html(liListhtml);
+                            }
+                            //重新绑定事件
+                            BindLiTap();
+                            scrollDisabled = false;
+                            mui('#offCanvasContentScroll').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                        }
+                        else {
+                            //如果没有数据
+                            CurrendIndex = CurrendIndex - 1;
+                            scrollDisabled = true;
+                            if (!IsAppend) {
+                                $(".mui-table-view").empty();
+                            }
+                            mui('#offCanvasContentScroll').pullRefresh().endPullupToRefresh(true);//参数为true代表没有更多数据了。
+                        }
+                        //mui.alert(CurrendIndex);
+                    },
+                    error: function (msg) {
+                        //alert(msg);
+                        mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+                        mui('#offCanvasContentScroll').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                    }
+                });
+
+            }
+
+            //格式化json日期
+            function Getmmdd(str) {
+                var ymd = '';
+                //str='/Date(1525795200000)/';
+                if (str != undefined) {
+                    str = str.replace("/Date(", "").replace(")/", "");
+                    var date = new Date(parseFloat(str));
+                    //var year = date.getFullYear();
+                    var month = (date.getMonth() + 1) + '';
+                    if (month.length == 1) {
+                        month = "0" + month;
+                    }
+                    var strDate = (date.getDate()) + '';
+                    if (strDate.length == 1) {
+                        strDate = '0' + strDate;
+                    }
+                    ymd = month + "-" + strDate;
+                    //ymd = str;
+                }
+                return ymd;
+            }
+
+            //mui.init();
+
+            //下拉加载更多数据
+            function pullfreshQry() {
+                //业务逻辑代码，比如通过ajax从服务器获取新数据；
+                //......
+                //注意：
+                //1、加载完新数据后，必须执行如下代码，true表示没有更多数据了：
+                //2、若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
+                setTimeout(SearchAsnList(true), 1500);
+            }
+
+            mui.init({
+                pullRefresh: {
+                    container: '#offCanvasContentScroll',//待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
+                    up: {
+                        height: 500,//可选.默认50.触发上拉加载拖动距离
+                        auto: false,//可选,默认false.自动上拉加载一次
+                        contentrefresh: "@Resources.Lang.PDA_Common_Tips_Loading",//正在加载... //可选，正在加载状态时，上拉加载控件上显示的标题内容
+                        contentnomore: '@Resources.Lang.PDA_Common_Tips_NoMoreData',//没有更多数据了//可选，请求完毕若没有更多数据时显示的提醒内容；
+                        callback: pullfreshQry //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+                    }
+                }
+            });
+
+            //侧滑容器父节点
+            var offCanvasWrapper = mui('#offCanvasWrapper');
+            //主界面容器
+            var offCanvasInner = offCanvasWrapper[0].querySelector('.mui-inner-wrap');
+            //菜单容器
+            var offCanvasSide = document.getElementById("offCanvasSide");
+            if (!mui.os.android) {
+                document.getElementById("move-togger").classList.remove('mui-hidden');
+                var spans = document.querySelectorAll('.android-only');
+                for (var i = 0, len = spans.length; i < len; i++) {
+                    spans[i].style.display = "none";
+                }
+            }
+            //移动效果是否为整体移动
+            var moveTogether = false;
+            //侧滑容器的class列表，增加.mui-slide-in即可实现菜单移动、主界面不动的效果；
+            var classList = offCanvasWrapper[0].classList;
+
+            //变换侧滑动画移动效果；
+            mui('.mui-input-group').on('change', 'input', function () {
+                if (this.checked) {
+                    offCanvasSide.classList.remove('mui-transitioning');
+                    offCanvasSide.setAttribute('style', '');
+                    classList.remove('mui-slide-in');
+                    classList.remove('mui-scalable');
+                    switch (this.value) {
+                        case 'main-move':
+                            if (moveTogether) {
+                                //仅主内容滑动时，侧滑菜单在off-canvas-wrap内，和主界面并列
+                                offCanvasWrapper[0].insertBefore(offCanvasSide, offCanvasWrapper[0].firstElementChild);
+                            }
+                            break;
+                        case 'main-move-scalable':
+                            if (moveTogether) {
+                                //仅主内容滑动时，侧滑菜单在off-canvas-wrap内，和主界面并列
+                                offCanvasWrapper[0].insertBefore(offCanvasSide, offCanvasWrapper[0].firstElementChild);
+                            }
+                            classList.add('mui-scalable');
+                            break;
+                        case 'menu-move':
+                            classList.add('mui-slide-in');
+                            break;
+                        case 'all-move':
+                            moveTogether = true;
+                            //整体滑动时，侧滑菜单在inner-wrap内
+                            offCanvasInner.insertBefore(offCanvasSide, offCanvasInner.firstElementChild);
+                            break;
+                    }
+                    offCanvasWrapper.offCanvas().refresh();
+                }
+            });
+
+            //主界面‘显示侧滑菜单’按钮的点击事件
+            //document.getElementById('offCanvasShow').addEventListener('tap', function () {
+            //    offCanvasWrapper.offCanvas('show');
+            //});
+            //菜单界面，‘关闭侧滑菜单’按钮的点击事件
+            //document.getElementById('offCanvasHide').addEventListener('tap', function () {
+            //    offCanvasWrapper.offCanvas('close');
+            //});
+            //主界面和侧滑菜单界面均支持区域滚动；
+            mui('#offCanvasSideScroll').scroll();
+            mui('#offCanvasContentScroll').scroll();
+            //实现ios平台原生侧滑关闭页面；
+            if (mui.os.plus && mui.os.ios) {
+                mui.plusReady(function () { //5+ iOS暂时无法屏蔽popGesture时传递touch事件，故该demo直接屏蔽popGesture功能
+                    plus.webview.currentWebview().setStyle({
+                        'popGesture': 'none'
+                    });
+                });
+            }
+
+            //菜单界面，‘关闭侧滑菜单’按钮的点击事件
+            document.getElementById('offCanvasHide_qry').addEventListener('tap', function () {
+                //查询事件
+                SearchAsnList(false);
+                offCanvasWrapper.offCanvas('close');
+            });
+
+            (function ($, doc) {
+                $.init();
+                $.ready(function () {
+                    var _getParam = function (obj, param) {
+                        return obj[param] || '';
+                    };
+
+                    //普通示例
+                    var userPicker = new $.PopPicker();
+
+                    $.ajax({
+                        type: "get",
+                        url: "/GetJson/GetOutTypeList",
+                        data: { userNo: "@ViewBag.UserNo", isQuery: false },
+                        success: function (data) {
+                            //mui.alert(data);
+                            if (data != null && data != undefined && data.length > 0) {
+                                userPicker.setData(data);
+                            }
+
+                        },
+                        error: function (msg) {
+                            //alert(msg);
+                        }
+                    });
+
+                    var showUserPickerButton = doc.getElementById('showUserPicker');
+                    var userResult = doc.getElementById('userResult');
+                    showUserPickerButton.addEventListener('tap', function (event) {
+                        userPicker.show(function (items) {
+                            doc.getElementById("txtType").value = items[0].value;
+                            doc.getElementById("showUserPicker").innerText = items[0].text;
+                            //返回 false 可以阻止选择框的关闭
+                            //return false;
+                        });
+                    }, false);
+
+                });
+            })(mui, document);
+
+            $(document).ready(function () {
+                //绑定选择事件
+                BindLiTap();
+
+                $("#btnReturn").bind("tap", function () {
+                    location.href = "/Task/ToUsed";
+                });
+
+            });
+
+            //绑定选择事件
+            function BindLiTap() {
+                $(".mui-table-view-cell").bind("tap", function () {
+                    var erpcode = $(this).find("input:hidden[name=hdnERPCODE]").val();
+                    var ID = $(this).find("input:hidden[name=hdnMIXEDCODE]").val();
+                    location.href = "/Task/ToUsedDetailsInfo/" + ID + "/" + erpcode;
+                });
+            }
+
+		</script>
+
+	</body>
+
+</html>

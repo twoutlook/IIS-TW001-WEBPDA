@@ -1,0 +1,628 @@
+﻿@model Tuple<List<WMSPDA.Business.Base.Models.Dapper_PDA_V_InAsnList>, List<WMSPDA.Business.Base.Models.Dapper_PDA_V_InAssitDetails>, List<WMSPDA.Business.Base.Models.Dapper_TEMP_INBILL_D>>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+	<!--标准mui.css-->
+	<link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
+
+    <!--App自定义的css-->
+	<link rel="stylesheet" type="text/css" href="~/Content/MUI/css/app.css" />
+    <link href="~/Content/MUI/css/mui.picker.css" rel="stylesheet" />
+    <link href="~/Content/MUI/css/mui.poppicker.css" rel="stylesheet" />
+
+    <title>上架指引</title>
+    	<style>
+    	    .mui-control-content {
+    	        background-color: white;
+    	        min-height: 215px;
+    	    }
+
+    	        .mui-control-content .mui-loading {
+    	            margin-top: 50px;
+    	        }
+    	</style>
+
+</head>
+<body>
+
+    <header class="mui-bar mui-bar-nav">
+
+        <button type="button" class="mui-btn mui-btn-link mui-pull-left" id="btnReturn">
+		    <span class="mui-icon mui-icon-back"></span>@Resources.Lang.PDA_Common_Element_GoBack
+		</button>
+
+        <button type="button" class="mui-btn mui-btn-link mui-pull-right" id="btnMain">
+	        <span class="mui-icon mui-icon-home"></span>
+        </button>
+
+		<h1 class="mui-title" style="text-decoration:underline;color:#5A98FB;">
+    <a href="#" id ="abtnScan">@Resources.Lang.PDA_Common_Element_ShangJiaDetail</a>
+</h1>  
+	</header>
+  <div style="display: none;">            
+                <input type="text" id="txtAssitCode" />
+            </div>
+	<div class="mui-content">
+        <div class="mui-content-padded" style="margin: 5px;">
+            <form class="mui-input-group">
+ <div class="mui-input-row">
+<label style="text-align:left;width:30%">指引单号</label>             
+  <button id='showAssitCticketcode' class="mui-button-row mui-btn mui-btn-white" style="padding-bottom:0px;width:70%;font-size:inherit;text-align:left " type='button' ></button>			
+                    <input type="hidden" id="hdnLine" value="1" />
+</div>
+				
+            </form>
+        </div>
+
+
+	
+
+
+
+		<div id="slider" class="mui-slider">
+          
+
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<a class="mui-control-item mui-active" href="#item1mobile">
+				        入库通知单
+			        </a>
+                    <a class="mui-control-item" href="#item2mobile">
+                        指引单
+			        </a>
+                    <a class="mui-control-item" href="#item3mobile">
+                        上架明细
+			        </a>
+				</div>
+                <div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+						<div id="scroll1" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+
+                                <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="tab1UL">
+
+                                     @foreach (WMSPDA.Business.Base.Models.Dapper_PDA_V_InAsnList bo in Model.Item1)
+                                    { 
+                                        <li class="mui-table-view-cell">
+		                                    <div class="mui-table mui-slider-handle">
+		                                        <div class="mui-table-cell mui-col-xs-10">
+		                                            <h4 class="mui-ellipsis">@bo.CINVCODE</h4>
+		                                            <h5>@Resources.Lang.PDA_Common_Element_CinvName:@bo.CINVNAME  &nbsp; @Resources.Lang.PDA_Common_Element_TotalQuantity:@bo.INUM.ToString("f2")</h5>                                                                              
+		                                            <p class="mui-h6 mui-ellipsis">已上架数:@bo.YJNUM.ToString("f2") &nbsp; 剩余数量:@bo.SYNUM.ToString("f2") </p>
+		                                        </div>
+		                                        <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                                            <span class="mui-h5">
+                                                       
+		                                            </span>
+		                                        </div>
+		                                    </div>                                   
+		                                </li>
+                                    }
+                                </ul>
+							</div>
+						</div>
+					</div>
+					
+                    <div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+
+                                <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="tab2UL">
+
+                                     @foreach (WMSPDA.Business.Base.Models.Dapper_PDA_V_InAssitDetails bo in Model.Item2)
+                                    { 
+                                        <li class="mui-table-view-cell">
+		                                    <div class="mui-table mui-slider-handle">
+		                                        <div class="mui-table-cell mui-col-xs-10">
+		                                            <h4 class="mui-ellipsis">@bo.cticketcode</h4>
+<h5 class="mui-ellipsis">料号：@bo.cinvcode</h5>
+		                                            <h5>@Resources.Lang.PDA_Common_Element_CinvName:@bo.cinvname &nbsp;@Resources.Lang.PDA_Common_Element_CPosition:@bo.cpositioncode</h5>                                                                              
+		                                            <p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_TotalQuantity:@bo.inum.ToString("f2") &nbsp; 已上架数:@bo.YJNUM.ToString("f2") &nbsp; 剩余数量:@bo.SYNUM.ToString("f2")  </p>
+		                                        </div>
+		                                        <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                                            <span class="mui-h5">
+                                                         @Html.Hidden("hdnAID", @bo.cticketcode)
+		                                            </span>
+		                                        </div>
+		                                    </div>
+                                   
+		                                </li>
+                                    }
+                                </ul>
+							</div>
+						</div>
+					</div>
+
+                    <div id="item3mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll3" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+
+                                <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="tab3UL">
+
+                                     @foreach (WMSPDA.Business.Base.Models.Dapper_TEMP_INBILL_D bo in Model.Item3)
+                                    { 
+                                        <li class="mui-table-view-cell">
+   <div class="mui-slider-right mui-disabled">
+									                <a class="mui-btn mui-btn-red">@Resources.Lang.PDA_Common_Element_Delete</a>
+							                        <input type="hidden" class="hdnids" value="@bo.ids" />
+								                </div>
+		                                    <div class="mui-table mui-slider-handle">
+		                                        <div class="mui-table-cell mui-col-xs-10">
+		                                            <h4 class="mui-ellipsis">@bo.cinvcode</h4>
+		                                            <h5>@Resources.Lang.PDA_Common_Element_CinvName:@bo.cinvname&nbsp;@Resources.Lang.PDA_Common_Element_CPosition:@bo.cpositioncode</h5>
+                                                    <p class="mui-h6 mui-ellipsis">SN:@bo.cinvbarcode &nbsp;已上架数:@bo.iquantity.ToString("f2")</p>
+		                                        </div>
+		                                        <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                                            <span class="mui-h5">
+                                                       
+		                                            </span>
+		                                        </div>
+		                                    </div>
+                                   
+		                                </li>
+                                    }
+                                </ul>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+    </div>
+
+    <script src="~/Content/MUI/js/mui.min.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Content/MUI/js/mui.picker.js"></script>
+    <script src="~/Content/MUI/js/mui.poppicker.js"></script>
+    <script>
+
+ (function ($, doc) {
+     $.init();
+     $.ready(function () {
+         var _getParam = function (obj, param) {
+             return obj[param] || '';
+         };
+
+         var cityPicker2 = new $.PopPicker({
+             layer: 1
+         });      
+
+         $.ajax({
+             type: "get",
+             url: "/GetJson/GetAssitCode",
+             data: {iacticketcode:"@ViewBag.billCode"},
+             success: function (data) {
+                 if (data != null && data != undefined && data.length > 0) {
+                     cityPicker2.setData(data);
+                     showCityPickerButton2.innerText = _getParam(data[0], 'text');
+                     txtAssitCode.value = _getParam(data[0], 'value');
+                 }
+             },
+             error: function (msg) {                   
+             }
+         });
+         var showCityPickerButton2 = doc.getElementById('showAssitCticketcode');
+         showCityPickerButton2.addEventListener('tap', function (event) {
+             cityPicker2.show(function (items) {
+                 showCityPickerButton2.innerText = _getParam(items[0], 'text')
+                 txtAssitCode.value = _getParam(items[0], 'value');
+           
+                 //返回 false 可以阻止选择框的关闭
+                 //return false;
+             });
+             
+         }, false);
+     });
+ })(mui, document);
+
+        var CurrendIndex1 = 1;//Tab1当前页数
+
+        //Tab1列表查询方法
+        function SearchTab1(IsAppend) {
+
+            if (IsAppend) {
+                CurrendIndex1 = CurrendIndex1 + 1;//下一页
+            }
+            else {
+                CurrendIndex1 = 1;//查询，第一页
+            }
+            //alert("SearchAsnList");
+            $.ajax({
+                type: "get",
+                url: "/PDA/InAsnDetailSearch",
+                data: { iacticketcode: "@ViewBag.billCode", CurrendIndex: CurrendIndex1 },
+                async: true,
+                success: function (data) {
+                    //mui.alert(data);
+                    scrollDisabled = true;
+                    if (data != null && data != undefined && data.length > 0) {
+                        if (!IsAppend) {
+                            $("#tab1UL").empty();
+                        }
+                        var liListhtml = '';
+                        for (var i = 0; i < data.length; i++) {
+                            liListhtml = liListhtml +
+                            '<li class="mui-table-view-cell">  ' +
+                            '	<div class="mui-table mui-slider-handle">  ' +
+                            '		<div class="mui-table-cell mui-col-xs-10">  ' +
+                            '			<h4 class="mui-ellipsis">' + data[i].CINVCODE + '</h4>  ' +
+                            '			<h5>@Resources.Lang.PDA_Common_Element_CinvName:' + data[i].CINVNAME + '&nbsp;@Resources.Lang.PDA_Common_Element_TotalQuantity:' + data[i].INUM.toFixed(2) + '</h5>  ' +
+                            '			<p class="mui-h6 mui-ellipsis">已上架数:' + data[i].YJNUM.toFixed(2) + ' &nbsp;剩余数量:' + data[i].SYNUM.toFixed(2) + ' &nbsp; </p>  ' +
+                            '		</div>  ' +
+                            '		<div class="mui-table-cell mui-col-xs-2 mui-text-right">  ' +
+                            '			<span class="mui-h5">  ' +
+                            '			</span>  ' +
+                            '		</div>  ' +
+                            '	</div>  ' +
+                            '</li>  ';
+
+                        }
+                        if (IsAppend) {
+                            $("#tab1UL").append(liListhtml);
+                        }
+                        else {
+                            $("#tab1UL").html(liListhtml);
+                        }
+
+                        //重新绑定事件
+                        //BindLiTap1();
+
+                        scrollDisabled = false;
+                        mui('#scroll1').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                    }
+                    else {
+                        //如果没有数据
+                        CurrendIndex1 = CurrendIndex1 - 1;
+                        scrollDisabled = true;
+                        if (!IsAppend) {
+                            $("#tab1UL").empty();
+                        }
+                        mui('#scroll1').pullRefresh().endPullupToRefresh(true);//参数为true代表没有更多数据了。
+                    }
+                    //注意：一定要修改Tab1的高度，否则分页后就只能显示一部分列表
+                    var subHeight = $("#scroll1").children(":first").height();
+                    $("#scroll1").parent(":first").height(subHeight);
+                },
+                error: function (msg) {
+                    //alert(msg);
+                    mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+                    mui('#scroll1').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                }
+            });
+        }
+
+        //下拉加载更多数据
+        function pullfreshQryTab1() {
+            //业务逻辑代码，比如通过ajax从服务器获取新数据；
+            //......
+            //注意：
+            //1、加载完新数据后，必须执行如下代码，true表示没有更多数据了：
+            //2、若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
+            setTimeout(SearchTab1(true), 1500);
+        }
+
+        //Tab1下拉分页
+        mui('#scroll1').pullRefresh({
+            up: {
+                height: 100,//可选.默认50.触发上拉加载拖动距离
+                auto: false,//可选,默认false.自动上拉加载一次
+                contentrefresh: "@Resources.Lang.PDA_Common_Tips_Loading",//正在加载... //可选，正在加载状态时，上拉加载控件上显示的标题内容
+                contentnomore: '@Resources.Lang.PDA_Common_Tips_NoMoreData',//没有更多数据了//可选，请求完毕若没有更多数据时显示的提醒内容；
+                callback: pullfreshQryTab1 //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+            }
+        });
+
+        var CurrendIndex2 = 1;//Tab2当前页数
+
+        //Tab1列表查询方法
+        function SearchTab2(IsAppend) {
+
+            if (IsAppend) {
+                CurrendIndex2 = CurrendIndex2 + 1;//下一页
+            }
+            else {
+                CurrendIndex2 = 1;//查询，第一页
+            }
+            //alert("SearchAsnList");
+            $.ajax({
+                type: "get",
+                url: "/PDA/InAssitdetailSearch",
+                data: { iacticketcode: "@ViewBag.billCode", CurrendIndex: CurrendIndex2},
+                async: true,
+                success: function (data) {
+                    //mui.alert(data);
+                    scrollDisabled = true;
+                    if (data != null && data != undefined && data.length > 0) {
+                        if (!IsAppend) {
+                            $("#tab2UL").empty();
+                        }
+                        var liListhtml = '';
+                        for (var i = 0; i < data.length; i++) {
+                            liListhtml = liListhtml +  
+                            '<li class="mui-table-view-cell">  ' +
+                            '	<div class="mui-table mui-slider-handle">  ' +
+                            '		<div class="mui-table-cell mui-col-xs-10">  ' + 
+                            '			<h4 class="mui-ellipsis">' + data[i].cticketcode +'</h4>  ' +
+                            '<h5 class="mui-ellipsis">料号：' + data[i].cinvcode + '</h5>  ' +
+                            '			<h5>@Resources.Lang.PDA_Common_Element_CinvName:' + data[i].cinvname + '&nbsp;@Resources.Lang.PDA_Common_Element_CPosition:'+data[i].cpositioncode+'</h5>  ' +
+                            '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_TotalQuantity:' + data[i].inum.toFixed(2) + ' &nbsp; 已上架数:' + data[i].YJNUM.toFixed(2) + ' &nbsp; 剩余数量:' + data[i].SYNUM.toFixed(2) + ' </p>  ' +
+                            '		</div>  ' +
+                            '		<div class="mui-table-cell mui-col-xs-2 mui-text-right">  ' +
+                            '			<span class="mui-h5">  ' +
+                            '			</span>  ' +
+                            '		</div>  ' +
+                            '	</div>  ' +
+                            '</li>  ';
+
+                        }
+                        if (IsAppend) {
+                            $("#tab2UL").append(liListhtml);
+                        }
+                        else {
+                            $("#tab2UL").html(liListhtml);
+                        }
+                        //重新绑定事件
+                        BindLiTap3();
+
+                        scrollDisabled = false;
+                        mui('#scroll2').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                    }
+                    else {
+                        //如果没有数据
+                        CurrendIndex2 = CurrendIndex2 - 1;
+                        scrollDisabled = true;
+                        if (!IsAppend) {
+                            $("#tab2UL").empty();
+                        }
+                        mui('#scroll2').pullRefresh().endPullupToRefresh(true);//参数为true代表没有更多数据了。
+                    }
+                    //注意：一定要修改Tab1的高度，否则分页后就只能显示一部分列表
+                    var subHeight = $("#scroll2").children(":first").height();
+                    $("#scroll2").parent(":first").height(subHeight);
+                },
+                error: function (msg) {
+                    //alert(msg);
+                    mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+                    mui('#scroll2').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                }
+            });
+        }
+
+        //下拉加载更多数据
+        function pullfreshQryTab2() {
+            //业务逻辑代码，比如通过ajax从服务器获取新数据；
+            //......
+            //注意：
+            //1、加载完新数据后，必须执行如下代码，true表示没有更多数据了：
+            //2、若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
+            setTimeout(SearchTab2(true), 1500);
+        }
+
+        //Tab1下拉分页
+        mui('#scroll2').pullRefresh({
+            up: {
+                height: 100,//可选.默认50.触发上拉加载拖动距离
+                auto: false,//可选,默认false.自动上拉加载一次
+                contentrefresh: "@Resources.Lang.PDA_Common_Tips_Loading",//正在加载... //可选，正在加载状态时，上拉加载控件上显示的标题内容
+                contentnomore: '@Resources.Lang.PDA_Common_Tips_NoMoreData',//没有更多数据了//可选，请求完毕若没有更多数据时显示的提醒内容；
+                callback: pullfreshQryTab2 //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+            }
+        });
+        var CurrendIndex3 = 1;//Tab2当前页数
+
+        //Tab1列表查询方法
+        function SearchTab3(IsAppend) {
+
+            if (IsAppend) {
+                CurrendIndex3 = CurrendIndex3 + 1;//下一页
+            }
+            else {
+                CurrendIndex3 = 1;//查询，第一页
+            }
+            //alert("SearchAsnList");
+            $.ajax({
+                type: "get",
+                url: "/PDA/InBillDetailSearch",
+                data: { iacticketcode: "@ViewBag.billCode", CurrendIndex: CurrendIndex3 },
+                async: true,
+                success: function (data) {
+                    //mui.alert(data);
+                    scrollDisabled = true;
+                    if (data != null && data != undefined && data.length > 0) {
+                        if (!IsAppend) {
+                            $("#tab3UL").empty();
+                        }
+                        var liListhtml = '';
+                        for (var i = 0; i < data.length; i++) {
+                            liListhtml = liListhtml +
+                            '<li class="mui-table-view-cell">  ' +
+                            '	<div class="mui-slider-right mui-disabled">  ' +
+                            '		<a class="mui-btn mui-btn-red">@Resources.Lang.PDA_Common_Element_Delete</a>  ' +
+                            '       <input type="hidden" class="hdnids" value="' + data[i].ids + '" /> ' +
+                            '	</div>  ' +
+                            '	<div class="mui-table mui-slider-handle">  ' +
+                            '		<div class="mui-table-cell mui-col-xs-10">  ' +
+                            '			<h4 class="mui-ellipsis">' + data[i].cinvcode + '</h4>  ' +
+                            '			<h5>@Resources.Lang.PDA_Common_Element_CinvName:' + data[i].cinvname + '</h5>  ' +
+                            '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CPosition:' + data[i].cpositioncode + ' &nbsp; @Resources.Lang.PDA_Common_Element_Quantity:' + data[i].iquantity.toFixed(2) + '  </p>  ' +
+                            '		</div>  ' +
+                            '		<div class="mui-table-cell mui-col-xs-2 mui-text-right">  ' +
+                            '			<span class="mui-h5">  ' +
+                            '			</span>  ' +
+                            '		</div>  ' +
+                            '	</div>  ' +
+                            '</li>  ';
+
+                        }
+                        if (IsAppend) {
+                            $("#tab3UL").append(liListhtml);
+                        }
+                        else {
+                            $("#tab3UL").html(liListhtml);
+                        }
+
+                        scrollDisabled = false;
+                        mui('#scroll3').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                    }
+                    else {
+                        //如果没有数据
+                        CurrendIndex2 = CurrendIndex2 - 1;
+                        scrollDisabled = true;
+                        if (!IsAppend) {
+                            $("#tab3UL").empty();
+                        }
+                        mui('#scroll3').pullRefresh().endPullupToRefresh(true);//参数为true代表没有更多数据了。
+                    }
+                    //注意：一定要修改Tab1的高度，否则分页后就只能显示一部分列表
+                    var subHeight = $("#scroll3").children(":first").height();
+                    $("#scroll3").parent(":first").height(subHeight);
+                },
+                error: function (msg) {
+                    //alert(msg);
+                    mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+                    mui('#scroll3').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+                }
+            });
+        }
+
+        //下拉加载更多数据
+        function pullfreshQryTab3() {
+            //业务逻辑代码，比如通过ajax从服务器获取新数据；
+            //......
+            //注意：
+            //1、加载完新数据后，必须执行如下代码，true表示没有更多数据了：
+            //2、若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
+            setTimeout(SearchTab3(true), 1500);
+        }
+
+        //Tab1下拉分页
+        mui('#scroll3').pullRefresh({
+            up: {
+                height: 100,//可选.默认50.触发上拉加载拖动距离
+                auto: false,//可选,默认false.自动上拉加载一次
+                contentrefresh: "@Resources.Lang.PDA_Common_Tips_Loading",//正在加载... //可选，正在加载状态时，上拉加载控件上显示的标题内容
+                contentnomore: '@Resources.Lang.PDA_Common_Tips_NoMoreData',//没有更多数据了//可选，请求完毕若没有更多数据时显示的提醒内容；
+                callback: pullfreshQryTab3 //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+            }
+        });
+        function CheckAssitCode(code) {
+            var retrunVal = "OK";
+            //如果当前入库通知单已经存在走指引单的扫描明细，则必须继续该模式，如果是走的无指引单的模式的话，则继续走无指引单模式  
+            $.ajax({
+                type: "get",
+                url: "/CheckData/CheckAssitCode",
+                dataType: "text",
+                data: { asncticketcode: "@ViewBag.billCode", acticketcode: code },
+                async: false,
+                success: function (data) {
+                    if (data != undefined && data != "") {
+                        if (data == "0") {
+                            retrunVal = "Failed";
+                            alert("请选择指引单号进行扫描！");                            
+                        }
+                        else if (data == "1") {
+                            retrunVal = "Failed";
+                            alert("请选择空指引单号进行扫描！");
+                        }
+                    }
+                    else {                      
+                    }
+                },
+                error: function (msg) {
+                    mui.alert(msg);
+                }
+            });
+            return retrunVal;
+        }
+
+        $(document).ready(function () {          
+     
+            BindLiTap3();
+
+
+            $("#btnReturn").bind("tap", function () {
+                location.href = "/PDA/InAssitList/@ViewBag.UserNo";
+            });
+
+            $("#btnMain").bind("tap", function () {
+                location.href = "/PDA/Main/@ViewBag.UserNo";
+            });
+          
+            $("#abtnScan").bind("tap", function () {
+                mui(this).button('loading');
+                var txtAssitCode = document.getElementById("txtAssitCode").value;              
+                var msg = CheckAssitCode(txtAssitCode);
+                if (msg != "OK") {
+                    mui(this).button('reset');
+                    return;
+                }
+                else {                    
+                    location.href = "/PDA/INASSITEdit?acticketcode=" + txtAssitCode + "&iacticketcode=@ViewBag.billCode";
+                }
+                setTimeout(function () {
+                    mui(this).button('reset');
+                }.bind(this), 1000);
+            });            
+        });
+
+        //绑定Tab3删除事件
+        function BindLiTap3() {
+
+            $('.mui-scroll-wrapper').scroll({
+                indicators: true //是否显示滚动条
+            });
+
+            var btnArray = ['@Resources.Lang.PDA_Common_Element_Button_Confirm', '@Resources.Lang.PDA_Common_Element_Button_Cancel'];
+            $('#tab3UL').unbind();
+            $('#tab3UL').on('tap', '.mui-btn', function (event) {
+                var elem = this;
+                var li = elem.parentNode.parentNode;
+                mui.confirm('@Resources.Lang.PDA_Common_Tips_DeleteConfirm', '@Resources.Lang.PDA_Common_Tips_Friendship', btnArray, function (e) {//确认删除该条记录？
+                    if (e.index == 0) {
+                        var hdnIds = $(li).find(".hdnids").val();
+                        var cticket = "@ViewBag.billCode";
+                        //ajax后台删除明细
+                        $.ajax({
+                            type: "get",
+                            url: "/PDA/DeleteTempInBill_D",
+                            data: { ids: hdnIds, cticketcode: cticket },
+                            async: true,
+                            success: function (data) {
+                                if (data.Status == "0") {
+                                    //li.parentNode.removeChild(li);
+                                    SearchTab3(false);
+                                    //window.onload();
+                                }
+                                else {
+                                    mui.alert(data.Info);
+                                }
+                            },
+                            error: function (msg) {
+                                //alert(msg);
+                                mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+
+                            }
+                        });
+
+
+                    } else {
+                        setTimeout(function () {
+                            $.swipeoutClose(li);
+                        }, 0);
+                    }
+                });
+            });
+        }      
+	</script>
+
+</body>
+</html>
