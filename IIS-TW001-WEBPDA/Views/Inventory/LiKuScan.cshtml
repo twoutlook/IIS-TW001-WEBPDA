@@ -369,7 +369,7 @@
             $("#txtPalletcode").keydown(function (event) {
                 if (event.keyCode == 13) {
                     var palletcode = $("#txtPalletcode").val();
-                    if (palletcode.length <= 17) {
+                    if (palletcode.length == 17) {
                         $.ajax({
                             type: "get",
                             url: "/Inventory/CheckPalletCode",
