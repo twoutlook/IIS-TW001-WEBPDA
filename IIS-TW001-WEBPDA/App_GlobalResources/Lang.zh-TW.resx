@@ -330,8 +330,8 @@
     <comment>撤消中</comment>
   </data>
   <data name="PDA_Common_Element_Save" xml:space="preserve">
-    <value>保&amp;nbsp;&amp;nbsp;存</value>
-    <comment>保&amp;nbsp;&amp;nbsp;存</comment>
+    <value>保存</value>
+    <comment>保存</comment>
   </data>
   <data name="PDA_Common_Element_Saveing" xml:space="preserve">
     <value>保存中</value>
@@ -674,8 +674,8 @@
     <comment>出庫揀貨</comment>
   </data>
   <data name="PDA_Common_Element_Complete" xml:space="preserve">
-    <value>完&amp;nbsp;&amp;nbsp;成</value>
-    <comment>完&amp;nbsp;&amp;nbsp;成</comment>
+    <value>完成*</value>
+    <comment>完成</comment>
   </data>
   <data name="PDA_Common_Element_Completeing" xml:space="preserve">
     <value>完成中</value>

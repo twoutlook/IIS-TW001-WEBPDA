@@ -46,7 +46,7 @@
 	</header>
 
 	<div class="mui-content">
-        <div class="mui-content-padded" style="margin: 5px;">
+        <div class="mui-content-padded" style="margin: 5px;display:none;">
             <form class="mui-input-group">
                 <div class="mui-button-row" style="text-align:right;padding-right:10px;">
 					<button type="button" class="mui-btn mui-btn-primary" id="btnSave" onclick="return false;" data-loading-text="@Resources.Lang.PDA_Common_Element_Scaning" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Scan</button>
@@ -83,9 +83,20 @@
 		                                            <h5>@Resources.Lang.PDA_Common_Element_CinvName:@bo.cinvname</h5>
 		                                            <p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CPosition:@bo.cpositioncode &nbsp; @Resources.Lang.PDA_Common_Element_Quantity:@bo.quantity.ToString("f2")  </p>
 		                                        </div>
-		                                        <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+		                                        <div class="mui-table-cell mui-col-xs-2 mui-text-right" style="vertical-align:middle;">
 		                                            <span class="mui-h5">
-                                                       
+                                                       @if(bo.cstatus == "0"){
+                                                           <button type="button" class="mui-btn mui-btn-primary  btnout" data-position="@bo.cpositioncode"  onclick="return false;" data-loading-text="出库..." data-loading-icon-position="right">出库</button>
+                                                       }
+                                                       else if (bo.cstatus == "1"){
+                                                           <button type="button" class="mui-btn mui-btn-warning  btnscan" data-position="@bo.cpositioncode"  onclick="return false;"  data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Scan</button>
+                                                       }
+                                                       else if (bo.cstatus == "2"){
+                                                           <button type="button" class="mui-btn mui-btn-warning  btnback" data-position="@bo.cpositioncode"  onclick="return false;"  data-loading-icon-position="right">返库</button>
+                                                       }
+                                                       else if (bo.cstatus == "3"){
+
+                                                       }
 		                                            </span>
 		                                        </div>
 		                                    </div>
@@ -169,8 +180,19 @@
                             '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CPosition:' + data[i].cpositioncode + ' &nbsp; @Resources.Lang.PDA_Common_Element_Quantity:' + data[i].quantity.toFixed(2) + '  </p>  ' +
                             '		</div>  ' +
                             '		<div class="mui-table-cell mui-col-xs-2 mui-text-right">  ' +
-                            '			<span class="mui-h5">  ' +
-                            '			</span>  ' +
+                            '			<span class="mui-h5">  ';
+
+                            if (data[i].cstatus == "0") {
+                                liListhtml = liListhtml + ' <button type="button" class="mui-btn mui-btn-primary  btnout" data-position="' + data[i].cpositioncode + '"  onclick="return false;" data-loading-text="出库..." data-loading-icon-position="right">出库</button> ';
+                            }
+                            else if (data[i].cstatus == "1") {
+                                liListhtml = liListhtml + ' <button type="button" class="mui-btn mui-btn-warning  btnscan" data-position="' + data[i].cpositioncode + '"  onclick="return false;"  data-loading-icon-position="right">扫描</button> ';
+                            }
+                            else if (data[i].cstatus == "2") {
+                                liListhtml = liListhtml + ' <button type="button" class="mui-btn mui-btn-warning  btnback" data-position="' + data[i].cpositioncode + '"  onclick="return false;"  data-loading-icon-position="right">返库</button> ';
+                            }
+
+                            liListhtml = liListhtml + '			</span>  ' +
                             '		</div>  ' +
                             '	</div>  ' +
                             '</li>  ';
@@ -343,6 +365,64 @@
                 setTimeout(function () {
                     mui(this).button('reset');
                 }.bind(this), 1000);
+            });
+           
+            //出库产生指令
+            $("#tab1UL").on("click", ".btnout", function () {
+                var cposition = $(this).data("position");
+                $.ajax({
+                    type: "get",
+                    url: "/Inventory/StockCheckHandOut",
+                    dataType: "json",
+                    data: { id: "@ViewBag.id", cpositioncode: cposition },
+                    async: false,
+                    success: function (data) {
+                        if (data != undefined && data != "") {
+                            if (data.Status == "0") {
+                                mui.alert(data.Info, "", "", function () {
+                                    location.href = "/Inventory/LiKuDetail?id=@ViewBag.id";
+                                });
+                            }
+                            else {
+                                mui.alert(data.Info);
+                            }
+                        }
+                    },
+                    error: function (msg) {
+                        mui.alert("出库失败：" + msg);
+                    }
+                });
+            });
+
+            //扫描盘点
+            $("#tab1UL").on("click", ".btnscan", function () {
+                var cposition = $(this).data("position");
+                $.ajax({
+                    type: "get",
+                    url: "/Inventory/CheckScan",
+                    dataType: "json",
+                    data: { id: "@ViewBag.id" },
+                    async: false,
+                    success: function (data) {
+                        if (data != undefined && data != "") {
+                            if (data.Status == "0") {
+                                location.href = "/Inventory/LiKuScan?id=@ViewBag.id" + "&cpositioncode=" + cposition;
+                            }
+                            else {
+                                mui.alert(data.Info);
+                            }
+                        }
+                    },
+                    error: function (msg) {
+                        mui.alert("@Resources.Lang.PDA_Common_Tips_InspectScanFailed：" + msg);
+                    }
+                });
+            });
+
+            //产生返库指令
+            $("#tab1UL").on("click", ".btnback", function () {
+
+
             });
         });
 

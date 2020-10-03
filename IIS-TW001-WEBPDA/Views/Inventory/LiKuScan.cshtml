@@ -50,11 +50,11 @@
             <form class="mui-input-group">
                 <div class="mui-input-row">
 					<label>@ViewBag.UnitConfigName</label>
-					<input type="text" class="mui-input-clear" id="txtPalletcode" style="ime-mode:disabled">
+					<input type="text" class="mui-input-clear" id="txtPalletcode" style="ime-mode:disabled" value="@ViewBag.PalletCode" disabled="disabled" >
 				</div>
                 <div class="mui-input-row">
 					<label>@Resources.Lang.PDA_Common_Element_CPositionCode</label>
-					<input type="text" class="mui-input-clear" id="txtCpositioncode"  disabled="disabled" style="ime-mode:disabled">
+					<input type="text" class="mui-input-clear" id="txtCpositioncode" value="@ViewBag.CpositionCode"  disabled="disabled" style="ime-mode:disabled">
 				</div>
                 <div class="mui-input-row">
 					<label>@Resources.Lang.PDA_Common_Element_LiaoHao</label>
@@ -64,7 +64,7 @@
 					<label>@Resources.Lang.PDA_Common_Element_CinvName</label>
 					<input type="text" class="mui-input-clear" id="txtCinvName" placeholder="品名" disabled="disabled">
 				</div>
-  <div class="mui-input-row">
+                <div class="mui-input-row">
 					<label>规格型号</label>
 					<input type="text" class="mui-input-clear" id="txtcspec" placeholder="" autocomplete="off"  onpaste="return false" style="ime-mode:disabled" disabled="disabled" >
 			    </div>          
@@ -75,7 +75,9 @@
                 <div class="mui-button-row">
 					<button type="button" class="mui-btn mui-btn-primary" id="btnSave" onclick="return false;" data-loading-text="保存中" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Save</button>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-					<button type="button" class="mui-btn mui-btn-warning" id="btnSubmit" onclick="return false;" data-loading-text="确认中" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Complete</button>
+					@*NOTE by Mark, 09/25*@
+                    <button type="button" class="mui-btn mui-btn-warning" id="btnSubmit" onclick="return false;" data-loading-text="确认中" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Complete</button> 
+
                     <input type="hidden" id="hdnLine" value="1" />
 				</div>
             </form>
@@ -555,8 +557,8 @@
 
  
         function clearText() {
-		   $("#txtPalletcode").val("");
-            $("#txtCpositioncode").val("");
+		   //$("#txtPalletcode").val("");
+            //$("#txtCpositioncode").val("");
             $("#txtCinvCode").val("");
             $("#txtCinvName").val("");
             $("#txtcspec").val("");
