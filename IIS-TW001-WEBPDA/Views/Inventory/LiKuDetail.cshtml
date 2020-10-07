@@ -11,445 +11,482 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-	<!--标准mui.css-->
+<!--标准mui.css-->
 	<link rel="stylesheet" href="~/Content/MUI/css/mui.min.css">
 
-    <!--App自定义的css-->
+<!--App自定义的css-->
 	<link rel="stylesheet" type="text/css" href="~/Content/MUI/css/app.css" />
 
     <title>@Resources.Lang.PDA_Common_Element_InventoryDetail</title>
-    	<style>
-    	    .mui-control-content {
-    	        background-color: white;
-    	        min-height: 215px;
-    	    }
+    <style>
+    .mui-control-content {
+    background-color: white;
+    min-height: 215px;
+    }
 
-    	        .mui-control-content .mui-loading {
-    	            margin-top: 50px;
-    	        }
-    	</style>
+    .mui-control-content .mui-loading {
+    margin-top: 50px;
+    }
+    </style>
 
-</head>
-<body>
+    </head>
+    <body>
 
     <header class="mui-bar mui-bar-nav">
 
-        <button type="button" class="mui-btn mui-btn-link mui-pull-left" id="btnReturn">
-		    <span class="mui-icon mui-icon-back"></span>@Resources.Lang.PDA_Common_Element_GoBack
-		</button>
+    <button type="button" class="mui-btn mui-btn-link mui-pull-left" id="btnReturn">
+    <span class="mui-icon mui-icon-back"></span>@Resources.Lang.PDA_Common_Element_GoBack
+    </button>
 
-        <button type="button" class="mui-btn mui-btn-link mui-pull-right" id="btnMain">
-	        <span class="mui-icon mui-icon-home"></span>
-        </button>
+    <button type="button" class="mui-btn mui-btn-link mui-pull-right" id="btnMain">
+    <span class="mui-icon mui-icon-home"></span>
+    </button>
 
-		<h1 class="mui-title" style="text-decoration:underline;color:#5A98FB;">@Resources.Lang.PDA_Common_Element_CticketCode:@ViewBag.billCode</h1>
-	</header>
+    <h1 class="mui-title" style="text-decoration:underline;color:#5A98FB;">@Resources.Lang.PDA_Common_Element_CticketCode:@ViewBag.billCode</h1>
+    </header>
 
-	<div class="mui-content">
-        <div class="mui-content-padded" style="margin: 5px;display:none;">
-            <form class="mui-input-group">
-                <div class="mui-button-row" style="text-align:right;padding-right:10px;">
-					<button type="button" class="mui-btn mui-btn-primary" id="btnSave" onclick="return false;" data-loading-text="@Resources.Lang.PDA_Common_Element_Scaning" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Scan</button>
-                    <input type="hidden" id="hdnLine" value="1" />
-				</div>
-            </form>
+    <div class="mui-content">
+    <div class="mui-content-padded" style="margin: 5px;display:none;">
+    <form class="mui-input-group">
+    <div class="mui-button-row" style="text-align:right;padding-right:10px;">
+    <button type="button" class="mui-btn mui-btn-primary" id="btnSave" onclick="return false;" data-loading-text="@Resources.Lang.PDA_Common_Element_Scaning" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Scan</button>
+    <input type="hidden" id="hdnLine" value="1" />
+    </div>
+    </form>
+    </div>
+
+    <div id="slider" class="mui-slider">
+    <div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+    <a class="mui-control-item mui-active" href="#item1mobile">
+    @Resources.Lang.PDA_Common_Element_InventoryBillDetail
+    </a>
+    <a class="mui-control-item" href="#item2mobile">
+    @Resources.Lang.PDA_Common_Element_RealInventoryDetail
+    </a>
+    <a class="mui-control-item" href="">
+    </a>
+    </div>
+    <div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+    <div class="mui-slider-group">
+    <div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
+    <div id="scroll1" class="mui-scroll-wrapper">
+    <div class="mui-scroll">
+
+    <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="tab1UL">
+
+    @foreach (WMSPDA.Models.InventoryBillItemModel bo in Model.Item1)
+    {
+        <li class="mui-table-view-cell">
+        <div class="mui-table mui-slider-handle">
+        <div class="mui-table-cell mui-col-xs-10">
+        <h4 class="mui-ellipsis">@bo.cinvcode</h4>
+        <h5>@Resources.Lang.PDA_Common_Element_CinvName:@bo.cinvname</h5>
+        <p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CPosition:@bo.cpositioncode &nbsp; @Resources.Lang.PDA_Common_Element_Quantity:@bo.quantity.ToString("f2")  </p>
+        </div>
+        <div class="mui-table-cell mui-col-xs-2 mui-text-right" style="vertical-align:middle;">
+        <span class="mui-h5">
+        @if (bo.cstatus == "0")
+        {
+            <button type="button" class="mui-btn mui-btn-primary  btnout" data-position="@bo.cpositioncode" onclick="return false;" data-loading-text="出库..." data-loading-icon-position="right">出库</button>
+        }
+        else if (bo.cstatus == "1")
+        {
+            <button type="button" class="mui-btn mui-btn-warning  btnscan" data-position="@bo.cpositioncode" onclick="return false;" data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Scan</button>
+        }
+        else if (bo.cstatus == "2")
+        {
+            <button type="button" class="mui-btn mui-btn-warning  btnback" data-position="@bo.cpositioncode" onclick="return false;" data-loading-icon-position="right">盤點返库</button>
+        }
+        else if (bo.cstatus == "3")
+        {
+            <button type="button" class="mui-btn mui-btn-warning  btnbackdone" data-position="@bo.cpositioncode" onclick="return false;" data-loading-icon-position="right">循環盤點返库命令已生成</button>
+
+        }
+        </span>
+        </div>
         </div>
 
-		<div id="slider" class="mui-slider">
-				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-					<a class="mui-control-item mui-active" href="#item1mobile">
-				        @Resources.Lang.PDA_Common_Element_InventoryBillDetail
-			        </a>
-                    <a class="mui-control-item" href="#item2mobile">
-                        @Resources.Lang.PDA_Common_Element_RealInventoryDetail
-			        </a>
-                    <a class="mui-control-item" href="">
-			        </a>
-				</div>
-                <div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
-				<div class="mui-slider-group">
-					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
-						<div id="scroll1" class="mui-scroll-wrapper">
-							<div class="mui-scroll">
+        </li>
+    }
+    </ul>
+    </div>
+    </div>
+    </div>
 
-                                <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="tab1UL">
+    <div id="item2mobile" class="mui-slider-item mui-control-content">
+    <div id="scroll2" class="mui-scroll-wrapper">
+    <div class="mui-scroll">
 
-                                     @foreach (WMSPDA.Models.InventoryBillItemModel bo in Model.Item1)
-                                    { 
-                                        <li class="mui-table-view-cell">
-		                                    <div class="mui-table mui-slider-handle">
-		                                        <div class="mui-table-cell mui-col-xs-10">
-		                                            <h4 class="mui-ellipsis">@bo.cinvcode</h4>
-		                                            <h5>@Resources.Lang.PDA_Common_Element_CinvName:@bo.cinvname</h5>
-		                                            <p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CPosition:@bo.cpositioncode &nbsp; @Resources.Lang.PDA_Common_Element_Quantity:@bo.quantity.ToString("f2")  </p>
-		                                        </div>
-		                                        <div class="mui-table-cell mui-col-xs-2 mui-text-right" style="vertical-align:middle;">
-		                                            <span class="mui-h5">
-                                                       @if(bo.cstatus == "0"){
-                                                           <button type="button" class="mui-btn mui-btn-primary  btnout" data-position="@bo.cpositioncode"  onclick="return false;" data-loading-text="出库..." data-loading-icon-position="right">出库</button>
-                                                       }
-                                                       else if (bo.cstatus == "1"){
-                                                           <button type="button" class="mui-btn mui-btn-warning  btnscan" data-position="@bo.cpositioncode"  onclick="return false;"  data-loading-icon-position="right">@Resources.Lang.PDA_Common_Element_Scan</button>
-                                                       }
-                                                       else if (bo.cstatus == "2"){
-                                                           <button type="button" class="mui-btn mui-btn-warning  btnback" data-position="@bo.cpositioncode"  onclick="return false;"  data-loading-icon-position="right">返库</button>
-                                                       }
-                                                       else if (bo.cstatus == "3"){
+    <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="tab2UL">
 
-                                                       }
-		                                            </span>
-		                                        </div>
-		                                    </div>
-                                   
-		                                </li>
-                                    }
-                                </ul>
-							</div>
-						</div>
-					</div>
-					
-                    <div id="item2mobile" class="mui-slider-item mui-control-content">
-						<div id="scroll2" class="mui-scroll-wrapper">
-							<div class="mui-scroll">
+    @foreach (WMSPDA.Models.InventoryRealItemModel bo in Model.Item2)
+    {
+        <li class="mui-table-view-cell">
+        <div class="mui-table mui-slider-handle">
+        <div class="mui-table-cell mui-col-xs-10">
+        <h4 class="mui-ellipsis">@bo.cinvcode</h4>
+        <h5>@Resources.Lang.PDA_Common_Element_CinvName:@bo.cinvname</h5>
+        <p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CPosition:@bo.cpositioncode &nbsp; @Resources.Lang.PDA_Common_Element_Quantity:@bo.quantity.ToString("f2")  </p>
+        </div>
+        <div class="mui-table-cell mui-col-xs-2 mui-text-right">
+        <span class="mui-h5">
 
-                                <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed" id="tab2UL">
+        </span>
+        </div>
+        </div>
 
-                                     @foreach (WMSPDA.Models.InventoryRealItemModel bo in Model.Item2)
-                                    { 
-                                        <li class="mui-table-view-cell">
-		                                    <div class="mui-table mui-slider-handle">
-		                                        <div class="mui-table-cell mui-col-xs-10">
-		                                            <h4 class="mui-ellipsis">@bo.cinvcode</h4>
-		                                            <h5>@Resources.Lang.PDA_Common_Element_CinvName:@bo.cinvname</h5>
-		                                            <p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CPosition:@bo.cpositioncode &nbsp; @Resources.Lang.PDA_Common_Element_Quantity:@bo.quantity.ToString("f2")  </p>
-		                                        </div>
-		                                        <div class="mui-table-cell mui-col-xs-2 mui-text-right">
-		                                            <span class="mui-h5">
-                                                       
-		                                            </span>
-		                                        </div>
-		                                    </div>
-                                   
-		                                </li>
-                                    }
-                                </ul>
-							</div>
-						</div>
-					</div>
+        </li>
+    }
+    </ul>
+    </div>
+    </div>
+    </div>
 
-				</div>
-			</div>
+    </div>
+    </div>
     </div>
 
     <script src="~/Content/MUI/js/mui.min.js"></script>
     <script src="~/Scripts/jquery-1.8.2.min.js"></script>
     <script>
 
-        var CurrendIndex1 = 1;//Tab1当前页数
+    var CurrendIndex1 = 1;//Tab1当前页数
 
-        //Tab1列表查询方法
-        function SearchTab1(IsAppend) {
+    //Tab1列表查询方法
+    function SearchTab1(IsAppend) {
 
-            if (IsAppend) {
-                CurrendIndex1 = CurrendIndex1 + 1;//下一页
-            }
-            else {
-                CurrendIndex1 = 1;//查询，第一页
-            }
-            //alert("SearchAsnList");
-            $.ajax({
-                type: "get",
-                url: "/Inventory/SearchLiKuBillItems",
-                data: { id: "@ViewBag.id", CurrendIndex: CurrendIndex1 },
-                async: true,
-                success: function (data) {
-                    //mui.alert(data);
-                    scrollDisabled = true;
-                    if (data != null && data != undefined && data.length > 0) {
-                        if (!IsAppend) {
-                            $("#tab1UL").empty();
-                        }
-                        var liListhtml = '';
-                        for (var i = 0; i < data.length; i++) {
-                            liListhtml = liListhtml +
-                            '<li class="mui-table-view-cell">  ' +
-                            '	<div class="mui-table mui-slider-handle">  ' +
-                            '		<div class="mui-table-cell mui-col-xs-10">  ' +
-                            '			<h4 class="mui-ellipsis">' + data[i].cinvcode + '</h4>  ' +
-                            '			<h5>@Resources.Lang.PDA_Common_Element_CinvName:' + data[i].cinvname + '</h5>  ' +
-                            '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CPosition:' + data[i].cpositioncode + ' &nbsp; @Resources.Lang.PDA_Common_Element_Quantity:' + data[i].quantity.toFixed(2) + '  </p>  ' +
-                            '		</div>  ' +
-                            '		<div class="mui-table-cell mui-col-xs-2 mui-text-right">  ' +
-                            '			<span class="mui-h5">  ';
+    if (IsAppend) {
+    CurrendIndex1 = CurrendIndex1 + 1;//下一页
+    }
+    else {
+    CurrendIndex1 = 1;//查询，第一页
+    }
+    //alert("SearchAsnList");
+    $.ajax({
+    type: "get",
+    url: "/Inventory/SearchLiKuBillItems",
+    data: { id: "@ViewBag.id", CurrendIndex: CurrendIndex1 },
+    async: true,
+    success: function (data) {
+    //mui.alert(data);
+    scrollDisabled = true;
+    if (data != null && data != undefined && data.length > 0) {
+    if (!IsAppend) {
+    $("#tab1UL").empty();
+    }
+    var liListhtml = '';
+    for (var i = 0; i < data.length; i++) {
+    liListhtml = liListhtml +
+    '<li class="mui-table-view-cell">  ' +
+    '	<div class="mui-table mui-slider-handle">  ' +
+    '		<div class="mui-table-cell mui-col-xs-10">  ' +
+    '			<h4 class="mui-ellipsis">' + data[i].cinvcode + '</h4>  ' +
+    '			<h5>@Resources.Lang.PDA_Common_Element_CinvName:' + data[i].cinvname + '</h5>  ' +
+    '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CPosition:' + data[i].cpositioncode + ' &nbsp; @Resources.Lang.PDA_Common_Element_Quantity:' + data[i].quantity.toFixed(2) + '  </p>  ' +
+    '		</div>  ' +
+    '		<div class="mui-table-cell mui-col-xs-2 mui-text-right">  ' +
+    '			<span class="mui-h5">  ';
 
-                            if (data[i].cstatus == "0") {
-                                liListhtml = liListhtml + ' <button type="button" class="mui-btn mui-btn-primary  btnout" data-position="' + data[i].cpositioncode + '"  onclick="return false;" data-loading-text="出库..." data-loading-icon-position="right">出库</button> ';
-                            }
-                            else if (data[i].cstatus == "1") {
-                                liListhtml = liListhtml + ' <button type="button" class="mui-btn mui-btn-warning  btnscan" data-position="' + data[i].cpositioncode + '"  onclick="return false;"  data-loading-icon-position="right">扫描</button> ';
-                            }
-                            else if (data[i].cstatus == "2") {
-                                liListhtml = liListhtml + ' <button type="button" class="mui-btn mui-btn-warning  btnback" data-position="' + data[i].cpositioncode + '"  onclick="return false;"  data-loading-icon-position="right">返库</button> ';
-                            }
+    if (data[i].cstatus == "0") {
+    liListhtml = liListhtml + ' <button type="button" class="mui-btn mui-btn-primary  btnout" data-position="' + data[i].cpositioncode + '"  onclick="return false;" data-loading-text="出库..." data-loading-icon-position="right">zzz出库</button> ';
+    }
+    else if (data[i].cstatus == "1") {
+    liListhtml = liListhtml + ' <button type="button" class="mui-btn mui-btn-warning  btnscan" data-position="' + data[i].cpositioncode + '"  onclick="return false;"  data-loading-icon-position="right">扫描</button> ';
+    }
+    else if (data[i].cstatus == "2") {
+    liListhtml = liListhtml + ' <button type="button" class="mui-btn mui-btn-warning  btnback" data-position="' + data[i].cpositioncode + '"  onclick="return false;"  data-loading-icon-position="right">yyy返库</button> ';
+    }
 
-                            liListhtml = liListhtml + '			</span>  ' +
-                            '		</div>  ' +
-                            '	</div>  ' +
-                            '</li>  ';
+    liListhtml = liListhtml + '			</span>  ' +
+    '		</div>  ' +
+    '	</div>  ' +
+    '</li>  ';
 
-                        }
-                        if (IsAppend) {
-                            $("#tab1UL").append(liListhtml);
-                        }
-                        else {
-                            $("#tab1UL").html(liListhtml);
-                        }
+    }
+    if (IsAppend) {
+    $("#tab1UL").append(liListhtml);
+    }
+    else {
+    $("#tab1UL").html(liListhtml);
+    }
 
-                        //重新绑定事件
-                        //BindLiTap1();
+    //重新绑定事件
+    //BindLiTap1();
 
-                        scrollDisabled = false;
-                        mui('#scroll1').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
-                    }
-                    else {
-                        //如果没有数据
-                        CurrendIndex1 = CurrendIndex1 - 1;
-                        scrollDisabled = true;
-                        if (!IsAppend) {
-                            $("#tab1UL").empty();
-                        }
-                        mui('#scroll1').pullRefresh().endPullupToRefresh(true);//参数为true代表没有更多数据了。
-                    }
-                    //注意：一定要修改Tab1的高度，否则分页后就只能显示一部分列表
-                    var subHeight = $("#scroll1").children(":first").height();
-                    $("#scroll1").parent(":first").height(subHeight);
-                },
-                error: function (msg) {
-                    //alert(msg);
-                    mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
-                    mui('#scroll1').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
-                }
-            });
-        }
+    scrollDisabled = false;
+    mui('#scroll1').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+    }
+    else {
+    //如果没有数据
+    CurrendIndex1 = CurrendIndex1 - 1;
+    scrollDisabled = true;
+    if (!IsAppend) {
+    $("#tab1UL").empty();
+    }
+    mui('#scroll1').pullRefresh().endPullupToRefresh(true);//参数为true代表没有更多数据了。
+    }
+    //注意：一定要修改Tab1的高度，否则分页后就只能显示一部分列表
+    var subHeight = $("#scroll1").children(":first").height();
+    $("#scroll1").parent(":first").height(subHeight);
+    },
+    error: function (msg) {
+    //alert(msg);
+    mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+    mui('#scroll1').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+    }
+    });
+    }
 
-        //下拉加载更多数据
-        function pullfreshQryTab1() {
-            //业务逻辑代码，比如通过ajax从服务器获取新数据；
-            //......
-            //注意：
-            //1、加载完新数据后，必须执行如下代码，true表示没有更多数据了：
-            //2、若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
-            setTimeout(SearchTab1(true), 1500);
-        }
+    //下拉加载更多数据
+    function pullfreshQryTab1() {
+    //业务逻辑代码，比如通过ajax从服务器获取新数据；
+    //......
+    //注意：
+    //1、加载完新数据后，必须执行如下代码，true表示没有更多数据了：
+    //2、若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
+    setTimeout(SearchTab1(true), 1500);
+    }
 
-        //Tab1下拉分页
-        mui('#scroll1').pullRefresh({
-            up: {
-                height: 100,//可选.默认50.触发上拉加载拖动距离
-                auto: false,//可选,默认false.自动上拉加载一次
-                contentrefresh: "@Resources.Lang.PDA_Common_Tips_Loading",//正在加载... //可选，正在加载状态时，上拉加载控件上显示的标题内容
-                contentnomore: '@Resources.Lang.PDA_Common_Tips_NoMoreData',//没有更多数据了//可选，请求完毕若没有更多数据时显示的提醒内容；
-                callback: pullfreshQryTab1 //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
-            }
-        });
+    //Tab1下拉分页
+    mui('#scroll1').pullRefresh({
+    up: {
+    height: 100,//可选.默认50.触发上拉加载拖动距离
+    auto: false,//可选,默认false.自动上拉加载一次
+    contentrefresh: "@Resources.Lang.PDA_Common_Tips_Loading",//正在加载... //可选，正在加载状态时，上拉加载控件上显示的标题内容
+    contentnomore: '@Resources.Lang.PDA_Common_Tips_NoMoreData',//没有更多数据了//可选，请求完毕若没有更多数据时显示的提醒内容；
+    callback: pullfreshQryTab1 //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+    }
+    });
 
-        var CurrendIndex2 = 1;//Tab2当前页数
+    var CurrendIndex2 = 1;//Tab2当前页数
 
-        //Tab1列表查询方法
-        function SearchTab2(IsAppend) {
+    //Tab1列表查询方法
+    function SearchTab2(IsAppend) {
 
-            if (IsAppend) {
-                CurrendIndex2 = CurrendIndex2 + 1;//下一页
-            }
-            else {
-                CurrendIndex2 = 1;//查询，第一页
-            }
-            //alert("SearchAsnList");
-            $.ajax({
-                type: "get",
-                url: "/Inventory/SearchLiKuRealItems",
-                data: { id: "@ViewBag.id", CurrendIndex: CurrendIndex2 },
-                async: true,
-                success: function (data) {
-                    //mui.alert(data);
-                    scrollDisabled = true;
-                    if (data != null && data != undefined && data.length > 0) {
-                        if (!IsAppend) {
-                            $("#tab2UL").empty();
-                        }
-                        var liListhtml = '';
-                        for (var i = 0; i < data.length; i++) {
-                            liListhtml = liListhtml +
-                            '<li class="mui-table-view-cell">  ' +
-                            '	<div class="mui-table mui-slider-handle">  ' +
-                            '		<div class="mui-table-cell mui-col-xs-10">  ' +
-                            '			<h4 class="mui-ellipsis">' + data[i].cinvcode + '</h4>  ' +
-                            '			<h5>@Resources.Lang.PDA_Common_Element_CinvName:' + data[i].cinvname + '</h5>  ' +
-                            '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CPosition:' + data[i].cpositioncode + ' &nbsp; @Resources.Lang.PDA_Common_Element_Quantity:' + data[i].quantity.toFixed(2) + '  </p>  ' +
-                            '		</div>  ' +
-                            '		<div class="mui-table-cell mui-col-xs-2 mui-text-right">  ' +
-                            '			<span class="mui-h5">  ' +
-                            '			</span>  ' +
-                            '		</div>  ' +
-                            '	</div>  ' +
-                            '</li>  ';
+    if (IsAppend) {
+    CurrendIndex2 = CurrendIndex2 + 1;//下一页
+    }
+    else {
+    CurrendIndex2 = 1;//查询，第一页
+    }
+    //alert("SearchAsnList");
+    $.ajax({
+    type: "get",
+    url: "/Inventory/SearchLiKuRealItems",
+    data: { id: "@ViewBag.id", CurrendIndex: CurrendIndex2 },
+    async: true,
+    success: function (data) {
+    //mui.alert(data);
+    scrollDisabled = true;
+    if (data != null && data != undefined && data.length > 0) {
+    if (!IsAppend) {
+    $("#tab2UL").empty();
+    }
+    var liListhtml = '';
+    for (var i = 0; i < data.length; i++) {
+    liListhtml = liListhtml +
+    '<li class="mui-table-view-cell">  ' +
+    '	<div class="mui-table mui-slider-handle">  ' +
+    '		<div class="mui-table-cell mui-col-xs-10">  ' +
+    '			<h4 class="mui-ellipsis">' + data[i].cinvcode + '</h4>  ' +
+    '			<h5>@Resources.Lang.PDA_Common_Element_CinvName:' + data[i].cinvname + '</h5>  ' +
+    '			<p class="mui-h6 mui-ellipsis">@Resources.Lang.PDA_Common_Element_CPosition:' + data[i].cpositioncode + ' &nbsp; @Resources.Lang.PDA_Common_Element_Quantity:' + data[i].quantity.toFixed(2) + '  </p>  ' +
+    '		</div>  ' +
+    '		<div class="mui-table-cell mui-col-xs-2 mui-text-right">  ' +
+    '			<span class="mui-h5">  ' +
+    '			</span>  ' +
+    '		</div>  ' +
+    '	</div>  ' +
+    '</li>  ';
 
-                        }
-                        if (IsAppend) {
-                            $("#tab2UL").append(liListhtml);
-                        }
-                        else {
-                            $("#tab2UL").html(liListhtml);
-                        }
+    }
+    if (IsAppend) {
+    $("#tab2UL").append(liListhtml);
+    }
+    else {
+    $("#tab2UL").html(liListhtml);
+    }
 
-                        scrollDisabled = false;
-                        mui('#scroll2').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
-                    }
-                    else {
-                        //如果没有数据
-                        CurrendIndex2 = CurrendIndex2 - 1;
-                        scrollDisabled = true;
-                        if (!IsAppend) {
-                            $("#tab2UL").empty();
-                        }
-                        mui('#scroll2').pullRefresh().endPullupToRefresh(true);//参数为true代表没有更多数据了。
-                    }
-                    //注意：一定要修改Tab1的高度，否则分页后就只能显示一部分列表
-                    var subHeight = $("#scroll2").children(":first").height();
-                    $("#scroll2").parent(":first").height(subHeight);
-                },
-                error: function (msg) {
-                    //alert(msg);
-                    mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
-                    mui('#scroll2').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
-                }
-            });
-        }
+    scrollDisabled = false;
+    mui('#scroll2').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+    }
+    else {
+    //如果没有数据
+    CurrendIndex2 = CurrendIndex2 - 1;
+    scrollDisabled = true;
+    if (!IsAppend) {
+    $("#tab2UL").empty();
+    }
+    mui('#scroll2').pullRefresh().endPullupToRefresh(true);//参数为true代表没有更多数据了。
+    }
+    //注意：一定要修改Tab1的高度，否则分页后就只能显示一部分列表
+    var subHeight = $("#scroll2").children(":first").height();
+    $("#scroll2").parent(":first").height(subHeight);
+    },
+    error: function (msg) {
+    //alert(msg);
+    mui.alert("@Resources.Lang.PDA_Common_Tips_NetExceptionTryAgain");//网络异常，请重试!
+    mui('#scroll2').pullRefresh().endPullupToRefresh(false);//参数为true代表没有更多数据了。
+    }
+    });
+    }
 
-        //下拉加载更多数据
-        function pullfreshQryTab2() {
-            //业务逻辑代码，比如通过ajax从服务器获取新数据；
-            //......
-            //注意：
-            //1、加载完新数据后，必须执行如下代码，true表示没有更多数据了：
-            //2、若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
-            setTimeout(SearchTab2(true), 1500);
-        }
+    //下拉加载更多数据
+    function pullfreshQryTab2() {
+    //业务逻辑代码，比如通过ajax从服务器获取新数据；
+    //......
+    //注意：
+    //1、加载完新数据后，必须执行如下代码，true表示没有更多数据了：
+    //2、若为ajax请求，则需将如下代码放置在处理完ajax响应数据之后
+    setTimeout(SearchTab2(true), 1500);
+    }
 
-        //Tab1下拉分页
-        mui('#scroll2').pullRefresh({
-            up: {
-                height: 100,//可选.默认50.触发上拉加载拖动距离
-                auto: false,//可选,默认false.自动上拉加载一次
-                contentrefresh: "@Resources.Lang.PDA_Common_Tips_Loading",//正在加载... //可选，正在加载状态时，上拉加载控件上显示的标题内容
-                contentnomore: '@Resources.Lang.PDA_Common_Tips_NoMoreData',//没有更多数据了//可选，请求完毕若没有更多数据时显示的提醒内容；
-                callback: pullfreshQryTab2 //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
-            }
-        });
-
-
-        $(document).ready(function () {
-
-            $("#btnReturn").bind("tap", function () {
-                location.href = "/Inventory/LiKuList/@ViewBag.UserNo";
-            });
-
-            $("#btnMain").bind("tap", function () {
-                location.href = "/PDA/Main/@ViewBag.UserNo";
-            });
+    //Tab1下拉分页
+    mui('#scroll2').pullRefresh({
+    up: {
+    height: 100,//可选.默认50.触发上拉加载拖动距离
+    auto: false,//可选,默认false.自动上拉加载一次
+    contentrefresh: "@Resources.Lang.PDA_Common_Tips_Loading",//正在加载... //可选，正在加载状态时，上拉加载控件上显示的标题内容
+    contentnomore: '@Resources.Lang.PDA_Common_Tips_NoMoreData',//没有更多数据了//可选，请求完毕若没有更多数据时显示的提醒内容；
+    callback: pullfreshQryTab2 //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+    }
+    });
 
 
-            $("#btnSave").bind("tap", function () {
-                mui(this).button('loading');
-                CheckBill();
-                setTimeout(function () {
-                    mui(this).button('reset');
-                }.bind(this), 1000);
-            });
-           
-            //出库产生指令
-            $("#tab1UL").on("click", ".btnout", function () {
-                var cposition = $(this).data("position");
-                $.ajax({
-                    type: "get",
-                    url: "/Inventory/StockCheckHandOut",
-                    dataType: "json",
-                    data: { id: "@ViewBag.id", cpositioncode: cposition },
-                    async: false,
-                    success: function (data) {
-                        if (data != undefined && data != "") {
-                            if (data.Status == "0") {
-                                mui.alert(data.Info, "", "", function () {
-                                    location.href = "/Inventory/LiKuDetail?id=@ViewBag.id";
-                                });
-                            }
-                            else {
-                                mui.alert(data.Info);
-                            }
-                        }
-                    },
-                    error: function (msg) {
-                        mui.alert("出库失败：" + msg);
-                    }
-                });
-            });
+    $(document).ready(function () {
 
-            //扫描盘点
-            $("#tab1UL").on("click", ".btnscan", function () {
-                var cposition = $(this).data("position");
-                $.ajax({
-                    type: "get",
-                    url: "/Inventory/CheckScan",
-                    dataType: "json",
-                    data: { id: "@ViewBag.id" },
-                    async: false,
-                    success: function (data) {
-                        if (data != undefined && data != "") {
-                            if (data.Status == "0") {
-                                location.href = "/Inventory/LiKuScan?id=@ViewBag.id" + "&cpositioncode=" + cposition;
-                            }
-                            else {
-                                mui.alert(data.Info);
-                            }
-                        }
-                    },
-                    error: function (msg) {
-                        mui.alert("@Resources.Lang.PDA_Common_Tips_InspectScanFailed：" + msg);
-                    }
-                });
-            });
+    $("#btnReturn").bind("tap", function () {
+    location.href = "/Inventory/LiKuList/@ViewBag.UserNo";
+    });
 
-            //产生返库指令
-            $("#tab1UL").on("click", ".btnback", function () {
+    $("#btnMain").bind("tap", function () {
+    location.href = "/PDA/Main/@ViewBag.UserNo";
+    });
 
 
-            });
-        });
+    $("#btnSave").bind("tap", function () {
+    mui(this).button('loading');
+    CheckBill();
+    setTimeout(function () {
+    mui(this).button('reset');
+    }.bind(this), 1000);
+    });
 
-        function CheckBill() {
-            $.ajax({
-                type: "get",
-                url: "/Inventory/CheckScan",
-                dataType: "json",
-                data: { id: "@ViewBag.id" },
-                async: false,
-                success: function (data) {
-                    if (data != undefined && data != "") {
-                        if (data.Status == "0") {
-                            location.href = "/Inventory/LiKuScan?id=@ViewBag.id";
-                        }
-                        else {
-                            mui.alert(data.Info);
-                        }
-                    }
-                },
-                error: function (msg) {
-                    mui.alert("@Resources.Lang.PDA_Common_Tips_InspectScanFailed：" + msg);
-                }
-            });
-        }
+    //出库产生指令
+    $("#tab1UL").on("click", ".btnout", function () {
+    var cposition = $(this).data("position");
+    $.ajax({
+    type: "get",
+    url: "/Inventory/StockCheckHandOut",
+    dataType: "json",
+    data: { id: "@ViewBag.id", cpositioncode: cposition },
+    async: false,
+    success: function (data) {
+    if (data != undefined && data != "") {
+    if (data.Status == "0") {
+    mui.alert(data.Info, "", "", function () {
+    location.href = "/Inventory/LiKuDetail?id=@ViewBag.id";
+    });
+    }
+    else {
+    mui.alert(data.Info);
+    }
+    }
+    },
+    error: function (msg) {
+    mui.alert("出库失败：" + msg);
+    }
+    });
+    });
 
-	</script>
+    //扫描盘点
+    $("#tab1UL").on("click", ".btnscan", function () {
+    var cposition = $(this).data("position");
+    $.ajax({
+    type: "get",
+    url: "/Inventory/CheckScan",
+    dataType: "json",
+    data: { id: "@ViewBag.id" },
+    async: false,
+    success: function (data) {
+    if (data != undefined && data != "") {
+    if (data.Status == "0") {
+    location.href = "/Inventory/LiKuScan?id=@ViewBag.id" + "&cpositioncode=" + cposition;
+    }
+    else {
+    mui.alert(data.Info);
+    }
+    }
+    },
+    error: function (msg) {
+    mui.alert("@Resources.Lang.PDA_Common_Tips_InspectScanFailed：" + msg);
+    }
+    });
+    });
 
-</body>
-</html>
+    // NOTE by Mark,10/06, 這應該是小仲幫我留的hook
+
+    //产生返库指令
+    $("#tab1UL").on("click", ".btnback", function () {
+
+    // 確認這是[返庫]
+    //alert("執行[返庫]的SP");
+
+    //先抄
+    //出库产生指令
+    var cposition = $(this).data("position");
+    $.ajax({
+    type: "get",
+    url: "/Inventory/StockCheckBackToWH",
+    dataType: "json",
+    data: { id: "@ViewBag.id", cpositioncode: cposition },
+    async: false,
+    success: function (data) {
+    if (data != undefined && data != "") {
+    if (data.Status == "0") {
+    mui.alert(data.Info, "", "", function () {
+    location.href = "/Inventory/LiKuDetail?id=@ViewBag.id";
+    });
+    }
+    else {
+    mui.alert("xxx..."+data.Info);
+    }
+    }
+    },
+    error: function (msg) {
+    mui.alert("出库失败：" + msg);
+    }
+    });
+
+
+
+    });
+    });
+
+    function CheckBill() {
+    $.ajax({
+    type: "get",
+    url: "/Inventory/CheckScan",
+    dataType: "json",
+    data: { id: "@ViewBag.id" },
+    async: false,
+    success: function (data) {
+    if (data != undefined && data != "") {
+    if (data.Status == "0") {
+    location.href = "/Inventory/LiKuScan?id=@ViewBag.id";
+    }
+    else {
+    mui.alert(data.Info);
+    }
+    }
+    },
+    error: function (msg) {
+    mui.alert("@Resources.Lang.PDA_Common_Tips_InspectScanFailed：" + msg);
+    }
+    });
+    }
+
+    </script>
+
+    </body>
+    </html>
