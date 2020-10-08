@@ -3,3 +3,6 @@
 IIS-TW001-WEBPDA/*.config
 IIS-TW001-WEBPDA/Bin/IBM.Data.DB2.dll
 IIS-TW001-WEBPDA/Bin/System.Data.SQLite.dll
+
+# 10/08 
+IIS-TW001-WEBPDA/App_Data
